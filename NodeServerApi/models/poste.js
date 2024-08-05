@@ -45,7 +45,7 @@ const Poste = sequelize.define('Poste', {
 });
 
 Poste.associate = (models) => {
-    Poste.belongsTo(models.Utilisateur, { as: 'Utilisateur', foreignKey: 'user_id' });
+    Poste.belongsTo(models.Utilisateur, { as: 'utilisateur', foreignKey: 'user_id' });
     Poste.hasMany(models.Postedetails, { foreignKey: 'post_id', as: 'details' });
 };
 

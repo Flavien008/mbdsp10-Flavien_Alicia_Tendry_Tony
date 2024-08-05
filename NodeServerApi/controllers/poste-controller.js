@@ -34,7 +34,8 @@ exports.getPostes = async (req, res) => {
             include: [
                 {
                     model: Utilisateur,
-                    as: 'Utilisateur',
+                    as: 'utilisateur',
+                    attributes: ['username', 'email']
                 },
                 {
                     model: Postedetails,
@@ -60,6 +61,11 @@ exports.getPosteById = async (req, res) => {
     try {
         const poste = await Poste.findByPk(id, {
             include: [
+                {
+                    model: Utilisateur,
+                    as: 'utilisateur',
+                    attributes: ['username', 'email']
+                },
                 {
                     model: Postedetails,
                     as: 'details',
