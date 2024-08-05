@@ -9,7 +9,8 @@ const Categorie = sequelize.define('Categorie', {
     },
     nom: {
         type: DataTypes.STRING(100),
-        allowNull: false
+        allowNull: false,
+        unique : true
     }
 }, {
     timestamps: false
