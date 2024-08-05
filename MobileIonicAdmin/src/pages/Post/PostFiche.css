@@ -1,0 +1,38 @@
+.icon-clotured {
+  color: green;
+}
+
+.icon-nonClotured {
+  color: red;
+}
+
+.ion-padding {
+  padding: 10px;
+}
+
+.post-card,
+.objects-card,
+.exchanges-card {
+  margin-bottom: 20px;
+  border-radius: 12px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.post-card {
+  background-color: #ffffff;
+}
+
+.objects-card {
+  background-color: #f8f8f8;
+}
+
+.exchange-card {
+  background-color: #ffffff;
+  margin-bottom: 20px;
+}
+
+.custom-item {
+  --background: #f1f1f1;
+  border-radius: 10px;
+  margin: 5px 0;
+}

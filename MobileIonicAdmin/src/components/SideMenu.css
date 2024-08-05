@@ -1,0 +1,45 @@
+.menu-logo {
+  height: 40px;
+  margin-right: 10px;
+}
+
+.menu-title {
+  display: flex;
+  align-items: center;
+}
+
+.ion-padding {
+  padding: 16px;
+}
+
+.custom-card-title {
+  font-size: 1.4em;
+  font-weight: bold;
+  color: #333;
+}
+
+.custom-card-content {
+  padding: 15px;
+}
+
+.custom-card {
+  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.1);
+  border-radius: 10px;
+  overflow: hidden;
+  margin-bottom: 20px;
+  cursor: pointer;
+  transition: all 0.2s ease-in-out;
+}
+
+.custom-card:hover {
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.2);
+  transform: translateY(-2px);
+}
+
+.sub-menu {
+  padding-left: 15px;
+}
+
+.logout-button {
+  margin-top: 20px;
+}

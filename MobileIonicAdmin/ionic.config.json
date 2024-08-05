@@ -1,0 +1,7 @@
+{
+  "name": "I-SIGNALE",
+  "integrations": {
+    "capacitor": {}
+  },
+  "type": "react"
+}
