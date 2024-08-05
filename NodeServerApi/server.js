@@ -154,4 +154,13 @@ app.route(prefix + '/sendmail')
 app.listen(port, "0.0.0.0");
 console.log('Serveur démarré sur http://localhost:' + port);
 
+
+pgPool.query('SELECT NOW()', (err, res) => {
+    if (err) {
+        console.log('Erreur de requête:', err);
+    } else {
+        console.log('Résultat de la requête:', res.rows);
+    }
+});
+
 module.exports = app;
