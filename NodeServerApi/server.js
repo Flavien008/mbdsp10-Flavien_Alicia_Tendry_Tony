@@ -7,9 +7,14 @@ const PORT = process.env.PORT || 3000;
 const userRoutes = require('./routes/user-routes');
 const roleRoutes = require('./routes/role-routes');
 const categorieRoutes = require('./routes/categorie-routes');
+const objetRoutes = require('./routes/objet-routes');
+
+const connectDB = require('./config/mongo');
 
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
+
+connectDB();
 
 sequelize.sync()
     .then(() => {
@@ -34,6 +39,7 @@ const prefix = '/api';
 app.use(prefix+'/users', userRoutes);
 app.use(prefix+'/roles', roleRoutes);
 app.use(prefix+'/categories', categorieRoutes);
+app.use(prefix+'/objets', objetRoutes);
 
 let port = process.env.PORT || 8010;
 
