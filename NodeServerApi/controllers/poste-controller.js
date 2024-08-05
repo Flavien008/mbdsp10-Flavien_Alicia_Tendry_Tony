@@ -1,22 +1,20 @@
-const Poste = require('../models/poste');
-const Postedetails = require('../models/postedetails');
-const Utilisateur = require('../models/utilisateur');
-const Objet = require('../models/objet');
+const db = require('../models');
+const Poste = db.Poste;
+const Postedetails = db.Postedetails;
+const Utilisateur = db.Utilisateur;
+const Objet = db.Objet;
 
 exports.createPoste = async (req, res) => {
     const { user_id, titre, longitude, latitude, description, status, items } = req.body;
 
     try {
-        // Vérifier si l'utilisateur existe
         const user = await Utilisateur.findByPk(user_id);
         if (!user) {
             return res.status(400).json({ message: 'User not found' });
         }
 
-        // Créer le poste
         const newPoste = await Poste.create({ user_id, titre, longitude, latitude, description, status });
 
-        // Ajouter les détails du poste
         for (const item_id of items) {
             const item = await Objet.findByPk(item_id);
             if (item) {
@@ -32,7 +30,24 @@ exports.createPoste = async (req, res) => {
 
 exports.getPostes = async (req, res) => {
     try {
-        const postes = await Poste.findAll();
+        const postes = await Poste.findAll({
+            include: [
+                {
+                    model: Utilisateur,
+                    as: 'Utilisateur',
+                },
+                {
+                    model: Postedetails,
+                    as: 'details',
+                    include: [
+                        {
+                            model: Objet,
+                            as: 'Objet'
+                        }
+                    ]
+                }
+            ]
+        });
         res.json(postes);
     } catch (error) {
         res.status(500).json({ message: 'Error fetching posts', error });
@@ -44,12 +59,18 @@ exports.getPosteById = async (req, res) => {
 
     try {
         const poste = await Poste.findByPk(id, {
-            include: {
-                model: Postedetails,
-                include: {
-                    model: Objet
+            include: [
+                {
+                    model: Postedetails,
+                    as: 'details',
+                    include: [
+                        {
+                            model: Objet,
+                            as: 'Objet'
+                        }
+                    ]
                 }
-            }
+            ]
         });
         if (!poste) {
             return res.status(404).json({ message: 'Post not found' });
@@ -78,7 +99,6 @@ exports.updatePoste = async (req, res) => {
         poste.status = status;
         await poste.save();
 
-        // Mettre à jour les détails du poste
         await Postedetails.destroy({ where: { post_id: id } });
         for (const item_id of items) {
             const item = await Objet.findByPk(item_id);
@@ -101,8 +121,9 @@ exports.deletePoste = async (req, res) => {
         if (!poste) {
             return res.status(404).json({ message: 'Post not found' });
         }
-        await Postedetails.destroy({ where: { post_id: id } });
+
         await poste.destroy();
+        await Postedetails.destroy({ where: { post_id: id } });
 
         res.json({ message: 'Post deleted successfully' });
     } catch (error) {

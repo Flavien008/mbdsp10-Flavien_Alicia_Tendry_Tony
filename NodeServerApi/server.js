@@ -11,16 +11,15 @@ const objetRoutes = require('./routes/objet-routes');
 const posteRoutes = require('./routes/poste-routes');
 
 const connectDB = require('./config/mongo');
-
+const db = require('./models'); // Import des modèles
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 
 connectDB();
 
-sequelize.sync()
-    .then(() => {
-        console.log('Database & tables created!');
-    });
+db.sequelize.sync()
+    .then(() => console.log('Database & tables created!'))
+    .catch(err => console.log('Error syncing PostgreSQL:', err));
 
 // Pour accepter les connexions cross-domain (CORS)
 app.use(function (req, res, next) {
