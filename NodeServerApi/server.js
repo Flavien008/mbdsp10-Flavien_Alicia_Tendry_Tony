@@ -8,32 +8,45 @@ let grouperoutes = require('./routes/groupe-routes');
 let renduroutes = require('./routes/rendu-routes');
 let mailroutes = require('./routes/mail');
 const auth = require('./middlewares/authMiddleware');
-
 let mongoose = require('mongoose');
+let { Pool } = require('pg');
+
+// MongoDB setup
 mongoose.Promise = global.Promise;
-// mongoose.set('debug', true);
 
-// remplacer toute cette chaine par l'URI de connexion à votre propre base dans le cloud s
-//const uri = 'mongodb+srv://mb:P7zM3VePm0caWA1L@cluster0.zqtee.mongodb.net/assignments?retryWrites=true&w=majority';
-const uri = 'mongodb+srv://mean:mean1234@cluster0.tstxgfw.mongodb.net/MBDSM2?retryWrites=true&w=majority';
-// const uri = 'mongodb://127.0.0.1:27017/MBDS';
-
-
-const options = {
+const mongoUri = 'mongodb+srv://mean:mean1234@cluster0.tstxgfw.mongodb.net/MBDSM2?retryWrites=true&w=majority';
+const mongoOptions = {
     useNewUrlParser: true,
     useUnifiedTopology: true,
     useFindAndModify: false
 };
 
-mongoose.connect(uri, options)
+mongoose.connect(mongoUri, mongoOptions)
     .then(() => {
         console.log("Connecté à la base MongoDB assignments dans le cloud !");
-        console.log("at URI = " + uri);
+        console.log("at URI = " + mongoUri);
         console.log("vérifiez with http://localhost:" + port + "/api/assignments que cela fonctionne")
     },
         err => {
             console.log('Erreur de connexion: ', err);
         });
+
+// PostgreSQL setup
+const pgPool = new Pool({
+    user: 'postgres',
+    host: 'localhost',
+    database: 'boutique',
+    password: 'root',
+    port: 5432,
+});
+
+pgPool.connect()
+    .then(() => {
+        console.log("Connecté à la base PostgreSQL !");
+    })
+    .catch(err => {
+        console.log('Erreur de connexion PostgreSQL: ', err);
+    });
 
 // Pour accepter les connexions cross-domain (CORS)
 app.use(function (req, res, next) {
@@ -43,12 +56,9 @@ app.use(function (req, res, next) {
     next();
 });
 
-
-
 // Pour les formulaires
 app.use(bodyParser.urlencoded({ extended: true, limit: '50mb' }));
 app.use(bodyParser.json({ limit: '50mb' }));
-
 
 // Obligatoire si déploiement dans le cloud !
 let port = process.env.PORT || 8010;
@@ -60,24 +70,22 @@ app.route(prefix + '/signup')
     .post(userroutes.signup);
 
 app.route(prefix + '/login')
-    .post(userroutes.login)
+    .post(userroutes.login);
 
 app.route(prefix + '/etudiants')
-    .get(auth, userroutes.getStudents)
+    .get(auth, userroutes.getStudents);
 
 app.route(prefix + '/etudiants/not-in-group')
-    .get(auth, userroutes.getStudentsNotInGroup)
+    .get(auth, userroutes.getStudentsNotInGroup);
 
 app.route(prefix + '/etudiants/in-group')
-    .get(auth, userroutes.getStudentsInGroup)
+    .get(auth, userroutes.getStudentsInGroup);
 
 app.route(prefix + '/profs')
-    .get(auth, userroutes.getProfs)
+    .get(auth, userroutes.getProfs);
 
 app.route(prefix + '/allprofs')
-    .get(auth, userroutes.getAllProfs)
-
-// http://serveur..../assignments
+    .get(auth, userroutes.getAllProfs);
 
 app.route(prefix + '/updateAss').get(assignmentroutes.updateUsernamesWithEmails);
 
@@ -102,7 +110,7 @@ app.route(prefix + '/assignments/group/:id')
 app.route(prefix + '/rendu')
     .post(auth, renduroutes.createRendu)
     .get(auth, renduroutes.getRendus)
-    .put(auth, renduroutes.updateRendu)
+    .put(auth, renduroutes.updateRendu);
 
 app.route(prefix + '/matiere')
     .get(auth, matiereroutes.getMatieres)
@@ -110,45 +118,40 @@ app.route(prefix + '/matiere')
     .put(auth, matiereroutes.updateMatiere);
 
 app.route(prefix + '/matieres')
-    .get(auth, matiereroutes.getMatiere)
+    .get(auth, matiereroutes.getMatiere);
 
 app.route(prefix + '/matiere/:id')
     .get(auth, matiereroutes.getMatiereById)
     .delete(auth, matiereroutes.deleteMatiere);
 
-
-
-//pour groupes
+// pour groupes
 app.route(prefix + '/groupes')
     .get(auth, grouperoutes.getGroupes)
     .post(auth, grouperoutes.createGroup)
-    .put(auth, grouperoutes.updateGroup)
+    .put(auth, grouperoutes.updateGroup);
 
 app.route(prefix + '/groupe/:id')
-    .get(auth, grouperoutes.getGroup)
+    .get(auth, grouperoutes.getGroup);
 
 app.route(prefix + '/groupes/membre')
     .post(auth, grouperoutes.addUserToGroup)
-    .delete(auth, grouperoutes.removeUserToGroup)
+    .delete(auth, grouperoutes.removeUserToGroup);
 
 app.route(prefix + '/groupesAll')
-    .get(auth, grouperoutes.getGroups)
+    .get(auth, grouperoutes.getGroups);
 
 app.route(prefix + '/groupes/etudiant/:id')
     .get(auth, grouperoutes.getGroupesByStudent);
 
 app.route(prefix + '/groupes/:id')
     .get(auth, grouperoutes.getGroup)
-    .delete(auth, grouperoutes.deleteGroup)
+    .delete(auth, grouperoutes.deleteGroup);
 
 app.route(prefix + '/sendmail')
-    .post(auth, mailroutes.sendMail)
-
+    .post(auth, mailroutes.sendMail);
 
 // On démarre le serveur
 app.listen(port, "0.0.0.0");
 console.log('Serveur démarré sur http://localhost:' + port);
 
 module.exports = app;
-
-
