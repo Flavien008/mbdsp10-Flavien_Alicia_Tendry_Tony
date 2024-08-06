@@ -1,6 +1,6 @@
 const baseURI = (url) => {
   // var host = "https://itucloud.herokuapp.com"+url;
-  var host = "http://localhost:8087/spat"+url;
+  var host = "http://localhost:8010/api"+url;
   return host;
 }
  
