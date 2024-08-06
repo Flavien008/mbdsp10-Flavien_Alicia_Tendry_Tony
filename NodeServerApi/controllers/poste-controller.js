@@ -3,6 +3,9 @@ const Poste = db.Poste;
 const Postedetails = db.Postedetails;
 const Utilisateur = db.Utilisateur;
 const Objet = db.Objet;
+const Categorie = db.Categorie;
+
+const { Op } = require('sequelize'); // Importer Op de Sequelize
 
 exports.createPoste = async (req, res) => {
     const { user_id, titre, longitude, latitude, description, status, items } = req.body;
@@ -29,27 +32,114 @@ exports.createPoste = async (req, res) => {
 };
 
 exports.getPostes = async (req, res) => {
-    try {
-        const postes = await Poste.findAll({
+    const { dateDebut, dateFin, nomUtilisateur, texte, nomObjet, categorieObjet } = req.query;
+
+    const filters = {};
+    const includeFilters = [];
+
+    // Ajouter des filtres pour les dates
+    if (dateDebut && dateFin) {
+        filters.created_at = {
+            [Op.between]: [new Date(dateDebut), new Date(dateFin)]
+        };
+    } else if (dateDebut) {
+        filters.created_at = {
+            [Op.gte]: new Date(dateDebut)
+        };
+    } else if (dateFin) {
+        filters.created_at = {
+            [Op.lte]: new Date(dateFin)
+        };
+    }
+
+    // Ajouter des filtres pour la description
+
+    if (texte) {
+        filters[Op.or] = [
+            { titre: { [Op.iLike]: `%${texte}%` } },
+            { description: { [Op.iLike]: `%${texte}%` } }
+        ];
+    }
+
+    // Ajouter des filtres pour l'utilisateur
+    if (nomUtilisateur) {
+        includeFilters.push({
+            model: Utilisateur,
+            as: 'utilisateur',
+            attributes: ['username', 'email'],
+            where: {
+                username: { [Op.iLike]: `%${nomUtilisateur}%` }
+            }
+        });
+    } else {
+        includeFilters.push({
+            model: Utilisateur,
+            as: 'utilisateur',
+            attributes: ['username', 'email']
+        });
+    }
+
+    // Ajouter des filtres pour le nom de l'objet et la catégorie
+    if (nomObjet || categorieObjet) {
+        includeFilters.push({
+            model: Postedetails,
+            as: 'details',
             include: [
                 {
-                    model: Utilisateur,
-                    as: 'utilisateur',
-                    attributes: ['username', 'email']
-                },
-                {
-                    model: Postedetails,
-                    as: 'details',
+                    model: Objet,
+                    as: 'Objet',
+                    where: {
+                        ...(nomObjet && { name: { [Op.iLike]: `%${nomObjet}%` } }),
+                        ...(categorieObjet && { categorie_id: categorieObjet })
+                    },
                     include: [
                         {
-                            model: Objet,
-                            as: 'Objet'
+                            model: Categorie,
+                            as: 'Categorie'
                         }
                     ]
                 }
             ]
         });
-        res.json(postes);
+    } else {
+        includeFilters.push({
+            model: Postedetails,
+            as: 'details',
+            include: [
+                {
+                    model: Objet,
+                    as: 'Objet',
+                    include: [
+                        {
+                            model: Categorie,
+                            as: 'Categorie'
+                        }
+                    ]
+                }
+            ]
+        });
+    }
+
+    try {
+        const postes = await Poste.findAll({
+            where: filters,
+            include: includeFilters,
+            limit: parseInt(req.query.limit) || 10,
+            offset: ((parseInt(req.query.page) || 1) - 1) * (parseInt(req.query.limit) || 10)
+        });
+
+        const totalPages = Math.ceil(postes.length / (parseInt(req.query.limit) || 10));
+        const hasNext = (parseInt(req.query.page) || 1) < totalPages;
+        const hasPrev = (parseInt(req.query.page) || 1) > 1;
+
+        res.json({
+            total: postes.length,
+            page: parseInt(req.query.page) || 1,
+            totalPages,
+            hasNext,
+            hasPrev,
+            data: postes
+        });
     } catch (error) {
         res.status(500).json({ message: 'Error fetching posts', error });
     }

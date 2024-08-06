@@ -49,6 +49,7 @@ const Objet = sequelize.define('Objet', {
 Objet.associate = (models) => {
     Objet.belongsTo(models.Utilisateur, { as: 'Utilisateur', foreignKey: 'user_id' });
     Objet.belongsTo(models.Categorie, { as: 'Categorie', foreignKey: 'categorie_id' });
+    Objet.hasMany(models.Postedetails, { as: 'Postedetails', foreignKey: 'item_id' });
 };
 
 module.exports = Objet;
