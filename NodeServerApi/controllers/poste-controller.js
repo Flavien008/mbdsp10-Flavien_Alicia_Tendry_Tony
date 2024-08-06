@@ -121,24 +121,28 @@ exports.getPostes = async (req, res) => {
     }
 
     try {
-        const postes = await Poste.findAll({
+        const limit = parseInt(req.query.limit) || 10;
+        const page = parseInt(req.query.page) || 1;
+
+        // Utiliser findAndCountAll pour obtenir le total et les résultats paginés
+        const { count, rows } = await Poste.findAndCountAll({
             where: filters,
             include: includeFilters,
-            limit: parseInt(req.query.limit) || 10,
-            offset: ((parseInt(req.query.page) || 1) - 1) * (parseInt(req.query.limit) || 10)
+            limit: limit,
+            offset: (page - 1) * limit
         });
 
-        const totalPages = Math.ceil(postes.length / (parseInt(req.query.limit) || 10));
-        const hasNext = (parseInt(req.query.page) || 1) < totalPages;
-        const hasPrev = (parseInt(req.query.page) || 1) > 1;
+        const totalPages = Math.ceil(count / limit);
+        const hasNext = page < totalPages;
+        const hasPrev = page > 1;
 
         res.json({
-            total: postes.length,
-            page: parseInt(req.query.page) || 1,
+            total: count,
+            page: page,
             totalPages,
             hasNext,
             hasPrev,
-            data: postes
+            data: rows
         });
     } catch (error) {
         res.status(500).json({ message: 'Error fetching posts', error });
