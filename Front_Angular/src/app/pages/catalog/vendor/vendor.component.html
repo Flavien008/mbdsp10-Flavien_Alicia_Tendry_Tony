@@ -1,0 +1,109 @@
+<!-- Header -->
+<app-header></app-header>
+<!-- Page Title -->
+<div class="page-title-overlap bg-accent pt-4">
+    <app-breadcrumbs title="Profil du proposeur"></app-breadcrumbs>
+</div>
+<!-- Page content-->
+<section class="container mb-4">
+    <div class="mt-lg-2"><img class="rounded-circle border border-3 d-lg-block d-none" src="assets/img/nft/vendor/avatar.png" width="140" alt="Avatar" style="border-color: #ffffff !important;">
+        <div class="d-lg-none d-flex align-items-center justify-content-center"><img class="rounded-circle me-2" src="assets/img/nft/vendor/avatar-sm.png" width="36" alt="Avatar">
+            <h6 class="mb-0 text-light">Robert Fox</h6>
+        </div>
+    </div>
+    <div class="row">
+        <!-- Sidebar-->
+        <aside class="col-lg-3 pt-lg-4">
+            <div class="offcanvas offcanvas-collapse" id="vendor-sidebar">
+                <div class="offcanvas-header align-items-center shadow-sm">
+                    <h2 class="h5 mb-0">Vendor</h2>
+                    <button class="btn-close ms-auto" type="button" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+                </div>
+                <div class="offcanvas-body">
+                    <!-- User avatar--><img class="rounded-circle d-lg-none d-block mb-4" src="assets/img/nft/vendor/avatar.png" width="140" alt="Avatar">
+                    <!-- User meta-->
+                    <div class="mb-4 pb-2">
+                        <h3 class="mb-2 fs-lg fw-normal text-body">Robert Fox</h3>
+                        <h2 class="h4 mb-3">&#64;foxnet_creator</h2><span class="d-inline-block mb-3 fs-sm text-muted">Joined July 2021</span>
+                    </div>
+                </div>
+                <div class="offcanvas-footer d-flex flex-column align-items-start p-lg-0">
+                    <!-- User bio-->
+                    <div class="mb-4 pb-2 fs-sm">
+                        <h6 class="mb-2 fs-md">Biographie</h6>
+                        <p class="mb-0">Non mi, quis ornare odio. Adipiscing a varius varius interdum. Diam pharetra
+                            sapien, eu tristique aliquet.</p><a class="d-inline-block mt-1" href="javascript:void(0);"><ins>Read
+                                more</ins></a>
+                    </div>
+                    <!-- Socials-->
+                    <div class="mt-n2"><a class="btn-social bs-twitter me-2 mt-2" href="javascript:void(0);"><i class="ci-twitter"></i></a><a class="btn-social bs-facebook me-2 mt-2" href="javascript:void(0);"><i class="ci-facebook"></i></a><a class="btn-social bs-instagram me-2 mt-2" href="javascript:void(0);"><i class="ci-instagram"></i></a><a class="btn-social bs-youtube me-2 mt-2" href="javascript:void(0);"><i class="ci-youtube"></i></a></div>
+                </div>
+            </div>
+        </aside>
+        <!-- Content-->
+        <div class="col-lg-9 mt-lg-n5 mt-5 pt-lg-2 pt-3">
+            <div class="d-flex flex-md-row flex-column align-items-md-center justify-content-md-between mb-lg-4 mb-3 pb-md-1">
+                <!-- Nav tabs-->
+                <div class="mb-md-0 mb-4 pb-1" style="overflow-x: auto;">
+                    <ul ngbNav #nav="ngbNav" class="nav nav-tabs nav-fill flex-nowrap text-nowrap mb-0" role="tablist">
+                        <li class="nav-item" [ngbNavItem]="1">
+                            <a ngbNavLink class="nav-link" href="javacripts:void(0);" data-bs-toggle="tab" role="tab">Publications
+                                <span class='opacity-60'>({{created.length}})</span>
+                            </a>
+                            <ng-template ngbNavContent>
+                                <!-- Created items grid-->
+                                <div class="row row-cols-md-3 row-cols-sm-2 row-cols-1 gy-sm-4 gy-3">
+                                    <!-- Product-->
+                                    @for(create of created;track $index){
+                                    <div>
+                                        <div class="col mb-2">
+                                            <article class="card h-100 border-0 shadow">
+                                                <div class="card-img-top position-relative overflow-hidden"><a class="d-block" routerLink="/auctionlive"><img src="{{create.image}}" alt="Product image"></a>
+                                                    <!-- Countdown timer-->
+                                                   
+                                                    <!-- Wishlist button-->
+                                                    <button class="btn-wishlist btn-sm position-absolute top-0 end-0" type="button" data-bs-toggle="tooltip" data-bs-placement="left" ngbTooltip="Add to Favorites" style="margin: 12px;" (click)="addfavorite($index)"><i [ngClass]="(create.is_like == '1')?'ci-heart-filled':'ci-heart'"></i></button>
+                                                </div>
+                                                <div class="card-body">
+                                                    <h3 class="product-title mb-2 fs-base"><a class="d-block text-truncate" routerLink="/auctionlive">{{create.title}}</a>
+                                                    </h3><span class="fs-sm text-muted">Categorie:</span>
+                                                    <div class="d-flex align-items-center flex-wrap">
+                                                        <h4 class="mt-1 mb-0 fs-base text-darker">Nom de la categorie
+                                                        </h4>
+                                                    </div>
+                                                </div>
+                                                <div class="card-footer mt-n1 py-0 border-0">
+                                                    <div class="d-flex align-items-center position-relative mb-1 py-3 border-top">
+                                                        <img class="me-2 rounded-circle" src="{{create.profile}}" width="32" alt="Avatar"><a class="nav-link-style fs-sm stretched-link" routerLink="/vendor">&#64;{{create.name}}</a>
+                                                    </div>
+                                                </div>
+                                            </article>
+                                        </div>
+                                    </div>
+                                    }
+                                    <!-- Load more-->
+                                    <button class="btn btn-outline-accent d-block w-100 mt-sm-4 mt-3"><i class="ci-reload me-2"></i>Load
+                                        more</button>
+                                </div>
+                            </ng-template>
+                        </li>
+                    </ul>
+                </div>
+                <!-- Sorting-->
+                <div class="d-flex flex-md-row flex-column align-items-md-center flex-shrink-0 ms-md-4 ps-md-2 pb-1">
+                    <label class="form-label mb-md-0 me-md-2 pe-md-1 fs-sm fw-normal text-nowrap" for="sorting">Sort
+                        by:</label>
+                    <select class="form-select" id="sorting" style="min-width: 222px;">
+                        <option selected disabled>Newest</option>
+                        <option>Oldest</option>
+                    </select>
+                </div>
+            </div>
+            <!-- Tabs content-->
+            <div class="tab-content">
+                <div [ngbNavOutlet]="nav"></div>
+            </div>
+        </div>
+    </div>
+</section>
+<app-footer></app-footer>

@@ -1,0 +1,17 @@
+<!-- Bg shape-->
+<!-- Features-->
+<section class="container py-lg-5 py-4">
+    <h2 class="mb-4 pb-md-3 pb-2">Begin your NFT journey with us!</h2>
+    <!-- Features carousel-->
+    <div class="tns-carousel mb-4">
+        <ngx-slick-carousel [config]="NFT">
+            @for(nft of NFTJourney;track $index){
+            <div class="swiper-slide" ngxSlickItem>
+                <img class="mb-4" src="{{nft.image}}" width="60" alt="Icon">
+                <h4 class="mb-2 fs-lg text-body">{{nft.title}}</h4>
+                <p class="mb-0 fs-sm text-muted">{{nft.content}}</p>
+            </div>
+            }
+        </ngx-slick-carousel>
+    </div>
+</section>

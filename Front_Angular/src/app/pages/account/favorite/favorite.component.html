@@ -1,0 +1,82 @@
+<!-- Header -->
+<app-header></app-header>
+<!-- Page Title -->
+<div class="page-title-overlap bg-accent pt-4">
+    <app-account-breadcrumbs></app-account-breadcrumbs>
+</div>
+
+<div class="container mb-5 pb-3">
+    <div class="bg-light shadow-lg rounded-3 overflow-hidden">
+        <div class="row">
+            <!-- Sidebar -->
+            <aside class="col-lg-3 pe-xl-5">
+                <app-acount-sidemenu></app-acount-sidemenu>
+            </aside>
+            <!-- Content -->
+            <section class="col-lg-9 pt-lg-4 pb-4 mb-3">
+                <div class="pt-2 px-4 ps-lg-0 pe-xl-5">
+                    <h1 class="h3 mb-4 pb-2 text-sm-start text-center">Favorites</h1>
+                    <!-- Items grid -->
+                    <div class="row row-cols-md-3 row-cols-sm-2 row-cols-1 gy-sm-4 gy-3 gx-3 mb-4">
+                        <!-- Product -->
+                        @for(fav of allfavorites;track $index){
+                        <div class="col mb-2">
+                            <article class="card h-100 border-0 shadow">
+                                <div class="card-img-top position-relative overflow-hidden">
+                                    <a class="d-block" href="javascript:void(0);" routerLink="/auctionbuy">
+                                        <img src="{{fav.image}}" alt="Product image">
+                                    </a>
+                                    <!-- Countdown timer -->
+                                    @if(fav.time){
+                                    <div class="badge bg-dark m-3 fs-sm position-absolute top-0 start-0 zindex-5">
+                                        <i class="ci-time me-1"></i>
+                                        <div class="countdown d-inline">
+                                            <span>{{countdown(fav.time)}}</span>
+                                        </div>
+                                    </div>
+                                    }
+                                    <!-- Wishlist button -->
+                                    <button class="btn-wishlist btn-sm position-absolute top-0 end-0" type="button"
+                                        data-bs-toggle="tooltip" data-bs-placement="top"
+                                        ngbTooltip="Remove from favorites" style="margin: 12px;"
+                                        (click)="removefavorite($index)">
+                                        <i class="ci-heart-filled"></i>
+                                    </button>
+                                </div>
+                                <div class="card-body">
+                                    <h3 class="product-title mb-2 fs-base">
+                                        <a class="d-block text-truncate" href="javascript:void(0);"
+                                            routerLink="/auctionbuy">
+                                            {{fav.title}}
+                                        </a>
+                                    </h3>
+                                    <span class="fs-sm text-muted">Reserve price:</span>
+                                    <div class="d-flex align-items-center flex-wrap">
+                                        <h4 class="mt-1 mb-0 fs-base text-darker">{{fav.currentbid}}</h4>
+                                        <span class="mt-1 ms-1 fs-xs text-muted">{{fav.bid}}</span>
+                                    </div>
+                                </div>
+                                <div class="card-footer mt-n1 py-0 border-0">
+                                    <div class="d-flex align-items-center position-relative mb-1 py-3 border-top">
+                                        <img class="me-2 rounded-circle" src="{{fav.profile}}" width="32" alt="Avatar">
+                                        <a class="nav-link-style fs-sm stretched-link" href="javascript:void(0)"
+                                            routerLink="/vendor">
+                                            &#64;{{fav.name}}
+                                        </a>
+                                    </div>
+                                </div>
+                            </article>
+                        </div>
+                        }
+                    </div>
+                    <button class="btn btn-outline-danger" (click)="deleteall()">
+                        <i class="ci-trash me-2"></i>
+                        Delete all
+                    </button>
+                </div>
+            </section>
+        </div>
+    </div>
+</div>
+<!-- Footer -->
+<app-footer></app-footer>

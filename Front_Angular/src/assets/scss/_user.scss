@@ -1,0 +1,38 @@
+// 
+// user.scss
+// Use this to write your custom SCSS
+//
+// Swiper Slider
+.swiper-button-next, 
+.swiper-button-prev{
+    width: 48px !important;
+    height: 48px !important;
+    background-color: #fff;
+    border-radius: 50%;
+    border: 1px solid #e3e9ef;
+    &::after{
+        font-size: 16px !important;
+        color: #000;
+    }
+}
+.swiper-wrapper{
+    padding-bottom: 50px;
+}
+.swiper-pagination-bullet{
+    width: 5px;
+    height: 5px;
+    border-radius: .15625rem;
+}
+.swiper-pagination-bullet.swiper-pagination-bullet-active{
+    background-color: $carousel-dot-active-color;
+    width: 20px;
+}
+
+.ngxImageZoomContainer{
+    height: 100% !important;
+    width: 100% !important;
+}
+
+.priceoption .nav-link.active::before{
+    background-color:transparent;
+}

@@ -1,0 +1,42 @@
+<!-- Account menu toggler (hidden on screens larger 992px)-->
+<div class="d-block d-lg-none p-4"><a class="btn btn-outline-accent d-block" data-bs-target="#navbarCollapse" data-bs-toggle="collapse" (click)="collapse.toggle()"><i class="ci-menu me-2"></i>Account menu</a></div>
+<!-- Actual menu-->
+<div class="h-100 border-end mb-2">
+    <div #collapse="ngbCollapse" [(ngbCollapse)]="isCollapsed" class="d-lg-block collapse" id="account-menu">
+        <ul class="list-unstyled mb-0">
+            <li class="border-bottom mb-0">
+                <a class="nav-link-style d-flex align-items-center px-4 py-3 menulist" routerLink="/setting">
+                    <i class="ci-settings opacity-60 me-2"></i>Parametre du profil
+                </a>
+            </li>
+            <li class="border-bottom mb-0">
+                <a class="nav-link-style d-flex align-items-center px-4 py-3 menulist" routerLink="/myitem">
+                    <i class="ci-image opacity-60 me-2"></i>Mes Objets
+                    <span class="fs-sm text-muted ms-auto">{{myitems.length}}</span>
+                </a>
+            </li>
+            <li class="border-bottom mb-0">
+                <a class="nav-link-style d-flex align-items-center px-4 py-3 menulist" routerLink="/mycollection">
+                    <i class="ci-view-list opacity-60 me-2"></i>Mes publications
+                    <span class="fs-sm text-muted ms-auto">{{collections.length}}</span>
+                </a>
+            </li>
+            <!-- <li class="border-bottom mb-0">
+                <a class="nav-link-style d-flex align-items-center px-4 py-3 menulist" routerLink="/favorite">
+                    <i class="ci-heart opacity-60 me-2"></i>Favorites
+                    <span class="fs-sm text-muted ms-auto">{{favorites.length}}</span>
+                </a>
+            </li> -->
+            <li class="border-bottom mb-0">
+                <a class="nav-link-style d-flex align-items-center px-4 py-3 menulist" routerLink="/notification">
+                    <i class="ci-bell opacity-60 me-2"></i>Notifications
+                </a>
+            </li>
+            <li class="border-bottom mb-0">
+                <a class="nav-link-style d-flex align-items-center px-4 py-3 menulist">
+                    <i class="ci-sign-out opacity-60 me-2"></i>Sign out
+                </a>
+            </li>
+        </ul>
+    </div>
+</div>

@@ -1,0 +1,83 @@
+<!-- Header -->
+<app-header></app-header>
+<!-- Page Title -->
+<div class="page-title-overlap bg-accent pt-4">
+    <app-account-breadcrumbs></app-account-breadcrumbs>
+</div>
+<div class="container mb-5 pb-3">
+    <div class="bg-light shadow-lg rounded-3 overflow-hidden">
+        <div class="row">
+            <!-- Sidebar -->
+            <aside class="col-lg-3 pe-xl-5">
+                <app-acount-sidemenu></app-acount-sidemenu>
+            </aside>
+            <!-- Content -->
+            <section class="col-lg-9 pt-lg-4 pb-4 mb-3">
+                <div class="pt-2 px-4 ps-lg-0 pe-xl-5">
+                    <h1 class="h3 mb-4 pb-2 text-sm-start text-center">Mes publications</h1>
+                    <!-- Collections grid -->
+                    <div class="row row-cols-md-2 row-cols-1 g-4 mb-4 pb-3">
+                        <!-- Collection item -->
+                        @for(collect of mycollection;track $index){
+                        <div class="col">
+                            <article>
+                                <div class="card mb-3">
+                                    <div class="card-body p-3">
+                                        <div class="d-flex align-items-center justify-content-between mb-3">
+                                            <!-- Author -->
+                                            <div class="d-inline-flex align-items-center position-relative">
+                                                <img class="rounded-circle me-2" src="{{collect.profile}}" width="32"
+                                                    alt="Avatar">
+                                                <div class="fs-sm">
+                                                    by
+                                                    <a class="ms-1 fw-medium text-accent stretched-link"
+                                                        routerLink="/vendor">
+                                                        &#64;{{collect.name}}
+                                                    </a>
+                                                </div>
+                                            </div>
+                                            <!-- Delete button -->
+                                            <button class="btn-wishlist btn-sm flex-shrink-0 ms-3" type="button"
+                                                data-bs-toggle="tooltip" data-bs-placement="left" ngbTooltip="Remove"
+                                                (click)="removecollection($index)">
+                                                <i class="ci-trash"></i>
+                                            </button>
+                                        </div>
+                                        <!-- Collage -->
+                                        <a class="d-block" routerLink="/auctionbuy">
+                                            <div class="row row-cols-2 g-2">
+                                                <div class="col"><img class="rounded-1" src="{{collect.image[0]}}"
+                                                        alt="Collection item">
+                                                </div>
+                                                <div class="col">
+                                                    <div class="mt-n2">
+                                                        <img class="rounded-1 mt-2" src="{{collect.image[1]}}"
+                                                            alt="Collection item">
+                                                        <img class="rounded-1 mt-2" src="{{collect.image[2]}}"
+                                                            alt="Collection item">
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </a>
+                                    </div>
+                                </div>
+                                <!-- Collection title -->
+                                <h3 class="h5 mb-1">
+                                    <a class="nav-link-style" routerLink="/auctionbuy">
+                                        {{collect.title}}
+                                    </a>
+                                </h3>
+                             
+                            </article>
+                        </div>
+                    }
+                    </div>
+                  
+                  
+                </div>
+            </section>
+        </div>
+    </div>
+</div>
+<!-- Footer -->
+<app-footer></app-footer>
