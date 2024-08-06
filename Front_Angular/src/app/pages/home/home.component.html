@@ -1,0 +1,277 @@
+<!-- Header -->
+<app-header></app-header>
+
+<!-- Page Title-->
+<div class="bg-accent pt-4 pb-5"></div>
+
+<div class="container pb-5 mb-2 mb-md-4">
+  <!-- Toolbar-->
+  <div class="bg-light shadow-lg rounded-3 p-4 mt-n5 mb-4">
+    <div class="row gy-3 gx-4 justify-content-between">
+      <div
+        class="col-lg-2 col-md-3 col-sm-5 col-12 order-md-1 order-sm-2 order-3"
+      >
+        <div class="dropdown">
+          <a
+            class="btn btn-outline-secondary dropdown-toggle w-100"
+            href="javascript:void(0);"
+            data-bs-toggle="collapse"
+            data-bs-target="#shop-filters"
+            (click)="collapse.toggle()"
+            ><i class="ci-filter me-2"></i>Filters</a
+          >
+        </div>
+      </div>
+      <div class="col-md col-12 order-md-2 order-sm-1 order-1">
+        <div class="input-group">
+          <input
+            class="form-control pe-5 rounded"
+            type="text"
+            placeholder="Search collection, title or user..."
+            [(ngModel)]="service.searchTerm"
+          /><i
+            class="ci-search position-absolute top-50 end-0 translate-middle-y zindex-5 me-3"
+          ></i>
+        </div>
+      </div>
+      <div
+        class="col-lg-3 col-md-4 col-sm-7 col-12 order-md-3 order-sm-3 order-2"
+      >
+        <div class="d-flex align-items-center flex-shrink-0">
+          <label
+            class="form-label mb-0 me-2 pe-1 fw-normal text-nowrap d-sm-block d-none"
+            >Sort by:</label
+          >
+          <select class="form-select">
+            <option selected disabled>Newest</option>
+            <option>Oldest</option>
+          </select>
+        </div>
+      </div>
+    </div>
+    <!-- Toolbar with expandable filters-->
+    <div
+      class="collapse"
+      #collapse="ngbCollapse"
+      [(ngbCollapse)]="isCollapsed"
+      id="shop-filters"
+    >
+      <div class="row g-4 pt-4">
+        <div class="col-lg-6 col-sm-8">
+          <!-- Categories-->
+          <div class="card">
+            <div class="card-body px-12">
+              <div class="widget">
+                <h3 class="widget-title mb-2 pb-1">Categories</h3>
+                <ul class="widget-list list-unstyled">
+                  <li
+                    class="d-flex justify-content-between align-items-center mb-1"
+                  >
+                    <div class="form-check">
+                      <input
+                        class="form-check-input"
+                        type="checkbox"
+                        id="all"
+                      />
+                      <label class="form-check-label" for="all"
+                        >All artworks</label
+                      >
+                    </div>
+                    <span class="fs-xs text-muted">498</span>
+                  </li>
+                  <li
+                    class="d-flex justify-content-between align-items-center mb-1"
+                  >
+                    <div class="form-check">
+                      <input
+                        class="form-check-input"
+                        type="checkbox"
+                        id="premium"
+                      />
+                      <label class="form-check-label" for="premium"
+                        >Premium</label
+                      >
+                    </div>
+                    <span class="fs-xs text-muted">25</span>
+                  </li>
+                  <li
+                    class="d-flex justify-content-between align-items-center mb-1"
+                  >
+                    <div class="form-check">
+                      <input
+                        class="form-check-input"
+                        type="checkbox"
+                        id="art"
+                      />
+                      <label class="form-check-label" for="art">Art</label>
+                    </div>
+                    <span class="fs-xs text-muted">112</span>
+                  </li>
+                  <li
+                    class="d-flex justify-content-between align-items-center mb-1"
+                  >
+                    <div class="form-check">
+                      <input
+                        class="form-check-input"
+                        type="checkbox"
+                        id="photography"
+                      />
+                      <label class="form-check-label" for="photography"
+                        >Photography</label
+                      >
+                    </div>
+                    <span class="fs-xs text-muted">93</span>
+                  </li>
+                  <li
+                    class="d-flex justify-content-between align-items-center mb-1"
+                  >
+                    <div class="form-check">
+                      <input
+                        class="form-check-input"
+                        type="checkbox"
+                        id="music"
+                      />
+                      <label class="form-check-label" for="music">Music</label>
+                    </div>
+                    <span class="fs-xs text-muted">48</span>
+                  </li>
+                  <li
+                    class="d-flex justify-content-between align-items-center mb-1"
+                  >
+                    <div class="form-check">
+                      <input
+                        class="form-check-input"
+                        type="checkbox"
+                        id="gaming"
+                      />
+                      <label class="form-check-label" for="gaming"
+                        >Gaming</label
+                      >
+                    </div>
+                    <span class="fs-xs text-muted">82</span>
+                  </li>
+                  <li
+                    class="d-flex justify-content-between align-items-center mb-1"
+                  >
+                    <div class="form-check">
+                      <input
+                        class="form-check-input"
+                        type="checkbox"
+                        id="sports"
+                      />
+                      <label class="form-check-label" for="sports"
+                        >Sports</label
+                      >
+                    </div>
+                    <span class="fs-xs text-muted">51</span>
+                  </li>
+                  <li
+                    class="d-flex justify-content-between align-items-center mb-1"
+                  >
+                    <div class="form-check">
+                      <input
+                        class="form-check-input"
+                        type="checkbox"
+                        id="collections"
+                      />
+                      <label class="form-check-label" for="collections"
+                        >Collections</label
+                      >
+                    </div>
+                    <span class="fs-xs text-muted">11</span>
+                  </li>
+                  <li
+                    class="d-flex justify-content-between align-items-center mb-1"
+                  >
+                    <div class="form-check">
+                      <input
+                        class="form-check-input"
+                        type="checkbox"
+                        id="utility"
+                      />
+                      <label class="form-check-label" for="utility"
+                        >Utility</label
+                      >
+                    </div>
+                    <span class="fs-xs text-muted">24</span>
+                  </li>
+                </ul>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- Products grid-->
+  <div
+    class="row row-cols-lg-4 row-cols-md-3 row-cols-sm-2 row-cols-1 gy-sm-4 gy-3 pt-sm-3"
+  >
+    <!-- Product-->
+    @for(product of allproduct;track $index){
+    <div class="col mb-2">
+      <article class="card h-100 border-0 shadow">
+        <div class="card-img-top position-relative overflow-hidden">
+          <a class="d-block" routerLink="/auctionbuy"
+            ><img src="{{ product.image }}" alt="Product image"
+          /></a>
+        </div>
+        <div class="card-body">
+          <h3 class="product-title mb-2 fs-base">
+            <a class="d-block text-truncate" routerLink="/auctionbuy">{{
+              product.title
+            }}</a>
+          </h3>
+          <span class="fs-sm text-muted"> Categorie:</span>
+          <div class="d-flex align-items-center flex-wrap">
+            <h4 class="mt-1 mb-0 fs-base text-darker">Nom du categorie</h4>
+            <span class="mt-1 ms-1 fs-xs text-muted"></span>
+          </div>
+        </div>
+        <div class="card-footer mt-n1 py-0 border-0">
+          <div
+            class="d-flex align-items-center position-relative mb-1 py-3 border-top"
+          >
+            <img
+              class="me-2 rounded-circle"
+              src="{{ product.profile }}"
+              width="32"
+              alt="Avatar"
+            /><a
+              class="nav-link-style fs-sm stretched-link"
+              routerLink="/vendor"
+              >&#64;{{ product.name }}</a
+            >
+          </div>
+        </div>
+      </article>
+    </div>
+    }
+  </div>
+  <div class="text-center" id="elmLoader">
+    <div class="spinner-border text-primary avatar-sm" role="status">
+      <span class="visually-hidden">Loading...</span>
+    </div>
+  </div>
+  <hr class="mt-4 mb-3" />
+  <!-- Pagination -->
+  <ngb-pagination
+    class="d-flex justify-content-center pt-2"
+    [collectionSize]="(total | async)!"
+    [(page)]="service.page"
+    [pageSize]="service.pageSize"
+    aria-label="Custom pagination"
+  >
+    <ng-template ngbPaginationPrevious let-page let-pages="pages">
+      <i class="ci-arrow-left me-2"></i>
+      Prev
+    </ng-template>
+    <ng-template ngbPaginationNext>
+      Next
+      <i class="ci-arrow-right ms-2"></i>
+    </ng-template>
+  </ngb-pagination>
+</div>
+<!-- Bg shape-->
+
+<app-footer></app-footer>
