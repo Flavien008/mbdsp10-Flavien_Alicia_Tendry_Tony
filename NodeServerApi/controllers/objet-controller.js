@@ -38,16 +38,16 @@ exports.getObjets = async (req, res) => {
     const filters = {};
 
     if (nomUtilisateur) {
-        filters['$Utilisateur.username$'] = { [Op.like]: `%${nomUtilisateur}%` };
+        filters['$Utilisateur.username$'] = { [Op.iLike]: `%${nomUtilisateur}%` };
     }
     if (categorie) {
         filters.categorie_id = categorie;
     }
     if (nomObjet) {
-        filters.name = { [Op.like]: `%${nomObjet}%` };
+        filters.name = { [Op.iLike]: `%${nomObjet}%` };
     }
     if (description) {
-        filters.description = { [Op.like]: `%${description}%` };
+        filters.description = { [Op.iLike]: `%${description}%` };
     }
 
     try {
