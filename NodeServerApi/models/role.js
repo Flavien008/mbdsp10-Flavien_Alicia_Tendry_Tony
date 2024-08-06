@@ -10,15 +10,10 @@ const Role = sequelize.define('Role', {
     nom: {
         type: DataTypes.STRING(100),
         allowNull: false,
-        unique: true
+        unique : true
     }
 }, {
-    timestamps: false,
-    tableName: 'Roles' // explicitly define table name to avoid confusion
+    timestamps: false
 });
-
-Role.associate = (models) => {
-    Role.hasMany(models.Utilisateur, { foreignKey: 'role_id' });
-};
 
 module.exports = Role;

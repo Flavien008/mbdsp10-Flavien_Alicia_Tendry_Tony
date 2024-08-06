@@ -10,15 +10,14 @@ const Categorie = sequelize.define('Categorie', {
     nom: {
         type: DataTypes.STRING(100),
         allowNull: false,
-        unique: true
+        unique : true
     }
 }, {
-    timestamps: false,
-    tableName: 'Categories'
+    timestamps: false
 });
 
 Categorie.associate = (models) => {
-    Categorie.hasMany(models.Objet, { as: 'objets', foreignKey: 'categorie_id' });
+    Categorie.hasMany(models.Objet, { as: 'Objets', foreignKey: 'categorie_id' });
 };
 
 module.exports = Categorie;
