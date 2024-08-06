@@ -3,13 +3,15 @@ const Utilisateur = require('./utilisateur');
 const Poste = require('./poste');
 const Postedetails = require('./postedetails');
 const Objet = require('./objet');
+const Categorie = require('./categorie'); 
 
 // Importer tous les modèles
 const models = {
     Utilisateur,
     Poste,
     Postedetails,
-    Objet
+    Objet,
+    Categorie
 };
 
 // Définir les associations

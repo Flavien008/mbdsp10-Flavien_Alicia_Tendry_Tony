@@ -2,6 +2,7 @@ const { DataTypes } = require('sequelize');
 const sequelize = require('../config/database');
 const Role = require('./role');
 const Poste = require('./poste');
+const Objet = require('./objet');
 
 const Utilisateur = sequelize.define('Utilisateur', {
     user_id: {
@@ -49,4 +50,5 @@ const Utilisateur = sequelize.define('Utilisateur', {
 
 Utilisateur.belongsTo(Role, { foreignKey: 'role_id' });
 Utilisateur.hasMany(Poste, { foreignKey: 'user_id', as: 'poste' });
+Utilisateur.hasMany(Objet, { as: 'Objets', foreignKey: 'user_id' });
 module.exports = Utilisateur;

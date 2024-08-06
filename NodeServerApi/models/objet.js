@@ -45,4 +45,10 @@ const Objet = sequelize.define('Objet', {
     timestamps: false
 });
 
+// Définir les associations
+Objet.associate = (models) => {
+    Objet.belongsTo(models.Utilisateur, { as: 'Utilisateur', foreignKey: 'user_id' });
+    Objet.belongsTo(models.Categorie, { as: 'Categorie', foreignKey: 'categorie_id' });
+};
+
 module.exports = Objet;

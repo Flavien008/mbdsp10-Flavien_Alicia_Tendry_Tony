@@ -16,4 +16,8 @@ const Categorie = sequelize.define('Categorie', {
     timestamps: false
 });
 
+Categorie.associate = (models) => {
+    Categorie.hasMany(models.Objet, { as: 'Objets', foreignKey: 'categorie_id' });
+};
+
 module.exports = Categorie;
