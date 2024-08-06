@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import {
   IonPage,
   IonHeader,
@@ -25,69 +25,56 @@ import {
 import { useParams } from 'react-router-dom';
 import { checkmarkCircle, closeCircle } from 'ionicons/icons';
 import './PostFiche.css';
-
-// Données statiques pour les exemples
-const exchangesData = [
-  {
-    id: 1,
-    status: 'validé',
-    description: 'Echange 1 validé',
-    objects: [
-      { id: 1, name: 'Objet 1', description: 'Description de l\'objet 1' },
-      { id: 2, name: 'Objet 2', description: 'Description de l\'objet 2' }
-    ]
-  },
-  {
-    id: 2,
-    status: 'non validé',
-    description: 'Echange 2 non validé',
-    objects: [
-      { id: 3, name: 'Objet 3', description: 'Description de l\'objet 3' }
-    ]
-  },
-  {
-    id: 3,
-    status: 'validé',
-    description: 'Echange 3 validé',
-    objects: [
-      { id: 4, name: 'Objet 4', description: 'Description de l\'objet 4' },
-      { id: 5, name: 'Objet 5', description: 'Description de l\'objet 5' }
-    ]
-  },
-  {
-    id: 4,
-    status: 'non validé',
-    description: 'Echange 4 non validé',
-    objects: [
-      { id: 6, name: 'Objet 6', description: 'Description de l\'objet 6' }
-    ]
-  }
-];
-
-// Données statiques pour les objets du post
-const postObjectsData = [
-  { id: 1, name: 'Objet Post 1', description: 'Description de l\'objet du post 1' },
-  { id: 2, name: 'Objet Post 2', description: 'Description de l\'objet du post 2' },
-  { id: 3, name: 'Objet Post 3', description: 'Description de l\'objet du post 3' }
-];
+import baseURI from '../../utilitaire/baseURI';
 
 const PostFiche: React.FC = () => {
   const { id } = useParams<{ id: string }>();
   const [selectedTab, setSelectedTab] = useState<string>('validé');
+  const [post, setPost] = useState<any>(null);
+  const [filteredExchanges, setFilteredExchanges] = useState<any[]>([]);
 
-  // Données statiques pour le post (à remplacer par un appel API réel)
-  const post = {
-    id,
-    title: 'Titre du post',
-    description: 'Description du post',
-    created_at: '2023-01-01T12:00:00Z',
-    user_name: 'User 1',
-    longitude: 10.0,
-    latitude: 20.0,
-    status: false,
+  useEffect(() => {
+    fetchPost();
+  }, [id]);
+
+  useEffect(() => {
+    if (post) {
+      setFilteredExchanges(
+        post.details.filter((exchange: any) => exchange.status === selectedTab)
+      );
+    }
+  }, [post, selectedTab]);
+
+  const fetchPost = async () => {
+    try {
+      const response = await fetch(`${baseURI('/postes')}/${id}`);
+      const data = await response.json();
+      setPost(data);
+    } catch (error) {
+      console.error('Error fetching post:', error);
+    }
   };
 
-  const filteredExchanges = exchangesData.filter(exchange => exchange.status === selectedTab);
+  if (!post) {
+    return (
+      <IonPage>
+        <IonHeader>
+          <IonToolbar>
+            <IonTitle>Fiche Post</IonTitle>
+            <IonButtons slot="start">
+              <IonMenuButton />
+            </IonButtons>
+            <IonButtons slot="end">
+              <IonButton onClick={() => window.history.back()}>Retour</IonButton>
+            </IonButtons>
+          </IonToolbar>
+        </IonHeader>
+        <IonContent className="ion-padding">
+          <p>Chargement...</p>
+        </IonContent>
+      </IonPage>
+    );
+  }
 
   return (
     <IonPage>
@@ -105,7 +92,8 @@ const PostFiche: React.FC = () => {
       <IonContent className="ion-padding">
         <IonCard className="post-card">
           <IonCardHeader>
-            <IonCardTitle>{post.title}</IonCardTitle>
+            <IonCardTitle>{post.titre}</IonCardTitle>
+            <IonLabel className="ion-card-subtitle">Par: {post.utilisateur.username}</IonLabel>
           </IonCardHeader>
           <IonCardContent>
             <p><strong>Description:</strong> {post.description}</p>
@@ -121,17 +109,17 @@ const PostFiche: React.FC = () => {
               )}
             </p>
           </IonCardContent>
-              <hr />
+          <hr />
           <IonCardHeader>
             <IonCardTitle>Objets du Post</IonCardTitle>
           </IonCardHeader>
           <IonCardContent>
             <IonList>
-              {postObjectsData.map(objet => (
-                <IonItem key={objet.id} className="custom-item">
+              {post.details.map((detail: any) => (
+                <IonItem key={detail.poste_details_id} className="custom-item">
                   <IonLabel>
-                    <h2>{objet.name}</h2>
-                    <p>{objet.description}</p>
+                    <h2>{detail.Objet.name}</h2>
+                    <p>{detail.Objet.description}</p>
                   </IonLabel>
                 </IonItem>
               ))}
@@ -139,7 +127,6 @@ const PostFiche: React.FC = () => {
           </IonCardContent>
         </IonCard>
         <hr />
-       
         <IonSegment value={selectedTab} onIonChange={e => setSelectedTab(e.detail.value!)}>
           <IonSegmentButton value="validé">
             <IonLabel>Validé</IonLabel>
@@ -164,7 +151,7 @@ const PostFiche: React.FC = () => {
                   </IonCardHeader>
                   <IonCardContent>
                     <IonList>
-                      {exchange.objects.map(objet => (
+                      {exchange.objects.map((objet: any) => (
                         <IonItem key={objet.id} className="custom-item">
                           <IonLabel>
                             <h2>{objet.name}</h2>
