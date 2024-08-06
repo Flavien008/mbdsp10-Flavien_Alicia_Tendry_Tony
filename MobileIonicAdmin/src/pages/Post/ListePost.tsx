@@ -36,7 +36,7 @@ interface Post {
   latitude: number;
   description: string;
   status: boolean; // true: clôturé, false: non clôturé
-  user_name: string; // Nom de l'utilisateur
+  utilisateur: { username: string }; // Nom de l'utilisateur
 }
 
 const ListePost: React.FC = () => {
@@ -83,49 +83,61 @@ const ListePost: React.FC = () => {
         </IonToolbar>
       </IonHeader>
       <IonContent className="ion-padding">
-        <IonRow>
-          <IonCol size="12" sizeMd="4">
-            <IonItem>
-              <IonLabel>Filtrer par statut</IonLabel>
-              <IonSelect value={filterStatus} onIonChange={e => setFilterStatus(e.detail.value)}>
-                <IonSelectOption value="all">Tous</IonSelectOption>
-                <IonSelectOption value="clotured">Clôturés</IonSelectOption>
-                <IonSelectOption value="nonClotured">Non clôturés</IonSelectOption>
-              </IonSelect>
-            </IonItem>
-          </IonCol>
-          <IonCol size="12" sizeMd="4">
-            <IonItem>
-              <IonInput
-                value={filterUser}
-                placeholder="Nom de l'utilisateur"
-                onIonChange={e => setFilterUser(e.detail.value!)}
-              />
-            </IonItem>
-          </IonCol>
-          <IonCol size="12" sizeMd="4">
-            <IonItem>
-              <IonInput
-                value={filterText}
-                placeholder="Rechercher par texte"
-                onIonChange={e => setFilterText(e.detail.value!)}
-              />
-            </IonItem>
-          </IonCol>
-          <IonCol size="12" sizeMd="4">
-            <IonButton expand="block" onClick={() => setSortOrder(sortOrder === 'asc' ? 'desc' : 'asc')}>
-              Trier par date ({sortOrder === 'asc' ? 'Croissant' : 'Décroissant'})
-            </IonButton>
-          </IonCol>
-        </IonRow>
+        <IonCard>
+          <IonCardHeader>
+            <IonCardTitle>Recherche</IonCardTitle>
+          </IonCardHeader>
+          <IonCardContent>
+            <IonRow>
+              <IonCol size="12" sizeMd="4">
+                <IonItem>
+                  <IonLabel>Filtrer par statut</IonLabel>
+                  <IonSelect value={filterStatus} onIonChange={e => setFilterStatus(e.detail.value)}>
+                    <IonSelectOption value="all">Tous</IonSelectOption>
+                    <IonSelectOption value="clotured">Clôturés</IonSelectOption>
+                    <IonSelectOption value="nonClotured">Non clôturés</IonSelectOption>
+                  </IonSelect>
+                </IonItem>
+              </IonCol>
+              <IonCol size="12" sizeMd="4">
+                <IonItem>
+                  <IonInput
+                    value={filterUser}
+                    placeholder="Nom de l'utilisateur"
+                    onIonChange={e => setFilterUser(e.detail.value!)}
+                  />
+                </IonItem>
+              </IonCol>
+              <IonCol size="12" sizeMd="4">
+                <IonItem>
+                  <IonInput
+                    value={filterText}
+                    placeholder="Rechercher par texte"
+                    onIonChange={e => setFilterText(e.detail.value!)}
+                  />
+                </IonItem>
+              </IonCol>
+              <IonCol size="12" sizeMd="4">
+                <IonButton expand="block" onClick={() => setSortOrder(sortOrder === 'asc' ? 'desc' : 'asc')}>
+                  Trier par date ({sortOrder === 'asc' ? 'Croissant' : 'Décroissant'})
+                </IonButton>
+              </IonCol>
+            </IonRow>
+          </IonCardContent>
+        </IonCard>
         <IonRow>
           {posts.map(post => (
             <IonCol key={post.poste_id} size="12" sizeMd="6">
               <IonCard>
                 <IonCardHeader className="ion-card-header">
-                  <IonCardTitle className="ion-card-title">{post.titre}</IonCardTitle>
-                  <IonLabel className="ion-card-subtitle">Par: {post.user_name}</IonLabel>
+                  <div>
+                    <IonCardTitle className="ion-card-title">{post.titre}</IonCardTitle>
+                    <IonLabel className="ion-card-subtitle" style={{ display: 'block', marginTop: '8px' }}>
+                      Par : {post.utilisateur.username}
+                    </IonLabel>
+                  </div>
                 </IonCardHeader>
+
                 <IonCardContent>
                   <p><strong>Description:</strong> {post.description}</p>
                   <p><strong>Créé le:</strong> {new Date(post.created_at).toLocaleDateString()}</p>
