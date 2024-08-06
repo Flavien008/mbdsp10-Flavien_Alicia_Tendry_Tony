@@ -32,12 +32,11 @@ exports.createPoste = async (req, res) => {
 };
 
 exports.getPostes = async (req, res) => {
-    const { dateDebut, dateFin, nomUtilisateur, texte, nomObjet, categorieObjet } = req.query;
+    const { dateDebut, dateFin, nomUtilisateur, texte, nomObjet, categorieObjet, status, sortByDate } = req.query;
 
     const filters = {};
     const includeFilters = [];
 
-    // Ajouter des filtres pour les dates
     if (dateDebut && dateFin) {
         filters.created_at = {
             [Op.between]: [new Date(dateDebut), new Date(dateFin)]
@@ -52,8 +51,6 @@ exports.getPostes = async (req, res) => {
         };
     }
 
-    // Ajouter des filtres pour la description
-
     if (texte) {
         filters[Op.or] = [
             { titre: { [Op.iLike]: `%${texte}%` } },
@@ -61,7 +58,10 @@ exports.getPostes = async (req, res) => {
         ];
     }
 
-    // Ajouter des filtres pour l'utilisateur
+    if (status && status !== undefined) {
+        filters.status = status;
+    }
+
     if (nomUtilisateur) {
         includeFilters.push({
             model: Utilisateur,
@@ -79,7 +79,7 @@ exports.getPostes = async (req, res) => {
         });
     }
 
-    // Ajouter des filtres pour le nom de l'objet et la catégorie
+
     if (nomObjet || categorieObjet) {
         includeFilters.push({
             model: Postedetails,
@@ -120,16 +120,22 @@ exports.getPostes = async (req, res) => {
         });
     }
 
+
+    const order = [];
+    if (sortByDate) {
+        order.push(['created_at', sortByDate.toUpperCase()]); 
+    }
+
     try {
         const limit = parseInt(req.query.limit) || 10;
         const page = parseInt(req.query.page) || 1;
 
-        // Utiliser findAndCountAll pour obtenir le total et les résultats paginés
         const { count, rows } = await Poste.findAndCountAll({
             where: filters,
             include: includeFilters,
             limit: limit,
-            offset: (page - 1) * limit
+            offset: (page - 1) * limit,
+            order: order.length ? order : [['created_at', 'DESC']] 
         });
 
         const totalPages = Math.ceil(count / limit);
