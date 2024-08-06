@@ -1,5 +1,7 @@
 const { DataTypes } = require('sequelize');
 const sequelize = require('../config/database');
+const Utilisateur = require('./utilisateur');
+const Categorie = require('./categorie');
 
 const Objet = sequelize.define('Objet', {
     item_id: {
@@ -11,7 +13,7 @@ const Objet = sequelize.define('Objet', {
         type: DataTypes.INTEGER,
         allowNull: false,
         references: {
-            model: 'Utilisateurs', // Sequelize uses the table name in references
+            model: Utilisateur,
             key: 'user_id'
         }
     },
@@ -19,7 +21,7 @@ const Objet = sequelize.define('Objet', {
         type: DataTypes.INTEGER,
         allowNull: false,
         references: {
-            model: 'Categories', // Sequelize uses the table name in references
+            model: Categorie,
             key: 'categorie_id'
         }
     },
@@ -40,15 +42,14 @@ const Objet = sequelize.define('Objet', {
         defaultValue: DataTypes.NOW
     }
 }, {
-    timestamps: false,
-    tableName: 'Objets' // explicitly define table name to avoid confusion
+    timestamps: false
 });
 
 // Définir les associations
 Objet.associate = (models) => {
-    Objet.belongsTo(models.Utilisateur, { as: 'utilisateur', foreignKey: 'user_id' });
-    Objet.belongsTo(models.Categorie, { as: 'categorie', foreignKey: 'categorie_id' });
-    Objet.hasMany(models.Postedetails, { as: 'postedetails', foreignKey: 'item_id' });
+    Objet.belongsTo(models.Utilisateur, { as: 'Utilisateur', foreignKey: 'user_id' });
+    Objet.belongsTo(models.Categorie, { as: 'Categorie', foreignKey: 'categorie_id' });
+    Objet.hasMany(models.Postedetails, { as: 'Postedetails', foreignKey: 'item_id' });
 };
 
 module.exports = Objet;
