@@ -1,8 +1,5 @@
 const { DataTypes } = require('sequelize');
 const sequelize = require('../config/database');
-const Role = require('./role');
-const Poste = require('./poste');
-const Objet = require('./objet');
 
 const Utilisateur = sequelize.define('Utilisateur', {
     user_id: {
@@ -28,7 +25,7 @@ const Utilisateur = sequelize.define('Utilisateur', {
         type: DataTypes.INTEGER,
         allowNull: false,
         references: {
-            model: Role,
+            model: 'Roles',
             key: 'role_id'
         }
     },
@@ -45,10 +42,14 @@ const Utilisateur = sequelize.define('Utilisateur', {
         defaultValue: DataTypes.NOW
     }
 }, {
-    timestamps: false
+    timestamps: false,
+    tableName: 'Utilisateurs'
 });
 
-Utilisateur.belongsTo(Role, { foreignKey: 'role_id' });
-Utilisateur.hasMany(Poste, { foreignKey: 'user_id', as: 'poste' });
-Utilisateur.hasMany(Objet, { as: 'Objets', foreignKey: 'user_id' });
+Utilisateur.associate = (models) => {
+    Utilisateur.belongsTo(models.Role, { foreignKey: 'role_id' });
+    Utilisateur.hasMany(models.Poste, { foreignKey: 'user_id', as: 'postes' });
+    Utilisateur.hasMany(models.Objet, { as: 'objets', foreignKey: 'user_id' });
+};
+
 module.exports = Utilisateur;

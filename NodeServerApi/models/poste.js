@@ -1,6 +1,5 @@
 const { DataTypes } = require('sequelize');
 const sequelize = require('../config/database');
-const Utilisateur = require('./utilisateur');
 
 const Poste = sequelize.define('Poste', {
     poste_id: {
@@ -12,7 +11,7 @@ const Poste = sequelize.define('Poste', {
         type: DataTypes.INTEGER,
         allowNull: false,
         references: {
-            model: Utilisateur,
+            model: 'Utilisateurs',
             key: 'user_id'
         }
     },
@@ -41,7 +40,8 @@ const Poste = sequelize.define('Poste', {
         defaultValue: false
     }
 }, {
-    timestamps: false
+    timestamps: false,
+    tableName: 'Postes'
 });
 
 Poste.associate = (models) => {
