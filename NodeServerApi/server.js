@@ -1,4 +1,5 @@
 const express = require('express');
+const cors = require('cors');
 const bodyParser = require('body-parser');
 const sequelize = require('./config/database');
 const app = express();
@@ -20,6 +21,9 @@ sequelize.sync()
     .then(() => {
         console.log('Database & tables created!');
     });
+
+// CORS Middleware
+app.use(cors()); // Add this line
 
 // Pour accepter les connexions cross-domain (CORS)
 app.use(function (req, res, next) {
