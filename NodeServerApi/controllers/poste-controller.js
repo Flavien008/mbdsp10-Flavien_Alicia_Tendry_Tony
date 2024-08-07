@@ -243,7 +243,7 @@ exports.deletePoste = async (req, res) => {
         // Créer une notification pour l'utilisateur
         const notification = new Notification({
             user_id: utilisateur.user_id,
-            message: `Votre poste "${poste.titre}" a été supprimé.`,
+            message: `Votre poste "${poste.titre}" a été supprimé par l'administrateur.`,
             created_at: new Date()
         });
         await notification.save();
