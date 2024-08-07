@@ -46,18 +46,15 @@ app.use(bodyParser.json({ limit: '50mb' }));
 const prefix = '/api';
 
 app.use(prefix+'/users', userRoutes);
-app.use(prefix+'/roles', roleRoutes);
-app.use(prefix+'/categories', categorieRoutes);
-app.use(prefix+'/objets', objetRoutes);
-app.use(prefix+'/postes', posteRoutes);
-app.use(prefix+'/commentaires',commentaireRoutes);
-app.use(prefix+'/notifications',notificationRoutes);
-app.use(prefix+'/echanges',echangeRoutes);
+app.use(prefix+'/roles',authenticateToken, roleRoutes);
+app.use(prefix+'/categories',authenticateToken, categorieRoutes);
+app.use(prefix+'/objets',authenticateToken, objetRoutes);
+app.use(prefix+'/postes',authenticateToken, posteRoutes);
+app.use(prefix+'/commentaires',authenticateToken,commentaireRoutes);
+app.use(prefix+'/notifications',authenticateToken,notificationRoutes);
+app.use(prefix+'/echanges',authenticateToken,echangeRoutes);
+app.use(prefix+'/historique',authenticateToken,historiqueRoutes);
 
-// api protéger par token
-// app.use(prefix+'/echanges',authenticateToken,echangeRoutes);
-
-app.use(prefix+'/historique',historiqueRoutes);
 let port = process.env.PORT || 8010;
 
 // On démarre le serveur
