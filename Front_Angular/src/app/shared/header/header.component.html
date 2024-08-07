@@ -1,9 +1,6 @@
 <!-- Navbar for NFT Marketplace demo -->
-<!-- Remove "navbar-sticky" class to make navigation bar scrollable with the page. -->
 <div (window:scroll)="windowScroll()" id="home">
-  <header
-    class="navbar d-block navbar-sticky navbar-expand-lg navbar-light bg-light w-100"
-  >
+  <header class="navbar d-block navbar-sticky navbar-expand-lg navbar-light bg-light w-100">
     <div class="container">
       <a class="navbar-brand d-none d-sm-block me-4 order-lg-1" routerLink="/">
         <img src="assets/img/logo-dark.png" width="142" alt="Exchange Object" />
@@ -34,7 +31,7 @@
             <i class="navbar-tool-icon ci-search"></i>
           </div>
         </a>
-        <a
+        <a *ngIf="!isLoggedIn"
           class="navbar-tool ms-lg-2 account"
           href="javascript:void(0);"
           data-bs-toggle="modal"
@@ -45,7 +42,7 @@
             <i class="navbar-tool-icon ci-user"></i>
           </div>
         </a>
-        <div ngbDropdown class="navbar-tool dropdown ms-lg-3 ms-2 user">
+        <div *ngIf="isLoggedIn" ngbDropdown class="navbar-tool dropdown ms-lg-3 ms-2 user">
           <a
             class="navbar-tool-icon-box d-inline-block w-auto h-auto dropdown-toggle mt-n1"
             routerLink="/setting"
@@ -62,37 +59,25 @@
           <div ngbDropdownMenu class="dropdown-menu dropdown-menu-end">
             <div style="min-width: 14rem">
               <h6 class="dropdown-header">&#64;foxnet_creator</h6>
-              <a
-                class="dropdown-item d-flex align-items-center"
-                routerLink="/setting"
-              >
+              <a class="dropdown-item d-flex align-items-center" routerLink="/setting">
                 <i class="ci-settings opacity-60 me-2"></i>Profile Settings
               </a>
-              <a
-                class="dropdown-item d-flex align-items-center"
-                routerLink="/myitem"
-              >
+              <a class="dropdown-item d-flex align-items-center" routerLink="/myitem">
                 <i class="ci-image opacity-60 me-2"></i>My Items
                 <span class="fs-xs text-muted ms-auto">5</span>
               </a>
-              <a
-                class="dropdown-item d-flex align-items-center"
-                routerLink="/mycollection"
-              >
+              <a class="dropdown-item d-flex align-items-center" routerLink="/mycollection">
                 <i class="ci-view-list opacity-60 me-2"></i>My Collections
                 <span class="fs-xs text-muted ms-auto">2</span>
               </a>
-              <a
-                class="dropdown-item d-flex align-items-center"
-                routerLink="/notification"
-              >
+              <a class="dropdown-item d-flex align-items-center" routerLink="/notification">
                 <i class="ci-bell opacity-60 me-2"></i>Notifications
               </a>
             </div>
           </div>
         </div>
 
-        <a
+        <a *ngIf="isLoggedIn"
           class="btn btn-sm btn-accent rounded-1 ms-lg-4 ms-3 create"
           routerLink="/createnewitem"
           >Create</a
@@ -119,41 +104,11 @@
         </div>
         <!-- Primary menu -->
         <ul class="navbar-nav" id="navbar-nav">
-          @for(item of menuItems;track $index){ @if(item.isTitle){
-          <li class="nav-item">
-            <a
-              class="nav-link sublink"
-              routerLink="/"
-              routerLinkActive
-              (click)="updateActive($event)"
-            >
+          <li *ngFor="let item of menuItems; let i = index" class="nav-item">
+            <a class="nav-link sublink" routerLink="{{item.link}}" (click)="updateActive($event)">
               {{ item.label }}
             </a>
           </li>
-          } @else{
-          <li ngbDropdown class="nav-item dropdown">
-            <a
-              class="nav-link dropdown-toggle sublink"
-              data-bs-toggle="dropdown"
-              ngbDropdownToggle
-            >
-              {{ item.label }}
-            </a>
-            <ul ngbDropdownMenu class="dropdown-menu">
-              @for(subitem of item.subItems;track $index){
-              <li>
-                <a
-                  class="dropdown-item sublink"
-                  [routerLink]="subitem.link"
-                  (click)="updateActive($event)"
-                >
-                  {{ subitem.label }}
-                </a>
-              </li>
-              }
-            </ul>
-          </li>
-          } }
         </ul>
       </div>
     </div>
@@ -180,9 +135,6 @@
   </header>
 </div>
 
-<!-- Sign in / sign up modal-->
-<!-- Sign in / sign up modal-->
-<!-- Sign in / sign up modal-->
 <ng-template #content role="document" let-modal>
   <div class="modal-content">
     <div class="modal-header bg-secondary">
@@ -397,7 +349,6 @@
   </div>
 </ng-template>
 
-
 <!-- Toolbar for handheld devices (NFT Marketplace)-->
 <div class="handheld-toolbar">
   <div class="d-table table-layout-fixed w-100">
@@ -410,6 +361,7 @@
       ><span class="handheld-toolbar-label">Sidebar</span></a
     >
     <a
+      *ngIf="!isLoggedIn"
       class="d-table-cell handheld-toolbar-item"
       href="javascript:void(0);"
       data-bs-toggle="modal"
@@ -434,6 +386,7 @@
       <span class="handheld-toolbar-label">Menu</span>
     </a>
     <a
+      *ngIf="isLoggedIn"
       class="d-table-cell handheld-toolbar-item connectwallet"
       routerLink="/connectwallet"
     >
@@ -443,6 +396,7 @@
       <span class="handheld-toolbar-label text-nowrap">Connect wallet</span>
     </a>
     <a
+      *ngIf="isLoggedIn"
       class="d-table-cell handheld-toolbar-item craeteitem"
       routerLink="/createnewitem"
     >
