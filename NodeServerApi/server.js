@@ -12,6 +12,7 @@ const objetRoutes = require('./routes/objet-routes');
 const posteRoutes = require('./routes/poste-routes');
 const commentaireRoutes = require('./routes/commentaire-routes');
 const notificationRoutes = require('./routes/notification-routes');
+const echangeRoutes = require('./routes/echange-routes');
 
 const connectDB = require('./config/mongo');
 app.use(bodyParser.urlencoded({ extended: true }));
@@ -49,6 +50,7 @@ app.use(prefix+'/objets', objetRoutes);
 app.use(prefix+'/postes', posteRoutes);
 app.use(prefix+'/commentaires',commentaireRoutes);
 app.use(prefix+'/notifications',notificationRoutes);
+app.use(prefix+'/echanges',echangeRoutes);
 let port = process.env.PORT || 8010;
 
 // On démarre le serveur
