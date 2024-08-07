@@ -6,3 +6,4 @@ const historiqueProprietaireController = require('../controllers/historiquepropr
 router.get('/objet/:objet_id', historiqueProprietaireController.getHistoriqueByObjet);
 
 module.exports = router;
+ 
