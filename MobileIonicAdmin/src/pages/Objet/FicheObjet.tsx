@@ -25,7 +25,6 @@ import { readerOutline, personOutline, folderOutline, timeOutline } from 'ionico
 import { useState, useEffect } from 'react';
 import { useParams } from 'react-router';
 import Slider from '../../components/slider/Slider';
-import baseURI from '../../utilitaire/baseURI';
 import './FicheObjet.css';
 
 const FicheObjet: React.FC = () => {
@@ -63,7 +62,7 @@ const FicheObjet: React.FC = () => {
     };
 
     try {
-      const res = await fetch(baseURI(`/objet/${idObjet}`), options);
+      const res = await fetch('baseURI(`/objet/${idObjet}`), options');
       if (res.status === 401) throw Error('Accès non autorisé au serveur!');
       if (res.status === 500) throw Error('Erreur interne du serveur !');
       const data = await res.json();
@@ -88,7 +87,7 @@ const FicheObjet: React.FC = () => {
     };
 
     try {
-      const res = await fetch(baseURI(`/images/${idObjet}`), options);
+      const res = await fetch(`/images/${idObjet}`);
       if (res.status === 401) throw Error('Accès non autorisé au serveur!');
       if (res.status === 500) throw Error('Erreur interne du serveur !');
       const data = await res.json();

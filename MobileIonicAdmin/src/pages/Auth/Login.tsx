@@ -1,11 +1,11 @@
 import React, { useState } from 'react';
-import { IonContent, IonCard, IonCardHeader, IonCardSubtitle, IonCardTitle, IonCardContent, IonItem, IonIcon, IonLabel, IonButton } from '@ionic/react';
+import { IonContent, IonCard, IonCardHeader, IonCardTitle, IonCardContent, IonItem, IonIcon, IonLabel, IonButton } from '@ionic/react';
 import { mailOutline, lockClosedOutline, closeOutline } from 'ionicons/icons';
-import { Link, useHistory } from 'react-router-dom';
+import { useHistory } from 'react-router-dom';
 import { Formik, Form, Field } from 'formik';
 import * as Yup from 'yup';
+import axiosInstance from '../../utilitaire/axiosConfig';
 import './Login.css';
-import baseURI from '../../utilitaire/baseURI';
 import img from '../../logo/logo.png';
 
 const loginSchema = Yup.object().shape({
@@ -19,38 +19,21 @@ const Login: React.FC = () => {
     const history = useHistory();
 
     const login = async (data: { username: string; password: string }) => {
-        const headers = new Headers();
-        headers.append('Content-Type', 'application/json');
-
-        const options = {
-            method: 'POST',
-            headers,
-            body: JSON.stringify(data),
-        };
-
         setIsSubmit(true);
 
         try {
-            const res = await fetch(baseURI('/users/login'), options);
-            const resData = await res.json();
-
-            if (!res.ok) {
-                throw new Error(resData.message || 'Erreur inconnue');
-            }
+            const response = await axiosInstance.post('/users/login', data);
+            const resData = response.data;
 
             setIsSubmit(false);
-            localStorage.setItem('token', JSON.stringify(resData.token));
+
+            localStorage.setItem('token', resData.token);
             localStorage.setItem('user', JSON.stringify({ id: resData.user.id, username: resData.user.name }));
             history.push("/dashboard");
-        } catch (err: unknown) {
+        } catch (err: any) {
             setIsSubmit(false);
-            if (err instanceof Error) {
-                setLoginError(err.message);
-                console.error(err.message);
-            } else {
-                setLoginError('Une erreur est survenue');
-                console.error('Une erreur est survenue');
-            }
+            setLoginError(err.response?.data?.message || 'Une erreur est survenue');
+            console.error(err.response?.data?.message || err.message);
         }
     };
 
@@ -111,10 +94,6 @@ const Login: React.FC = () => {
                                     <IonButton color="secondary" type="submit" expand="block" disabled={isSubmit}>
                                         Se connecter
                                     </IonButton>
-
-                                    {/* <Link to="/dashboard" id='lien'>
-                                        <IonCardSubtitle className='ion-text-center' style={{ margin: "10px 0px 10px 0" }}>Nouveau ? S'inscrire</IonCardSubtitle>
-                                    </Link> */}
                                 </Form>
                             )}
                         </Formik>
