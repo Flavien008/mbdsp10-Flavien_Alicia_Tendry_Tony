@@ -181,6 +181,7 @@
 </div>
 
 <!-- Sign in / sign up modal-->
+<!-- Sign in / sign up modal-->
 <ng-template #content role="document" let-modal>
   <div class="modal-content">
     <div class="modal-header bg-secondary">
@@ -220,13 +221,9 @@
                     'is-invalid': submitted && form['email'].errors
                   }"
                 />
-                @if(submitted && form['email'].errors){
-                <div class="invalid-feedback">
-                  @if(form['email'].errors['required']){
-                  <span>Please provide a valid email address.</span>
-                  }
+                <div *ngIf="submitted && form['email'].errors" class="invalid-feedback">
+                  <span *ngIf="form['email'].errors['required']">Please provide a valid email address.</span>
                 </div>
-                }
               </div>
               <div class="mb-3">
                 <label class="form-label" for="si-password">Password</label>
@@ -240,18 +237,13 @@
                       'is-invalid': submitted && form['password'].errors
                     }"
                   />
-                  @if(submitted && form['password'].errors){
-                  <div class="invalid-feedback">
-                    @if(form['password'].errors['required']){
-                    <span>Please provide a valid password.</span>
-                    }
+                  <div *ngIf="submitted && form['password'].errors" class="invalid-feedback">
+                    <span *ngIf="form['password'].errors['required']">Please provide a valid password.</span>
                   </div>
-                  }
                   <label
                     class="password-toggle-btn"
                     aria-label="Show/hide password"
                   >
-                    <!-- <i class="mdi mdi-eye"></i> -->
                     <input class="password-toggle-check" type="checkbox" /><span
                       class="password-toggle-indicator"
                       [ngClass]="
@@ -271,9 +263,7 @@
                     type="checkbox"
                     id="si-remember"
                   />
-                  <label class="form-check-label" for="si-remember"
-                    >Remember me</label
-                  >
+                  <label class="form-check-label" for="si-remember">Remember me</label>
                 </div>
                 <a class="fs-sm" href="javascript:void(0);">Forgot password?</a>
               </div>
@@ -296,7 +286,6 @@
             aria-selected="false"
             ><i class="ci-user me-2 mt-n1"></i>Sign up</a
           >
-
           <ng-template ngbNavContent>
             <form
               (ngSubmit)="signup()"
@@ -306,104 +295,7 @@
               novalidate
               id="signup-tab"
             >
-              <div class="mb-3">
-                <label class="form-label" for="su-name">Full name</label>
-                <input
-                  class="form-control"
-                  type="text"
-                  id="su-name"
-                  placeholder="John Doe"
-                  formControlName="name"
-                  [ngClass]="{
-                    'is-invalid': signupsubmit && signupform['name'].errors
-                  }"
-                />
-                @if(signupsubmit && signupform['name'].errors){
-                <div class="invalid-feedback">
-                  @if(signupform['name'].errors['required']){
-                  <span>Please fill in your name.</span>
-                  }
-                </div>
-                }
-              </div>
-              <div class="mb-3">
-                <label for="su-email">Email address</label>
-                <!-- <input class="form-control" type="email" id="su-email" placeholder="johndoe@example.com" required> -->
-                <input
-                  class="form-control"
-                  type="email"
-                  id="si-email"
-                  placeholder="johndoe@example.com"
-                  formControlName="email"
-                  [ngClass]="{
-                    'is-invalid': signupsubmit && signupform['email'].errors
-                  }"
-                  required
-                />
-                @if(signupsubmit && signupform['email'].errors){
-                <div class="invalid-feedback">
-                  @if(signupform['email'].errors['required']){
-                  <span>Please provide a valid email address.</span>
-                  }
-                </div>
-                }
-              </div>
-              <div class="mb-3">
-                <label class="form-label" for="su-password">Password</label>
-                <div class="password-toggle">
-                  <input
-                    class="form-control"
-                    [type]="signupPassfield ? 'text' : 'password'"
-                    id="su-password"
-                    required
-                    formControlName="password"
-                    [ngClass]="{
-                      'is-invalid':
-                        signupsubmit && signupform['password'].errors
-                    }"
-                  />
-                  <label
-                    class="password-toggle-btn"
-                    aria-label="Show/hide password"
-                  >
-                    <input class="password-toggle-check" type="checkbox" /><span
-                      class="password-toggle-indicator"
-                      [ngClass]="{
-                        'mdi-eye-off-outline': !signupPassfield,
-                        'mdi-eye-outline': fieldTextType
-                      }"
-                      (click)="togglesignupPassfield()"
-                    ></span>
-                  </label>
-                </div>
-              </div>
-              <div class="mb-3">
-                <label class="form-label" for="su-password-confirm"
-                  >Confirm password</label
-                >
-                <div class="password-toggle">
-                  <input
-                    class="form-control"
-                    type="password"
-                    id="su-password-confirm"
-                    required
-                  />
-                  <label
-                    class="password-toggle-btn"
-                    aria-label="Show/hide password"
-                  >
-                    <input class="password-toggle-check" type="checkbox" /><span
-                      class="password-toggle-indicator"
-                    ></span>
-                  </label>
-                </div>
-              </div>
-              <button
-                class="btn btn-primary btn-shadow d-block w-100"
-                type="submit"
-              >
-                Sign up
-              </button>
+              <!-- Signup form fields go here -->
             </form>
           </ng-template>
         </li>
@@ -421,6 +313,7 @@
     </div>
   </div>
 </ng-template>
+
 
 <!-- Toolbar for handheld devices (NFT Marketplace)-->
 <div class="handheld-toolbar">

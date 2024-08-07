@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { UntypedFormBuilder, Validators, UntypedFormGroup } from '@angular/forms';
+import { AuthService } from '../../auth.service';
 
 // Data Get
 import { MENU } from './menu';
@@ -27,7 +28,8 @@ export class HeaderComponent implements OnInit {
   signupsubmit = false;
 
   constructor(public formBuilder: UntypedFormBuilder,
-    private modalService: NgbModal) { }
+    private modalService: NgbModal,
+    private authService: AuthService) { }
 
   ngOnInit(): void {
 
@@ -85,14 +87,25 @@ export class HeaderComponent implements OnInit {
   /**
 * submit signin form
 */
-  signin() {
-    if (this.formData.valid) {
-      const message = this.formData.get('email')!.value;
-      const pwd = this.formData.get('password')!.value;
-      this.modalService.dismissAll();
-    }
-    this.submitted = true;
-  }
+signin() {
+  this.submitted = true;
+  console.log("atooo")
+
+    const email = this.formData.get('email')!.value;
+    const password = this.formData.get('password')!.value;
+    this.authService.login(email, password).subscribe(
+      response => {
+        console.log('Login successful', response);
+        // Handle the login success, e.g., store the token, redirect, etc.
+        this.modalService.dismissAll();
+      },
+      error => {
+        console.error('Login failed', error);
+        // Handle login failure
+      }
+    );
+  
+}
 
   signup() {
     if (this.signupformData.valid) {
