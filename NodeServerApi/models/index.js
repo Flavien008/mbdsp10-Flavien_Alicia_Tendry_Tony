@@ -5,6 +5,8 @@ const Poste = require('./poste');
 const Postedetails = require('./postedetails');
 const Objet = require('./objet');
 const Categorie = require('./categorie');
+const Echange = require('./echange');
+const EchangeDetail = require('./echangedetails');
 
 // Import all models
 const models = {
@@ -13,7 +15,9 @@ const models = {
     Poste,
     Postedetails,
     Objet,
-    Categorie
+    Categorie,
+    Echange,
+    EchangeDetail
 };
 
 // Define associations
@@ -33,6 +37,8 @@ async function syncModels() {
         await Poste.sync({ alter: true });
         await Objet.sync({ alter: true });
         await Postedetails.sync({ alter: true });
+        await Echange.sync({ alter: true });
+        await EchangeDetail.sync({ alter: true });
         console.log('Database & tables created!');
     } catch (error) {
         console.error('Error syncing models:', error);
