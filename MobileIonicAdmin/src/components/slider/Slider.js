@@ -37,7 +37,10 @@ const Slider: React.FC<SliderProps> = ({ data }) => {
             key={index}
             className={slideIndex === index + 1 ? "slide active-anim" : "slide"}
           >
-            <img src={`data:image/png;base64,${obj.img}`} alt='images'/>
+            <img 
+              src={obj.img.startsWith("data:image") ? obj.img : `data:image/png;base64,${obj.img}`} 
+              alt={`Slide ${index + 1}`} 
+            />
           </div>
         );
       })}
@@ -45,7 +48,7 @@ const Slider: React.FC<SliderProps> = ({ data }) => {
       <BtnSlider moveSlide={prevSlide} direction={"prev"} />
 
       <div className="container-dots">
-        {Array.from({ length: data.length }).map((item, index) => (
+        {Array.from({ length: data.length }).map((_, index) => (
           <div
             key={index}
             onClick={() => moveDot(index + 1)}
