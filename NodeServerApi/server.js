@@ -10,6 +10,7 @@ const roleRoutes = require('./routes/role-routes');
 const categorieRoutes = require('./routes/categorie-routes');
 const objetRoutes = require('./routes/objet-routes');
 const posteRoutes = require('./routes/poste-routes');
+const commentaireRoutes = require('./routes/commentaire-routes');
 
 const connectDB = require('./config/mongo');
 app.use(bodyParser.urlencoded({ extended: true }));
@@ -45,6 +46,7 @@ app.use(prefix+'/roles', roleRoutes);
 app.use(prefix+'/categories', categorieRoutes);
 app.use(prefix+'/objets', objetRoutes);
 app.use(prefix+'/postes', posteRoutes);
+app.use(prefix+'/commentaires',commentaireRoutes);
 let port = process.env.PORT || 8010;
 
 // On démarre le serveur
