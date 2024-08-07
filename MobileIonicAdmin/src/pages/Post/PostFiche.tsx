@@ -24,8 +24,8 @@ import {
 } from '@ionic/react';
 import { useParams } from 'react-router-dom';
 import { checkmarkCircle, closeCircle } from 'ionicons/icons';
+import axiosInstance from '../../utilitaire/axiosConfig';
 import './PostFiche.css';
-import baseURI from '../../utilitaire/baseURI';
 
 const PostFiche: React.FC = () => {
   const { id } = useParams<{ id: string }>();
@@ -47,8 +47,8 @@ const PostFiche: React.FC = () => {
 
   const fetchPost = async () => {
     try {
-      const response = await fetch(`${baseURI('/postes')}/${id}`);
-      const data = await response.json();
+      const response = await axiosInstance.get(`/postes/${id}`);
+      const data = response.data;
       setPost(data);
     } catch (error) {
       console.error('Error fetching post:', error);
