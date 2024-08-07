@@ -18,18 +18,19 @@ import {
   IonIcon,
   IonCardSubtitle,
   IonRow,
-  IonCol,
   IonSpinner,
-  IonText
+  IonText,
+  IonBackButton
 } from '@ionic/react';
 import { readerOutline, personOutline, folderOutline, timeOutline } from 'ionicons/icons';
-import { useParams } from 'react-router';
+import { useParams, useHistory } from 'react-router';
 import axiosInstance from '../../utilitaire/axiosConfig';
 import Slider from '../../components/slider/Slider';
 import './FicheObjet.css';
 
 const FicheObjet: React.FC = () => {
   const { id } = useParams<{ id: string }>();
+  const history = useHistory();
   const initialValue = {
     item_id: "",
     name: "",
@@ -50,7 +51,6 @@ const FicheObjet: React.FC = () => {
   const fetchObjetDetails = async () => {
     try {
       console.log('idddd objettt'+id);
-      
       const response = await axiosInstance.get(`/objets/${id}`);
       const data = response.data;
       setObjet(data.objet);
@@ -70,6 +70,9 @@ const FicheObjet: React.FC = () => {
             <IonMenuButton />
           </IonButtons>
           <IonTitle>Fiche Objet</IonTitle>
+          <IonButtons slot="end">
+          <IonButton onClick={() => window.history.back()}>Retour</IonButton>
+          </IonButtons>
         </IonToolbar>
       </IonHeader>
 
@@ -80,7 +83,7 @@ const FicheObjet: React.FC = () => {
           </IonRow>
         ) : (
           <>
-           {images && images.length > 0 && (
+            {images && images.length > 0 && (
               <IonCard>
                 <Slider data={images} />
               </IonCard>
