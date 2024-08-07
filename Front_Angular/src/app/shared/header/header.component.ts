@@ -27,7 +27,8 @@ export class HeaderComponent implements OnInit {
   submitted = false;
   signupsubmit = false;
 
-  isLoggedIn = false; // State to check if user is logged in
+  isLoggedIn = false;
+  currentUser: any = null; // Stocker les informations de l'utilisateur connecté
 
   constructor(public formBuilder: UntypedFormBuilder,
     private modalService: NgbModal,
@@ -35,6 +36,7 @@ export class HeaderComponent implements OnInit {
 
   ngOnInit(): void {
     this.isLoggedIn = this.authService.isLoggedIn();
+    this.currentUser = this.authService.getCurrentUser();
 
     // Menu Items
     this.menuItems = MENU;
@@ -86,6 +88,7 @@ export class HeaderComponent implements OnInit {
       response => {
         console.log('Login successful', response);
         this.isLoggedIn = true;
+        this.currentUser = this.authService.getCurrentUser();
         this.modalService.dismissAll();
       },
       error => {
@@ -105,6 +108,7 @@ export class HeaderComponent implements OnInit {
         response => {
           console.log('Signup successful', response);
           this.isLoggedIn = true;
+          this.currentUser = this.authService.getCurrentUser();
           this.modalService.dismissAll();
         },
         error => {

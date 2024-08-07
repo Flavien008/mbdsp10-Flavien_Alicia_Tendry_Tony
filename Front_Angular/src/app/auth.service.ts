@@ -18,6 +18,7 @@ export class AuthService {
       tap(response => {
         if (response && response.token) {
           sessionStorage.setItem('authToken', response.token);
+          sessionStorage.setItem('currentUser', JSON.stringify(response.user)); // Store user details
         }
       })
     );
@@ -31,11 +32,19 @@ export class AuthService {
       dateNaissance,
       role_id: 2, // Fixed role_id
       password
-    });
+    }).pipe(
+      tap(response => {
+        if (response && response.token) {
+          sessionStorage.setItem('authToken', response.token);
+          sessionStorage.setItem('currentUser', JSON.stringify(response.user)); // Store user details
+        }
+      })
+    );
   }
 
   logout() {
     sessionStorage.removeItem('authToken');
+    sessionStorage.removeItem('currentUser');
   }
 
   isLoggedIn(): boolean {
@@ -44,5 +53,10 @@ export class AuthService {
 
   getToken(): string | null {
     return sessionStorage.getItem('authToken');
+  }
+
+  getCurrentUser(): any {
+    const user = sessionStorage.getItem('currentUser');
+    return user ? JSON.parse(user) : null;
   }
 }
