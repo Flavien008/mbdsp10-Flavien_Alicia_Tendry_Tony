@@ -30,7 +30,7 @@ exports.login = async (req, res) => {
             return res.status(400).json({ message: 'Verifiez vos information.' });
         }
 
-        const token = jwt.sign({ userId: user.user_id }, 'your_jwt_secret', { expiresIn: '1h' });
+        const token = jwt.sign({ userId: user.user_id }, 'RANDOM_TOKEN_SECRET', { expiresIn: '1h' });
 
         res.status(200).json({
             user: {
