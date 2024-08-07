@@ -29,7 +29,7 @@ import Slider from '../../components/slider/Slider';
 import './FicheObjet.css';
 
 const FicheObjet: React.FC = () => {
-  const { idObjet } = useParams<{ idObjet: string }>();
+  const { id } = useParams<{ id: string }>();
   const initialValue = {
     item_id: "",
     name: "",
@@ -39,19 +39,19 @@ const FicheObjet: React.FC = () => {
     historiqueProprietaires: [] as Array<{ id: string, nom: string, dateAcquisition: string }>
   };
 
-
-
   const [objet, setObjet] = useState(initialValue);
   const [images, setImages] = useState<Array<{ _id: string, item_id: number, img: string }> | undefined>(undefined);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     fetchObjetDetails();
-  }, [idObjet]);
+  }, [id]);
 
   const fetchObjetDetails = async () => {
     try {
-      const response = await axiosInstance.get(`/objets/5`);
+      console.log('idddd objettt'+id);
+      
+      const response = await axiosInstance.get(`/objets/${id}`);
       const data = response.data;
       setObjet(data.objet);
       setImages(data.images);
