@@ -1,3 +1,4 @@
+import React, { useState, useEffect } from 'react';
 import {
   IonButton,
   IonContent,
@@ -22,85 +23,44 @@ import {
   IonText
 } from '@ionic/react';
 import { readerOutline, personOutline, folderOutline, timeOutline } from 'ionicons/icons';
-import { useState, useEffect } from 'react';
 import { useParams } from 'react-router';
+import axiosInstance from '../../utilitaire/axiosConfig';
 import Slider from '../../components/slider/Slider';
 import './FicheObjet.css';
 
 const FicheObjet: React.FC = () => {
   const { idObjet } = useParams<{ idObjet: string }>();
   const initialValue = {
-    id: "",
-    nom: "",
+    item_id: "",
+    name: "",
     description: "",
-    categorie: "",
-    utilisateurProprietaire: { id: "", nom: "" },
+    Categorie: { nom: "" },
+    Utilisateur: { username: "" },
     historiqueProprietaires: [] as Array<{ id: string, nom: string, dateAcquisition: string }>
   };
 
-  const imgInit = {
-    idObjet: "",
-    images: [],
-  };
+
 
   const [objet, setObjet] = useState(initialValue);
-  const [img, setImg] = useState(imgInit);
+  const [images, setImages] = useState<Array<{ _id: string, item_id: number, img: string }> | undefined>(undefined);
   const [loading, setLoading] = useState(true);
 
-  const token = JSON.parse(String(localStorage.getItem('tokens')));
+  useEffect(() => {
+    fetchObjetDetails();
+  }, [idObjet]);
 
   const fetchObjetDetails = async () => {
-    const headers = new Headers();
-    headers.append('Content-type', 'application/json');
-
-    const options = {
-      method: 'GET',
-      headers: {
-        'Authorization': `Bearer ${token}`,
-        'Content-type': 'application/json',
-      }
-    };
-
     try {
-      const res = await fetch('baseURI(`/objet/${idObjet}`), options');
-      if (res.status === 401) throw Error('Accès non autorisé au serveur!');
-      if (res.status === 500) throw Error('Erreur interne du serveur !');
-      const data = await res.json();
-      setObjet(data);
-    } catch (err) {
-      // console.error(err.message);
+      const response = await axiosInstance.get(`/objets/5`);
+      const data = response.data;
+      setObjet(data.objet);
+      setImages(data.images);
+    } catch (error) {
+      console.error('Error fetching object details:', error);
     } finally {
       setLoading(false);
     }
   };
-
-  const fetchImages = async () => {
-    const headers = new Headers();
-    headers.append('Content-type', 'application/json');
-
-    const options = {
-      method: 'GET',
-      headers: {
-        'Authorization': `Bearer ${token}`,
-        'Content-type': 'application/json',
-      }
-    };
-
-    try {
-      const res = await fetch(`/images/${idObjet}`);
-      if (res.status === 401) throw Error('Accès non autorisé au serveur!');
-      if (res.status === 500) throw Error('Erreur interne du serveur !');
-      const data = await res.json();
-      setImg(data);
-    } catch (err) {
-      // console.error(err.message);
-    }
-  };
-
-  useEffect(() => {
-    fetchObjetDetails();
-    fetchImages();
-  }, [idObjet]);
 
   return (
     <IonPage>
@@ -120,21 +80,23 @@ const FicheObjet: React.FC = () => {
           </IonRow>
         ) : (
           <>
-            <IonCard>
-              <Slider data={img} />
-            </IonCard>
+           {images && images.length > 0 && (
+              <IonCard>
+                <Slider data={images} />
+              </IonCard>
+            )}
             <IonCard>
               <IonCardHeader>
                 <IonCardTitle className="ion-text-center">
-                  <b>{objet.nom}</b>
+                  <b>{objet.name}</b>
                 </IonCardTitle>
               </IonCardHeader>
               <IonCardContent>
                 <IonCardSubtitle>
-                  <IonIcon icon={folderOutline} /> Catégorie: {objet.categorie}
+                  <IonIcon icon={folderOutline} /> Catégorie: {objet.Categorie.nom}
                 </IonCardSubtitle>
                 <IonCardSubtitle>
-                  <IonIcon icon={personOutline} /> Propriétaire: {objet.utilisateurProprietaire.nom}
+                  <IonIcon icon={personOutline} /> Propriétaire: {objet.Utilisateur.username}
                 </IonCardSubtitle>
                 <hr />
                 <IonCardSubtitle>
@@ -146,14 +108,14 @@ const FicheObjet: React.FC = () => {
                   <IonIcon icon={timeOutline} /> Historique des propriétaires
                 </IonCardSubtitle>
                 <IonList>
-                  {objet.historiqueProprietaires.map((proprietaire, index) => (
+                  {/* {objet.historiqueProprietaires.map((proprietaire, index) => (
                     <IonItem key={index}>
                       <IonLabel>
                         <p><strong>{proprietaire.nom}</strong></p>
                         <p>Date d'acquisition: {new Date(proprietaire.dateAcquisition).toLocaleDateString()}</p>
                       </IonLabel>
                     </IonItem>
-                  ))}
+                  ))} */}
                 </IonList>
               </IonCardContent>
             </IonCard>

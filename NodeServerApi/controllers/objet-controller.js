@@ -92,12 +92,20 @@ exports.getObjetById = async (req, res) => {
 
     try {
         const objet = await Objet.findByPk(id, {
-            include: {
-                model: Categorie,
-                attributes: ['categorie_id', 'nom'],
-                as: 'Categorie'
-            }
+            include: [
+                {
+                    model: Utilisateur,
+                    attributes: ['username'],
+                    as: 'Utilisateur'
+                },
+                {
+                    model: Categorie,
+                    attributes: ['categorie_id', 'nom'],
+                    as: 'Categorie'
+                }
+            ]
         });
+        
         if (!objet) {
             return res.status(404).json({ message: 'Object not found' });
         }
