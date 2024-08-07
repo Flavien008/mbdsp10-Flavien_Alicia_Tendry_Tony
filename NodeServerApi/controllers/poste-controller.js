@@ -4,6 +4,7 @@ const Postedetails = db.Postedetails;
 const Utilisateur = db.Utilisateur;
 const Objet = db.Objet;
 const Categorie = db.Categorie;
+const Notification = require('../models/notification'); 
 
 const { Op } = require('sequelize'); // Importer Op de Sequelize
 
@@ -228,11 +229,28 @@ exports.deletePoste = async (req, res) => {
             return res.status(404).json({ message: 'Post not found' });
         }
 
-        await poste.destroy();
+        // Trouver l'utilisateur propriétaire du poste
+        const utilisateur = await Utilisateur.findByPk(poste.user_id);
+        if (!utilisateur) {
+            return res.status(404).json({ message: 'User not found' });
+        }
+
+        // Supprimer les détails du poste
         await Postedetails.destroy({ where: { post_id: id } });
+        // Supprimer le poste
+        await poste.destroy();
+
+        // Créer une notification pour l'utilisateur
+        const notification = new Notification({
+            user_id: utilisateur.user_id,
+            message: `Votre poste "${poste.titre}" a été supprimé.`,
+            created_at: new Date()
+        });
+        await notification.save();
 
         res.json({ message: 'Post deleted successfully' });
     } catch (error) {
         res.status(500).json({ message: 'Error deleting post', error });
     }
 };
+
