@@ -1,4 +1,4 @@
-const { Echange, EchangeDetail, Utilisateur, Poste, Objet, Postedetails } = require('../models');
+const { Echange, EchangeDetail, Utilisateur, Poste, Objet, Postedetails, HistoriqueProprietaire } = require('../models');
 
 exports.createEchange = async (req, res) => {
     const { post_id, responder_id, description, details } = req.body;
@@ -101,16 +101,32 @@ exports.updateEchange = async (req, res) => {
             // Changer le propriétaire des objets dans les détails de l'échange
             for (const detail of echange.EchangeDetails) {
                 const objet = await Objet.findByPk(detail.objet_id);
+                const ancien_proprietaire_id = objet.user_id;
                 objet.user_id = echange.proposer_id;
                 await objet.save();
+
+                // Enregistrer l'historique du changement de propriétaire
+                await HistoriqueProprietaire.create({
+                    objet_id: objet.item_id,
+                    ancien_proprietaire_id,
+                    nouveau_proprietaire_id: echange.proposer_id
+                });
             }
 
             // Changer le propriétaire des objets du post
             const postDetails = await Postedetails.findAll({ where: { post_id: echange.post_id } });
             for (const postDetail of postDetails) {
                 const objet = await Objet.findByPk(postDetail.item_id);
+                const ancien_proprietaire_id = objet.user_id;
                 objet.user_id = echange.responder_id;
                 await objet.save();
+
+                // Enregistrer l'historique du changement de propriétaire
+                await HistoriqueProprietaire.create({
+                    objet_id: objet.item_id,
+                    ancien_proprietaire_id,
+                    nouveau_proprietaire_id: echange.responder_id
+                });
             }
         }
 
@@ -119,6 +135,7 @@ exports.updateEchange = async (req, res) => {
         res.status(500).json({ message: 'Error updating echange', error });
     }
 };
+
 
 exports.deleteEchange = async (req, res) => {
     const { id } = req.params;
