@@ -1,0 +1,202 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#1C1C3D"
+    tools:context=".MainActivity">
+
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"
+        android:background="#2C2C4D"
+        android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
+        android:elevation="4dp"
+        android:paddingStart="16dp"
+        android:paddingEnd="16dp">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="start"
+            android:text="Appli"
+            android:textColor="#FFFFFF"
+            android:textSize="20sp"
+            android:layout_marginStart="8dp"
+            android:layout_marginEnd="8dp" />
+
+        <ImageView
+            android:id="@+id/notification_icon"
+            android:layout_width="35dp"
+            android:layout_height="35dp"
+            android:layout_gravity="end"
+            android:src="@drawable/ic_notification"
+            android:contentDescription="Notifications"
+            android:padding="8dp" />
+    </androidx.appcompat.widget.Toolbar>
+
+    <GridLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/toolbar"
+        android:layout_marginTop="30dp"
+        android:alignmentMode="alignMargins"
+        android:columnCount="2"
+        android:rowCount="3"
+        android:padding="16dp">
+    
+        <!-- Profil Button -->
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_columnWeight="1"
+            android:layout_rowWeight="1"
+            android:orientation="vertical"
+            android:gravity="center"
+            android:padding="16dp"
+            android:background="@drawable/rounded_corner"
+            android:layout_margin="8dp"
+            android:elevation="4dp">
+            <ImageView
+                android:id="@+id/profile_icon"
+                android:layout_width="60dp"
+                android:layout_height="60dp"
+                android:src="@drawable/profil"
+                android:contentDescription="Profil" />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Profil"
+                android:textColor="#FFFFFF"
+                android:textSize="16sp"
+                android:layout_marginTop="8dp" />
+        </LinearLayout>
+
+        <!-- Post Button -->
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_columnWeight="1"
+            android:layout_rowWeight="1"
+            android:orientation="vertical"
+            android:gravity="center"
+            android:padding="16dp"
+            android:background="@drawable/rounded_corner"
+            android:layout_margin="8dp"
+            android:elevation="4dp">
+            <ImageView
+                android:id="@+id/post_icon"
+                android:layout_width="60dp"
+                android:layout_height="60dp"
+                android:src="@drawable/write"
+                android:contentDescription="Post" />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Post"
+                android:textColor="#FFFFFF"
+                android:textSize="16sp"
+                android:layout_marginTop="8dp" />
+        </LinearLayout>
+
+        <!-- Gestion Objet Button -->
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_columnWeight="1"
+            android:layout_rowWeight="1"
+            android:orientation="vertical"
+            android:gravity="center"
+            android:padding="16dp"
+            android:background="@drawable/rounded_corner"
+            android:layout_margin="8dp"
+            android:elevation="4dp">
+            <ImageView
+                android:id="@+id/gestion_objet_button"
+                android:layout_width="60dp"
+                android:layout_height="60dp"
+                android:src="@drawable/product"
+                android:contentDescription="Gestion Objet" />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Gestion Objet"
+                android:textColor="#FFFFFF"
+                android:textSize="16sp"
+                android:layout_marginTop="8dp" />
+        </LinearLayout>
+
+        <!-- Dashboard Button -->
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_columnWeight="1"
+            android:layout_rowWeight="1"
+            android:orientation="vertical"
+            android:gravity="center"
+            android:padding="16dp"
+            android:background="@drawable/rounded_corner"
+            android:layout_margin="8dp"
+            android:elevation="4dp">
+            <ImageView
+                android:layout_width="60dp"
+                android:layout_height="60dp"
+                android:src="@drawable/dashboard"
+                android:contentDescription="Dashboard" />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Dashboard"
+                android:textColor="#FFFFFF"
+                android:textSize="16sp"
+                android:layout_marginTop="8dp" />
+        </LinearLayout>
+
+        <!-- Paramètre Button -->
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_columnWeight="1"
+            android:layout_rowWeight="1"
+            android:orientation="vertical"
+            android:gravity="center"
+            android:padding="16dp"
+            android:background="@drawable/rounded_corner"
+            android:layout_margin="8dp"
+            android:elevation="4dp">
+            <ImageView
+                android:layout_width="60dp"
+                android:layout_height="60dp"
+                android:src="@drawable/settings"
+                android:contentDescription="Paramètre" />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Paramètre"
+                android:textColor="#FFFFFF"
+                android:textSize="16sp"
+                android:layout_marginTop="8dp" />
+        </LinearLayout>
+
+        <!-- Logout Button -->
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_columnWeight="1"
+            android:layout_rowWeight="1"
+            android:orientation="vertical"
+            android:gravity="center"
+            android:padding="16dp"
+            android:background="@drawable/rounded_corner"
+            android:layout_margin="8dp"
+            android:elevation="4dp">
+            <ImageView
+                android:layout_width="60dp"
+                android:layout_height="60dp"
+                android:src="@drawable/logout"
+                android:contentDescription="Déconnexion" />
+        </LinearLayout>
+    </GridLayout>
+
+</RelativeLayout>
