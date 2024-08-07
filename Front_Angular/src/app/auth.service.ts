@@ -23,6 +23,17 @@ export class AuthService {
     );
   }
 
+  signup(username: string, email: string, dateNaissance: string, password: string): Observable<any> {
+    const url = `${this.baseUrl}/users/signup`;
+    return this.http.post<any>(url, {
+      username,
+      email,
+      dateNaissance,
+      role_id: 2, // Fixed role_id
+      password
+    });
+  }
+
   logout() {
     sessionStorage.removeItem('authToken');
   }

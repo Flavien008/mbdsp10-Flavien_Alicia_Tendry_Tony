@@ -44,8 +44,9 @@ export class HeaderComponent implements OnInit {
     });
 
     this.signupformData = this.formBuilder.group({
-      name: ['', [Validators.required]],
-      email: ['', [Validators.required]],
+      username: ['', [Validators.required]],
+      email: ['', [Validators.required, Validators.email]],
+      dateNaissance: ['', [Validators.required]],
       password: ['', [Validators.required]]
     });
 
@@ -107,14 +108,25 @@ signin() {
   
 }
 
-  signup() {
-    if (this.signupformData.valid) {
-      const message = this.signupformData.get('email')!.value;
-      const pwd = this.signupformData.get('password')!.value;
-      this.modalService.dismissAll();
-    }
-    this.signupsubmit = true;
+signup() {
+  this.signupsubmit = true;
+  if (this.signupformData.valid) {
+    const username = this.signupformData.get('username')!.value;
+    const email = this.signupformData.get('email')!.value;
+    const dateNaissance = this.signupformData.get('dateNaissance')!.value;
+    const password = this.signupformData.get('password')!.value;
+    this.authService.signup(username, email, dateNaissance, password).subscribe(
+      response => {
+        console.log('Signup successful', response);
+        this.modalService.dismissAll();
+      },
+      error => {
+        console.error('Signup failed', error);
+        // Handle signup failure
+      }
+    );
   }
+}
 
 
   toggleFieldTextType() {

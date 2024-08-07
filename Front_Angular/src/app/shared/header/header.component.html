@@ -182,6 +182,7 @@
 
 <!-- Sign in / sign up modal-->
 <!-- Sign in / sign up modal-->
+<!-- Sign in / sign up modal-->
 <ng-template #content role="document" let-modal>
   <div class="modal-content">
     <div class="modal-header bg-secondary">
@@ -295,7 +296,89 @@
               novalidate
               id="signup-tab"
             >
-              <!-- Signup form fields go here -->
+              <div class="mb-3">
+                <label class="form-label" for="su-name">Full name</label>
+                <input
+                  class="form-control"
+                  type="text"
+                  id="su-name"
+                  placeholder="John Doe"
+                  formControlName="username"
+                  [ngClass]="{
+                    'is-invalid': signupsubmit && signupform['username'].errors
+                  }"
+                />
+                <div *ngIf="signupsubmit && signupform['username'].errors" class="invalid-feedback">
+                  <span *ngIf="signupform['username'].errors['required']">Please provide your name.</span>
+                </div>
+              </div>
+              <div class="mb-3">
+                <label class="form-label" for="su-email">Email address</label>
+                <input
+                  class="form-control"
+                  type="email"
+                  id="su-email"
+                  placeholder="johndoe@example.com"
+                  formControlName="email"
+                  [ngClass]="{
+                    'is-invalid': signupsubmit && signupform['email'].errors
+                  }"
+                />
+                <div *ngIf="signupsubmit && signupform['email'].errors" class="invalid-feedback">
+                  <span *ngIf="signupform['email'].errors['required']">Please provide a valid email address.</span>
+                </div>
+              </div>
+              <div class="mb-3">
+                <label class="form-label" for="su-dateNaissance">Date of Birth</label>
+                <input
+                  class="form-control"
+                  type="date"
+                  id="su-dateNaissance"
+                  formControlName="dateNaissance"
+                  [ngClass]="{
+                    'is-invalid': signupsubmit && signupform['dateNaissance'].errors
+                  }"
+                />
+                <div *ngIf="signupsubmit && signupform['dateNaissance'].errors" class="invalid-feedback">
+                  <span *ngIf="signupform['dateNaissance'].errors['required']">Please provide your date of birth.</span>
+                </div>
+              </div>
+              <div class="mb-3">
+                <label class="form-label" for="su-password">Password</label>
+                <div class="password-toggle">
+                  <input
+                    class="form-control"
+                    [type]="signupPassfield ? 'text' : 'password'"
+                    id="su-password"
+                    formControlName="password"
+                    [ngClass]="{
+                      'is-invalid': signupsubmit && signupform['password'].errors
+                    }"
+                  />
+                  <div *ngIf="signupsubmit && signupform['password'].errors" class="invalid-feedback">
+                    <span *ngIf="signupform['password'].errors['required']">Please provide a valid password.</span>
+                  </div>
+                  <label
+                    class="password-toggle-btn"
+                    aria-label="Show/hide password"
+                  >
+                    <input class="password-toggle-check" type="checkbox" /><span
+                      class="password-toggle-indicator"
+                      [ngClass]="{
+                        'mdi-eye-off-outline': !signupPassfield,
+                        'mdi-eye-outline': signupPassfield
+                      }"
+                      (click)="togglesignupPassfield()"
+                    ></span>
+                  </label>
+                </div>
+              </div>
+              <button
+                class="btn btn-primary btn-shadow d-block w-100"
+                type="submit"
+              >
+                Sign up
+              </button>
             </form>
           </ng-template>
         </li>
