@@ -19,18 +19,16 @@ import {
   IonCardSubtitle,
   IonRow,
   IonSpinner,
-  IonText,
-  IonBackButton
+  IonText
 } from '@ionic/react';
 import { readerOutline, personOutline, folderOutline, timeOutline } from 'ionicons/icons';
-import { useParams, useHistory } from 'react-router';
+import { useParams } from 'react-router';
 import axiosInstance from '../../utilitaire/axiosConfig';
 import Slider from '../../components/slider/Slider';
 import './FicheObjet.css';
 
 const FicheObjet: React.FC = () => {
   const { id } = useParams<{ id: string }>();
-  const history = useHistory();
   const initialValue = {
     item_id: "",
     name: "",
@@ -42,15 +40,16 @@ const FicheObjet: React.FC = () => {
 
   const [objet, setObjet] = useState(initialValue);
   const [images, setImages] = useState<Array<{ _id: string, item_id: number, img: string }> | undefined>(undefined);
+  const [historique, setHistorique] = useState<Array<any>>([]);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     fetchObjetDetails();
+    fetchHistorique();
   }, [id]);
 
   const fetchObjetDetails = async () => {
     try {
-      console.log('idddd objettt'+id);
       const response = await axiosInstance.get(`/objets/${id}`);
       const data = response.data;
       setObjet(data.objet);
@@ -59,6 +58,16 @@ const FicheObjet: React.FC = () => {
       console.error('Error fetching object details:', error);
     } finally {
       setLoading(false);
+    }
+  };
+
+  const fetchHistorique = async () => {
+    try {
+      const response = await axiosInstance.get(`/historique/objet/${id}`);
+      const data = response.data;
+      setHistorique(data);
+    } catch (error) {
+      console.error('Error fetching historique:', error);
     }
   };
 
@@ -71,7 +80,7 @@ const FicheObjet: React.FC = () => {
           </IonButtons>
           <IonTitle>Fiche Objet</IonTitle>
           <IonButtons slot="end">
-          <IonButton onClick={() => window.history.back()}>Retour</IonButton>
+            <IonButton onClick={() => window.history.back()}>Retour</IonButton>
           </IonButtons>
         </IonToolbar>
       </IonHeader>
@@ -110,16 +119,23 @@ const FicheObjet: React.FC = () => {
                 <IonCardSubtitle>
                   <IonIcon icon={timeOutline} /> Historique des propriétaires
                 </IonCardSubtitle>
-                <IonList>
-                  {/* {objet.historiqueProprietaires.map((proprietaire, index) => (
-                    <IonItem key={index}>
-                      <IonLabel>
-                        <p><strong>{proprietaire.nom}</strong></p>
-                        <p>Date d'acquisition: {new Date(proprietaire.dateAcquisition).toLocaleDateString()}</p>
-                      </IonLabel>
-                    </IonItem>
-                  ))} */}
-                </IonList>
+                {historique.length > 0 ? (
+                  <IonList>
+                    {historique.map((entry, index) => (
+                      <IonItem key={index}>
+                        <IonLabel>
+                          <p><strong>Ancien Propriétaire:</strong> {entry.AncienProprietaire.username}</p>
+                          <p><strong>Nouveau Propriétaire:</strong> {entry.NouveauProprietaire.username}</p>
+                          <p><strong>Date de changement:</strong> {new Date(entry.date_changement).toLocaleDateString()}</p>
+                        </IonLabel>
+                      </IonItem>
+                    ))}
+                  </IonList>
+                ) : (
+                  <IonText color="medium">
+                    <p>Aucun historique de propriétaires trouvé.</p>
+                  </IonText>
+                )}
               </IonCardContent>
             </IonCard>
           </>
