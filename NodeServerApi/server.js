@@ -38,6 +38,9 @@ connectDB();
 sequelize.sync()
     .then(() => {
         console.log('Database & tables created!');
+    })
+    .catch(error => {
+        console.error('Error synchronizing the database:', error);
     });
 
 const prefix = '/api';
