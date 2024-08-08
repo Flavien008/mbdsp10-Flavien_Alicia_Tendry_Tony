@@ -31,6 +31,7 @@ public class Utilisateur {
     private LocalDate birthday;
     @Column(name = "create_at")
     @Temporal(TemporalType.TIMESTAMP)
+    @Builder.Default
     private LocalDateTime createAt = LocalDateTime.now();
 
     @ManyToOne(fetch = FetchType.EAGER)
