@@ -1,14 +1,29 @@
 const Categorie = require('../models/categorie');
-
+const { Op } = require('sequelize');
 // Get all categories
 exports.getAllCategories = async (req, res) => {
     try {
-        const categories = await Categorie.findAll();
+        const { nom } = req.query;
+        let categories;
+
+        if (nom) {
+            categories = await Categorie.findAll({
+                where: {
+                    nom: {
+                        [Op.iLike]: `%${nom}%`
+                    }
+                }
+            });
+        } else {
+            categories = await Categorie.findAll();
+        }
+
         res.json(categories);
     } catch (error) {
         res.status(500).json({ message: 'Error fetching categories', error });
     }
 };
+
 
 // Create a new category
 exports.createCategorie = async (req, res) => {
