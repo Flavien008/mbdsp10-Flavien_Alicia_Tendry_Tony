@@ -22,12 +22,7 @@ const models = {
     HistoriqueProprietaire
 };
 
-// Define associations
-Object.keys(models).forEach(modelName => {
-    if (models[modelName].associate) {
-        models[modelName].associate(models);
-    }
-});
+require("./association");
 
 // Synchronize models in the correct order
 async function syncModels() {

@@ -1,6 +1,6 @@
 const { DataTypes } = require('sequelize');
 const sequelize = require('../config/database');
-const Utilisateur = require('./utilisateur');
+
 
 const Poste = sequelize.define('Poste', {
     poste_id: {
@@ -11,10 +11,6 @@ const Poste = sequelize.define('Poste', {
     user_id: {
         type: DataTypes.INTEGER,
         allowNull: false,
-        references: {
-            model: Utilisateur,
-            key: 'user_id'
-        }
     },
     created_at: {
         type: DataTypes.DATE,
@@ -44,9 +40,5 @@ const Poste = sequelize.define('Poste', {
     timestamps: false
 });
 
-Poste.associate = (models) => {
-    Poste.belongsTo(models.Utilisateur, { as: 'utilisateur', foreignKey: 'user_id' });
-    Poste.hasMany(models.Postedetails, { foreignKey: 'post_id', as: 'details' });
-};
 
 module.exports = Poste;

@@ -1,0 +1,24 @@
+const Role = require("./role");
+const Categorie = require("./categorie");
+const Utilisateur = require("./utilisateur");
+const Poste = require("./poste");
+const Echange = require("./echange");
+const EchangeDetail = require("./echangedetails");
+const Postedetails = require("./postedetails");
+const Objet = require("./objet");
+const HistoriqueProprietaire = require("./historiqueproprietaire");
+
+Utilisateur.belongsTo(Role, { foreignKey: 'role_id' });
+Poste.belongsTo(Utilisateur, {  foreignKey: 'user_id' });
+Objet.belongsTo(Utilisateur, {  foreignKey: 'user_id' });
+Objet.belongsTo(Categorie, { foreignKey: 'categorie_id' });
+Echange.belongsTo(Utilisateur, { foreignKey: 'proposer_id' });
+Echange.belongsTo(Utilisateur, { foreignKey: 'responder_id' });
+Echange.belongsTo(Poste, { foreignKey: 'post_id' });
+EchangeDetail.belongsTo(Echange, { foreignKey: 'echange_id' });
+EchangeDetail.belongsTo(Objet, { foreignKey: 'objet_id' });
+Postedetails.belongsTo(Poste, { foreignKey: 'post_id' });
+Postedetails.belongsTo(Objet, { foreignKey: 'item_id' });
+HistoriqueProprietaire.belongsTo(Objet, { foreignKey: 'objet_id' });
+HistoriqueProprietaire.belongsTo(Utilisateur, { foreignKey: 'ancien_proprietaire_id' });
+HistoriqueProprietaire.belongsTo(Utilisateur, { foreignKey: 'nouveau_proprietaire_id' });
