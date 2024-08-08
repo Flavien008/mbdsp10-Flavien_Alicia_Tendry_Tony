@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { UntypedFormBuilder, Validators, UntypedFormGroup } from '@angular/forms';
+import { AuthService } from '../../auth.service';
 
 // Data Get
 import { MENU } from './menu';
@@ -26,91 +27,101 @@ export class HeaderComponent implements OnInit {
   submitted = false;
   signupsubmit = false;
 
+  isLoggedIn = false;
+  currentUser: any = null; // Stocker les informations de l'utilisateur connecté
+
   constructor(public formBuilder: UntypedFormBuilder,
-    private modalService: NgbModal) { }
+    private modalService: NgbModal,
+    private authService: AuthService) { }
 
   ngOnInit(): void {
+    this.isLoggedIn = this.authService.isLoggedIn();
+    this.currentUser = this.authService.getCurrentUser();
 
     // Menu Items
     this.menuItems = MENU;
 
     // Validation
     this.formData = this.formBuilder.group({
-      name: ['', [Validators.required]],
       email: ['', [Validators.required]],
       password: ['', [Validators.required]]
     });
 
     this.signupformData = this.formBuilder.group({
-      name: ['', [Validators.required]],
-      email: ['', [Validators.required]],
+      username: ['', [Validators.required]],
+      email: ['', [Validators.required, Validators.email]],
+      dateNaissance: ['', [Validators.required]],
       password: ['', [Validators.required]]
     });
 
-    this.setmenuactive()
+    this.setmenuactive();
   }
 
-  /**
-* Returns form
-*/
   get form() {
     return this.formData.controls;
   }
 
-  /**
- * Returns signup form
- */
   get signupform() {
     return this.signupformData.controls;
   }
 
-  // tslint:disable-next-line: typedef
   windowScroll() {
     const navbar = document.querySelector('.navbar-sticky');
     if (document.body.scrollTop > 300 || document.documentElement.scrollTop > 300) {
       navbar?.classList.add('navbar-stuck');
       document.querySelector(".btn-scroll-top")?.classList.add('show');
-    }
-    else {
+    } else {
       navbar?.classList.remove('navbar-stuck');
       document.querySelector(".btn-scroll-top")?.classList.remove('show');
     }
   }
 
-  // open modal
   openModal(content: any) {
     this.modalService.open(content, { size: 'md', centered: true });
   }
 
-  /**
-* submit signin form
-*/
   signin() {
-    if (this.formData.valid) {
-      const message = this.formData.get('email')!.value;
-      const pwd = this.formData.get('password')!.value;
-      this.modalService.dismissAll();
-    }
     this.submitted = true;
+    const email = this.formData.get('email')!.value;
+    const password = this.formData.get('password')!.value;
+    this.authService.login(email, password).subscribe(
+      response => {
+        console.log('Login successful', response);
+        this.isLoggedIn = true;
+        this.currentUser = this.authService.getCurrentUser();
+        this.modalService.dismissAll();
+      },
+      error => {
+        console.error('Login failed', error);
+      }
+    );
   }
 
   signup() {
-    if (this.signupformData.valid) {
-      const message = this.signupformData.get('email')!.value;
-      const pwd = this.signupformData.get('password')!.value;
-      this.modalService.dismissAll();
-    }
     this.signupsubmit = true;
+    if (this.signupformData.valid) {
+      const username = this.signupformData.get('username')!.value;
+      const email = this.signupformData.get('email')!.value;
+      const dateNaissance = this.signupformData.get('dateNaissance')!.value;
+      const password = this.signupformData.get('password')!.value;
+      this.authService.signup(username, email, dateNaissance, password).subscribe(
+        response => {
+          console.log('Signup successful', response);
+          this.isLoggedIn = true;
+          this.currentUser = this.authService.getCurrentUser();
+          this.modalService.dismissAll();
+        },
+        error => {
+          console.error('Signup failed', error);
+        }
+      );
+    }
   }
-
 
   toggleFieldTextType() {
-    this.fieldTextType = !this.fieldTextType
+    this.fieldTextType = !this.fieldTextType;
   }
 
-  /**
- * Password Hide/Show
- */
   togglesignupPassfield() {
     this.signupPassfield = !this.signupPassfield;
   }
@@ -130,19 +141,16 @@ export class HeaderComponent implements OnInit {
     }, 0);
   }
 
-  // Menu Link Active
   updateActive(event: any) {
     this.activateParentDropdown(event.target);
   }
 
-  // remove active items of two-column-menu
-  activateParentDropdown(item: any) { // navbar-nav menu add active
+  activateParentDropdown(item: any) {
     item.classList.add("active");
     let parentCollapseDiv = item.closest(".dropdown-menu");
     if (parentCollapseDiv) {
-      parentCollapseDiv.parentElement.children[0].classList.add("active")
+      parentCollapseDiv.parentElement.children[0].classList.add("active");
     }
     return false;
   }
-
 }

@@ -25,7 +25,7 @@ import {
 } from '@ionic/react';
 import { checkmarkCircle, closeCircle, eyeOutline } from 'ionicons/icons';
 import './ListePost.css';
-import baseURI from '../../utilitaire/baseURI';
+import axiosInstance from '../../utilitaire/axiosConfig';
 
 interface Post {
   poste_id: number;
@@ -59,10 +59,19 @@ const ListePost: React.FC = () => {
         setPosts([]);
       }
       const statusFilter = filterStatus === 'all' ? '' : filterStatus === 'clotured' ? '1' : '0';
-      const response = await fetch(
-        `${baseURI('/postes')}?page=${reset ? 1 : page}&limit=10&status=${statusFilter}&sortByDate=${sortOrder.toUpperCase()}&nomUtilisateur=${filterUser}&texte=${filterText}`
-      );
-      const data = await response.json();
+
+      const response = await axiosInstance.get('/postes', {
+        params: {
+          page: reset ? 1 : page,
+          limit: 10,
+          status: statusFilter,
+          sortByDate: sortOrder.toUpperCase(),
+          nomUtilisateur: filterUser,
+          texte: filterText,
+        },
+      });
+
+      const data = response.data;
       if (data.data.length < 10) setHasMore(false);
       else setHasMore(true);
       setPosts(prevPosts => [...prevPosts, ...data.data]);

@@ -1,7 +1,6 @@
 const { DataTypes } = require('sequelize');
 const sequelize = require('../config/database');
-const Utilisateur = require('./utilisateur');
-const Categorie = require('./categorie');
+
 
 const Objet = sequelize.define('Objet', {
     item_id: {
@@ -12,18 +11,10 @@ const Objet = sequelize.define('Objet', {
     user_id: {
         type: DataTypes.INTEGER,
         allowNull: false,
-        references: {
-            model: Utilisateur,
-            key: 'user_id'
-        }
     },
     categorie_id: {
         type: DataTypes.INTEGER,
         allowNull: false,
-        references: {
-            model: Categorie,
-            key: 'categorie_id'
-        }
     },
     name: {
         type: DataTypes.STRING(100),
@@ -45,11 +36,6 @@ const Objet = sequelize.define('Objet', {
     timestamps: false
 });
 
-// Définir les associations
-Objet.associate = (models) => {
-    Objet.belongsTo(models.Utilisateur, { as: 'Utilisateur', foreignKey: 'user_id' });
-    Objet.belongsTo(models.Categorie, { as: 'Categorie', foreignKey: 'categorie_id' });
-    Objet.hasMany(models.Postedetails, { as: 'Postedetails', foreignKey: 'item_id' });
-};
+
 
 module.exports = Objet;

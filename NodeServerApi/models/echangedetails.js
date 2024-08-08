@@ -1,24 +1,24 @@
 const { DataTypes } = require('sequelize');
 const sequelize = require('../config/database');
 
-const Postedetails = sequelize.define('Postedetails', {
-    poste_details_id: {
+const EchangeDetail = sequelize.define('EchangeDetail', {
+    id: {
         type: DataTypes.INTEGER,
         autoIncrement: true,
         primaryKey: true
     },
-    post_id: {
+    echange_id: {
         type: DataTypes.INTEGER,
-        allowNull: false
+        allowNull: false,
     },
-    item_id: {
+    objet_id: {
         type: DataTypes.INTEGER,
-        allowNull: false
+        allowNull: false,
+        
     }
 }, {
     timestamps: false
 });
 
 
-
-module.exports = Postedetails;
+module.exports = EchangeDetail;
