@@ -13,3 +13,110 @@
 .externalNativeBuild
 .cxx
 local.properties
+# Répertoires de build générés
+/build/
+/app/build/
+/gradle/
+/.idea/
+
+# Répertoires générés par Android Studio
+/.gradle/
+/local.properties
+/.idea/workspace.xml
+/.idea/libraries
+/.idea/modules.xml
+/.idea/caches
+/.idea/assetWizardSettings.xml
+/.idea/dictionaries
+/.idea/misc.xml
+/.idea/vcs.xml
+/.idea/copyright/
+/.idea/caches/
+/.idea/codeStyles/
+/.idea/deploymentTargetDropDown.xml
+
+# Fichiers de configuration utilisateur
+/.idea/gradle.xml
+/.idea/encodings.xml
+/.idea/jsLibraryMappings.xml
+/.idea/libraries/
+/.idea/modules/
+/.idea/misc.xml
+/.idea/vcs.xml
+/.idea/copyright/
+/.idea/consoles/
+/.idea/.name
+/.idea/misc.xml
+
+# Les fichiers de signature
+signing.properties
+.gradle/
+/app/*.keystore
+
+# Fichiers Android Studio spécifiques à l'utilisateur
+*.iml
+.idea/gradle.xml
+.idea/workspace.xml
+.idea/navigation.xml
+.idea/tasks.xml
+.idea/vcs.xml
+.idea/copyright
+.idea/dictionaries
+.idea/libraries
+.idea/modules
+.idea/name
+.idea/release.key
+.idea/artifacts/
+/.idea/sonarIssuesReport.txt
+
+# Paramètres personnels de l'utilisateur
+/local.properties
+
+# Fichiers temporaires et de sauvegarde
+.DS_Store
+*.swp
+*.lock
+*.lock.*
+*.bak
+*.backup
+*.tmp
+
+# Fichiers générés par gradle
+.gradle/
+/app/build/
+/build/
+/local.properties
+/.idea/libraries/
+/.idea/modules.xml
+/.idea/misc.xml
+/.idea/workspace.xml
+.idea/
+
+# Fichiers de caches
+.cxx/
+.externalNativeBuild/
+
+# Répertoires générés lors du déploiement de l'application
+captures/
+outputs/
+outputs.json
+captures.json
+outputs/apk/release/output.json
+outputs/apk/debug/output.json
+outputs/bundle/release/output.json
+outputs/bundle/debug/output.json
+outputs/logs/
+outputs/connected_android_test_additional_output_files/
+
+# Fichiers APK et AAB
+*.apk
+*.ap_
+*.aab
+
+# Fichiers de logs
+*.log
+
+# Autres fichiers inutiles
+*.orig
+*.rej
+*~
