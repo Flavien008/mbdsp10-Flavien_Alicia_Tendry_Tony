@@ -86,9 +86,10 @@
                                             <td class="cell" th:text="${categorie.id}">#id</td>
                                             <td class="cell" th:text="${categorie.nom}">Nom</td>
                                             <td class="cell">
-                                                <a class="btn btn-outline-primary"><i class="fa fa-eye"></i></a>
-                                                <a class="btn btn-outline-warning"><i class="fa fa-edit"></i></a>
-                                                <a class="btn btn-outline-danger"><i class="fa fa-trash"></i></a>
+                                                <a class="btn btn-outline-primary" th:href="@{/categorie/detail/{id}(id=${categorie.id})}" ><i class="fa fa-eye"></i></a>
+                                                <a class="btn btn-outline-warning" th:href="@{/categorie/edit/{id}(id=${categorie.id})}" ><i class="fa fa-edit"></i></a>
+                                                <a class="btn btn-outline-danger" onclick="confirmDelete(this,'/categorie/delete/')"
+                                                   th:attr="data-id=${categorie.id}" ><i class="fa fa-trash"></i></a>
                                             </td>
                                         </tr>
                                     </tbody>

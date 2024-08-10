@@ -176,30 +176,12 @@
 <script th:src="@{/plugins/chart.js/chart.min.js}"></script>
 <script th:src="@{/js/charts-demo.js}"></script>
 
+<!-- Sweetalert2 JS -->
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
 <!-- Page Specific JS -->
 <script th:src="@{/js/app.js}"></script>
-<script>
-    document.getElementById('sortBy').addEventListener('change', function() {
-        const form = document.getElementById('filterForm');
-        form.submit();
-    });
-
-    function submitPagination(page) {
-        const form = document.getElementById('filterForm');
-        let pageInput = form.querySelector('input[name="page"]');
-        if (!pageInput) {
-            pageInput = document.createElement('input');
-            pageInput.type = 'hidden';
-            pageInput.name = 'page';
-            form.appendChild(pageInput);
-        }
-        pageInput.value = page;
-
-
-
-        form.submit();
-    }
-</script>
+<script th:src="@{/js/main.js}"></script>
 
 </body>
 

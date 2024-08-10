@@ -4,6 +4,7 @@ import itu.mbds.tpt.dto.CategorieDto;
 import itu.mbds.tpt.entity.Categorie;
 import itu.mbds.tpt.mapper.CategorieMapper;
 import itu.mbds.tpt.service.CategorieService;
+import jakarta.transaction.Transactional;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -53,7 +54,7 @@ public class CategorieController {
                          @RequestParam(defaultValue = "20") int size,
                          @RequestParam(defaultValue = "id") String sortBy,
                          Model model) {
-        String pageActuel =     "categorie/index";
+        String pageActuel = "categorie/index";
         Page<Categorie> categoriePage = categorieService.findAll(page, size, sortBy, nom);
         model.addAttribute("categories", categoriePage.getContent());
         model.addAttribute("totalPages", categoriePage.getTotalPages());
@@ -76,7 +77,7 @@ public class CategorieController {
     }
 
     @PostMapping("/add")
-    public String addCategorie(@Valid @ModelAttribute("categorie") CategorieDto categorieDto, BindingResult binding,Model model) {
+    public String addCategorie(@Valid @ModelAttribute("categorie") CategorieDto categorieDto, BindingResult binding, Model model) {
         String pageActuel = "categorie/add";
         if (binding.hasErrors()) {
 
@@ -87,55 +88,88 @@ public class CategorieController {
         }
         try {
             categorieService.save(categorieMapper.toCategorie(categorieDto));
-        }catch (Exception e) {
+        } catch (Exception e) {
             e.printStackTrace();
             model.addAttribute("pageActuel", pageActuel);
             model.addAttribute("categorie", categorieDto);
             model.addAttribute("error", e.getMessage());
-            return "include/"+pageActuel;
+            return "include/" + pageActuel;
         }
 
-        return "redirect:/categorie";
+        return "redirect:/categorie/";
     }
 
 
     @GetMapping("/detail/{id}")
     public String showAddForm(@PathVariable int id, Model model) {
         String pageActuel = "categorie/detail";
-        try{
-            model.addAttribute("categorie", categorieService.findById(id));
-        }catch (Exception e){
+        try {
+            Optional<Categorie> categorieOptional = categorieService.findById(id);
+            model.addAttribute("categorie", categorieOptional.get());
+        } catch (Exception e) {
             e.printStackTrace();
             model.addAttribute("error", e.getMessage());
+            return "redirect:/categorie/";
         }
 
 
         model.addAttribute("pageActuel", pageActuel);
         return "include/" + pageActuel;
     }
-    //
-    // @GetMapping("/edit/{id}")
-    // public String showEditForm(@PathVariable int id, Model model) {
-    // Optional<Categorie> categorie = categorieService.findById(id);
-    // if (categorie.isPresent()) {
-    // String pageActuel = "categorie/edit";
-    // model.addAttribute("categorie", categorie.get());
-    // model.addAttribute("pageActuel",pageActuel);
-    // return "include"+pageActuel;
-    // } else {
-    // return "redirect:/categorie";
-    // }
-    // }
-    //
-    // @PostMapping("/edit")
-    // public String editCategorie(@ModelAttribute Categorie categorie) {
-    // categorieService.save(categorie);
-    // return "redirect:/categorie";
-    // }
-    //
-    // @GetMapping("/delete/{id}")
-    // public String deleteCategorie(@PathVariable int id) {
-    // categorieService.deleteById(id);
-    // return "redirect:/categorie";
-    // }
+
+    @GetMapping("/edit/{id}")
+    public String showEditForm(@PathVariable int id, Model model) {
+        try {
+            Optional<Categorie> categorie = categorieService.findById(id);
+            if (categorie.isPresent()) {
+                String pageActuel = "categorie/edit";
+                model.addAttribute("categorie", categorieMapper.toCategorieDto(categorie.get()));
+                model.addAttribute("pageActuel", pageActuel);
+                return "include/" + pageActuel;
+            } else {
+                return "redirect:/categorie/";
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            return "redirect:/categorie/";
+        }
+
+    }
+
+    @Transactional
+    @PostMapping("/edit")
+    public String editCategorie(@Valid @ModelAttribute("categorie") CategorieDto categorieDto,BindingResult binding,Model model) {
+        String pageActuel = "categorie/edit";
+        if (binding.hasErrors()) {
+
+            model.addAttribute("pageActuel", pageActuel);
+            model.addAttribute("categorie", categorieDto);
+            model.addAttribute("error", binding.getFieldError().getDefaultMessage());
+            return "include/" + pageActuel;
+        }
+        try {
+            Optional<Categorie> categorieOptional = categorieService.findById(categorieDto.getId());
+            if (categorieOptional.isPresent()) {
+                Categorie categorie = categorieOptional.get();
+                categorie.setNom(categorieDto.getNom());
+            } else {
+                return "redirect:/categorie/";
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            return "redirect:/categorie/";
+        }
+        return "redirect:/categorie/";
+    }
+
+    @GetMapping("/delete/{id}")
+    public String deleteCategorie(@PathVariable int id) {
+        try {
+            categorieService.deleteById(id);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return "redirect:/categorie/";
+        }
+        return "redirect:/categorie/";
+    }
 }

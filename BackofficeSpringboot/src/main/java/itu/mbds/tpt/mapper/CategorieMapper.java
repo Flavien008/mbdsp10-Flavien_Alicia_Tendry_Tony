@@ -19,6 +19,7 @@ public class CategorieMapper {
 
     public Categorie toCategorie(CategorieDto categorieDto) {
         Categorie categorie = new Categorie();
+        categorie.setId(categorieDto.getId());
         categorie.setNom(categorieDto.getNom());
         return categorie;
     }
