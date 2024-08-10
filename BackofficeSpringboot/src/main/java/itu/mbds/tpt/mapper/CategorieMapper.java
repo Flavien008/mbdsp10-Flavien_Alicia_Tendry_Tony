@@ -11,16 +11,16 @@ import org.springframework.stereotype.Component;
 public class CategorieMapper {
 
     public CategorieDto toCategorieDto(Categorie categorie) {
-        CategorieDto categorieDto = new CategorieDto();
-        categorieDto.setId(categorie.getId());
-        categorieDto.setNom(categorie.getNom());
-        return categorieDto;
+        return CategorieDto.builder()
+                .id(categorie.getId())
+                .nom(categorie.getNom())
+                .build();
     }
 
     public Categorie toCategorie(CategorieDto categorieDto) {
-        Categorie categorie = new Categorie();
-        categorie.setId(categorieDto.getId());
-        categorie.setNom(categorieDto.getNom());
-        return categorie;
+       return Categorie.builder()
+               .id(categorieDto.getId())
+               .nom(categorieDto.getNom())
+               .build();
     }
 }

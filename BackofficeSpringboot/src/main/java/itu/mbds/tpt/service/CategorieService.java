@@ -1,6 +1,8 @@
 package itu.mbds.tpt.service;
 
+import itu.mbds.tpt.dto.CategorieDto;
 import itu.mbds.tpt.entity.Categorie;
+import itu.mbds.tpt.mapper.CategorieMapper;
 import itu.mbds.tpt.repository.CategorieRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -16,6 +18,8 @@ public class CategorieService {
 
     @Autowired
     private CategorieRepository categorieRepository;
+    @Autowired
+    private CategorieMapper categorieMapper;
 
     
 
@@ -25,6 +29,20 @@ public class CategorieService {
 
     public Optional<Categorie> findById(int id) {
         return categorieRepository.findById(id);
+    }
+
+    public void editCategorie(Categorie categorie) throws Exception{
+        try{
+            Optional<Categorie> categorieOptional = findById(categorie.getId());
+            if (categorieOptional.isPresent()) {
+                Categorie categorieToUpdate = categorieOptional.get();
+                categorieToUpdate.setNom(categorie.getNom());
+            } else {
+                throw new Exception("Catégorie non trouvée");
+            }
+        }catch (Exception e){
+            throw e;
+        }
     }
 
     public Categorie save(Categorie categorie) {

@@ -148,13 +148,7 @@ public class CategorieController {
             return "include/" + pageActuel;
         }
         try {
-            Optional<Categorie> categorieOptional = categorieService.findById(categorieDto.getId());
-            if (categorieOptional.isPresent()) {
-                Categorie categorie = categorieOptional.get();
-                categorie.setNom(categorieDto.getNom());
-            } else {
-                return "redirect:/categorie/";
-            }
+            categorieService.editCategorie(categorieMapper.toCategorie(categorieDto));
         } catch (Exception e) {
             e.printStackTrace();
             return "redirect:/categorie/";

@@ -3,6 +3,7 @@ package itu.mbds.tpt.security;
 
 
 import itu.mbds.tpt.security.service.CustomUserDetailsService;
+import itu.mbds.tpt.service.PasswordService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -26,10 +27,8 @@ public class SecurityConfiguration {
     @Autowired
     CustomUserDetailsService userDetailsService;
 
-    @Bean
-    public PasswordEncoder passwordEncoder() {
-        return new BCryptPasswordEncoder();
-    }
+    @Autowired
+    PasswordConfiguration passwordConfiguration;
 
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
@@ -56,7 +55,7 @@ public class SecurityConfiguration {
     public AuthenticationManager authenticationManager() {
         DaoAuthenticationProvider authenticationProvider = new DaoAuthenticationProvider();
         authenticationProvider.setUserDetailsService(userDetailsService);
-        authenticationProvider.setPasswordEncoder(passwordEncoder());
+        authenticationProvider.setPasswordEncoder(passwordConfiguration.passwordEncoder());
         return new ProviderManager(authenticationProvider);
     }
 
