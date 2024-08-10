@@ -1,5 +1,6 @@
 package com.example.tpt_mbds;
 
+import android.app.DatePickerDialog;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -15,6 +16,8 @@ import com.android.volley.VolleyError;
 import com.example.tpt_mbds.service.UserService;
 
 import org.json.JSONObject;
+
+import java.util.Calendar;
 
 public class SignupActivity extends AppCompatActivity {
 
@@ -51,8 +54,23 @@ public class SignupActivity extends AppCompatActivity {
         signupButton = findViewById(R.id.signup_button);
         cancelButton = findViewById(R.id.cancel_button);
 
+        // Set the text color to black
+        nameEditText.setTextColor(getResources().getColor(android.R.color.black));
+        birthdateEditText.setTextColor(getResources().getColor(android.R.color.black));
+        emailEditText.setTextColor(getResources().getColor(android.R.color.black));
+        passwordEditText.setTextColor(getResources().getColor(android.R.color.black));
+        confirmPasswordEditText.setTextColor(getResources().getColor(android.R.color.black));
+
         // Initialize UserService
         userService = new UserService(this);
+
+        // Handle date picker dialog for birthdate
+        birthdateEditText.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                showDatePickerDialog();
+            }
+        });
 
         signupButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -67,6 +85,20 @@ public class SignupActivity extends AppCompatActivity {
                 finish(); // Close this activity and return to the previous one
             }
         });
+    }
+
+    private void showDatePickerDialog() {
+        Calendar calendar = Calendar.getInstance();
+        int year = calendar.get(Calendar.YEAR);
+        int month = calendar.get(Calendar.MONTH);
+        int day = calendar.get(Calendar.DAY_OF_MONTH);
+
+        DatePickerDialog datePickerDialog = new DatePickerDialog(SignupActivity.this,
+                (view, selectedYear, selectedMonth, selectedDay) -> {
+                    String selectedDate = selectedDay + "/" + (selectedMonth + 1) + "/" + selectedYear;
+                    birthdateEditText.setText(selectedDate);
+                }, year, month, day);
+        datePickerDialog.show();
     }
 
     private void handleSignup() {

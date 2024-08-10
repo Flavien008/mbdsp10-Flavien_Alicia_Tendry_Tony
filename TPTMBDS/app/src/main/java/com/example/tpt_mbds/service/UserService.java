@@ -15,7 +15,8 @@ import org.json.JSONObject;
 
 public class UserService {
 
-    private static final String SIGNUP_URL = "https://api.example.com/signup"; // Replace with your API URL
+    private static final String SIGNUP_URL = ApiConfig.BASE_URL + "/users/signup";
+
     private RequestQueue requestQueue;
 
     public UserService(Context context) {
