@@ -26,7 +26,7 @@
         android:hint="Taper votre email"
         android:inputType="textEmailAddress"
         android:padding="10dp"
-        android:textColor="#FFFFFF"
+        android:textColor="#000000"
         android:textColorHint="#CCCCCC" />
 
     <EditText
@@ -40,7 +40,7 @@
         android:hint="Taper votre mot de passe"
         android:inputType="textPassword"
         android:padding="10dp"
-        android:textColor="#FFFFFF"
+        android:textColor="#000000"
         android:textColorHint="#CCCCCC" />
 
     <Button
@@ -52,7 +52,7 @@
         android:layout_marginTop="30dp"
         android:background="@drawable/button_background"
         android:text="Se connecter"
-        android:textColor="#FFFFFF" />
+        android:textColor="#000000" />
 
     <Button
         android:id="@+id/signup_button"
@@ -63,6 +63,6 @@
         android:layout_marginTop="20dp"
         android:background="@drawable/button_background_secondary"
         android:text="Inscription"
-        android:textColor="#FFFFFF" />
+        android:textColor="#000000" />
 
 </RelativeLayout>
