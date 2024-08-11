@@ -124,7 +124,7 @@ const PostFiche: React.FC = () => {
         <IonCard className="post-card">
           <IonCardHeader>
             <IonCardTitle>{post.titre}</IonCardTitle>
-            <IonLabel className="ion-card-subtitle">Par: {post.utilisateur.username}</IonLabel>
+            <IonLabel className="ion-card-subtitle">Par: {post.Utilisateur.username}</IonLabel>
           </IonCardHeader>
           <IonCardContent>
             <p><strong>Description:</strong> {post.description}</p>
@@ -146,7 +146,7 @@ const PostFiche: React.FC = () => {
           </IonCardHeader>
           <IonCardContent>
             <IonList>
-              {post.details.map((detail: any) => (
+              {post.Postedetails.map((detail: any) => (
                 <IonItem key={detail.poste_details_id} className="custom-item">
                   <IonLabel>
                     <h2>{detail.Objet.name}</h2>
