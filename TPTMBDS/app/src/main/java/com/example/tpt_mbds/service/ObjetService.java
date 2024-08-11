@@ -3,7 +3,6 @@ package com.example.tpt_mbds.service;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.util.Base64;
-import android.util.Log;
 
 import com.android.volley.AuthFailureError;
 import com.android.volley.Request;

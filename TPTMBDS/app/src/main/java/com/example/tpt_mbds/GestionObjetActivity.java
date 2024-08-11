@@ -29,6 +29,9 @@ public class GestionObjetActivity extends AppCompatActivity {
     private List<Objet> objetList;
     private ImageView searchIcon, addIcon;
     private ObjetService objetService;
+    private int currentPage = 1;
+    private boolean isLoading = false;
+    private boolean hasMoreData = true;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -36,7 +39,8 @@ public class GestionObjetActivity extends AppCompatActivity {
         setContentView(R.layout.activity_gestion_objet);
 
         recyclerView = findViewById(R.id.recycler_view);
-        recyclerView.setLayoutManager(new GridLayoutManager(this, 2));
+        GridLayoutManager layoutManager = new GridLayoutManager(this, 2);
+        recyclerView.setLayoutManager(layoutManager);
 
         searchIcon = findViewById(R.id.search_icon);
         addIcon = findViewById(R.id.add_icon);
@@ -63,12 +67,32 @@ public class GestionObjetActivity extends AppCompatActivity {
         // Initialize ObjetService
         objetService = new ObjetService(this);
 
-        // Fetch and populate the list from the API
-        fetchObjetList();
+        // Fetch and populate the first page
+        fetchObjetList(currentPage);
+
+        // Set up infinite scroll
+        recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
+            @Override
+            public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
+                super.onScrolled(recyclerView, dx, dy);
+
+                int visibleItemCount = layoutManager.getChildCount();
+                int totalItemCount = layoutManager.getItemCount();
+                int firstVisibleItemPosition = layoutManager.findFirstVisibleItemPosition();
+
+                if (!isLoading && hasMoreData) {
+                    if ((visibleItemCount + firstVisibleItemPosition) >= totalItemCount && firstVisibleItemPosition >= 0) {
+                        currentPage++;
+                        fetchObjetList(currentPage);
+                    }
+                }
+            }
+        });
     }
 
-    private void fetchObjetList() {
-        objetService.fetchObjets(1, 10, new ObjetService.FetchObjetsCallback() {
+    private void fetchObjetList(int page) {
+        isLoading = true;
+        objetService.fetchObjets(page, 10, new ObjetService.FetchObjetsCallback() {
             @Override
             public void onSuccess(JSONObject response) {
                 try {
@@ -86,19 +110,29 @@ public class GestionObjetActivity extends AppCompatActivity {
                         objetList.add(objet);
                     }
 
-                    // Initialize the adapter with the fetched data
-                    adapter = new ObjetAdapter(GestionObjetActivity.this, objetList);
-                    recyclerView.setAdapter(adapter);
+                    if (adapter == null) {
+                        adapter = new ObjetAdapter(GestionObjetActivity.this, objetList);
+                        recyclerView.setAdapter(adapter);
+                    } else {
+                        adapter.notifyDataSetChanged();
+                    }
+
+                    isLoading = false;
+
+                    // Determine if there are more pages to load
+                    hasMoreData = !response.getBoolean("hasNext");
 
                 } catch (JSONException e) {
                     e.printStackTrace();
                     Toast.makeText(GestionObjetActivity.this, "Erreur lors du traitement des données", Toast.LENGTH_SHORT).show();
+                    isLoading = false;
                 }
             }
 
             @Override
             public void onError(VolleyError error) {
                 Toast.makeText(GestionObjetActivity.this, "Erreur lors de la récupération des objets", Toast.LENGTH_SHORT).show();
+                isLoading = false;
             }
         });
     }
