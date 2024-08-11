@@ -9,6 +9,7 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonArrayRequest;
 import com.android.volley.toolbox.Volley;
 
+
 import org.json.JSONArray;
 
 import java.util.HashMap;
@@ -22,7 +23,7 @@ public class CategorieService {
 
     public CategorieService(Context context) {
         requestQueue = Volley.newRequestQueue(context);
-        tokenManager = new TokenManager(context);  // Initialize TokenManager
+        tokenManager = TokenManager.getInstance(context);  // Obtain the singleton instance of TokenManager
     }
 
     public void getCategories(final CategoriesCallback callback) {

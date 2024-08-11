@@ -10,10 +10,18 @@ public class TokenManager {
     private static final String KEY_USER_ID = "userId";
     private static final String KEY_USERNAME = "username";
 
+    private static TokenManager instance;
     private SharedPreferences sharedPreferences;
 
-    public TokenManager(Context context) {
+    private TokenManager(Context context) {
         sharedPreferences = context.getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE);
+    }
+
+    public static synchronized TokenManager getInstance(Context context) {
+        if (instance == null) {
+            instance = new TokenManager(context.getApplicationContext());
+        }
+        return instance;
     }
 
     public void saveToken(String token) {

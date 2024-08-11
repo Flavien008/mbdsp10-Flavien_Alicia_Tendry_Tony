@@ -22,7 +22,7 @@ public class UserService {
 
     public UserService(Context context) {
         requestQueue = Volley.newRequestQueue(context);
-        tokenManager = new TokenManager(context);  // Initialize TokenManager
+        tokenManager = TokenManager.getInstance(context);
     }
 
     public void signup(String username, String email, String dateNaissance, int roleId, String password, final SignupCallback callback) {

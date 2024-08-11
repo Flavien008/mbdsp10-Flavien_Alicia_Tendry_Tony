@@ -9,6 +9,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
 import android.provider.MediaStore;
+import android.util.Base64;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
@@ -27,11 +28,13 @@ import androidx.core.content.FileProvider;
 import com.android.volley.VolleyError;
 import com.example.tpt_mbds.model.Categorie;
 import com.example.tpt_mbds.service.CategorieService;
+import com.example.tpt_mbds.service.ObjetService;
+import com.example.tpt_mbds.service.TokenManager;
 
 import org.json.JSONArray;
-import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
@@ -55,9 +58,11 @@ public class AddObjetActivity extends AppCompatActivity {
     private Button removeImageButton;
 
     private List<Categorie> categories;
+    private List<String> imagesBase64;
     private String currentPhotoPath;
 
     private CategorieService categorieService;
+    private ObjetService objetService;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -73,9 +78,11 @@ public class AddObjetActivity extends AppCompatActivity {
         selectedImageView = findViewById(R.id.selected_image_view);
         removeImageButton = findViewById(R.id.remove_image_button);
 
-        // Initialize the category list and service
+        // Initialize services
         categories = new ArrayList<>();
+        imagesBase64 = new ArrayList<>();
         categorieService = new CategorieService(this);
+        objetService = new ObjetService(this);
 
         // Fetch categories from API
         fetchCategories();
@@ -83,7 +90,7 @@ public class AddObjetActivity extends AppCompatActivity {
         validerButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                // Implement your logic to validate and add the object here
+                handleAddObject();
             }
         });
 
@@ -116,6 +123,7 @@ public class AddObjetActivity extends AppCompatActivity {
                 selectedImageView.setImageBitmap(null);
                 selectedImageView.setVisibility(View.GONE);
                 removeImageButton.setVisibility(View.GONE);
+                imagesBase64.clear(); // Clear the image list
                 currentPhotoPath = null; // Clear the photo path
             }
         });
@@ -155,7 +163,7 @@ public class AddObjetActivity extends AppCompatActivity {
                     ArrayAdapter<Categorie> adapter = new ArrayAdapter<>(AddObjetActivity.this, android.R.layout.simple_spinner_item, categories);
                     adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
                     categorieSpinner.setAdapter(adapter);
-                } catch (JSONException e) {
+                } catch (Exception e) {
                     e.printStackTrace();
                     Toast.makeText(AddObjetActivity.this, "Failed to parse categories", Toast.LENGTH_SHORT).show();
                 }
@@ -164,6 +172,31 @@ public class AddObjetActivity extends AppCompatActivity {
             @Override
             public void onError(VolleyError error) {
                 Toast.makeText(AddObjetActivity.this, "Failed to fetch categories", Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
+
+    private void handleAddObject() {
+        int userId = TokenManager.getInstance(this).getUserId();
+        int categorieId = categorieSpinner.getSelectedItemPosition() + 1; // Assuming IDs are sequential
+        String name = nomEditText.getText().toString().trim();
+        String description = descriptionEditText.getText().toString().trim();
+
+        if (imagesBase64.isEmpty()) {
+            Toast.makeText(this, "Please add at least one image", Toast.LENGTH_SHORT).show();
+            return;
+        }
+
+        objetService.addObject(userId, categorieId, name, description, imagesBase64, new ObjetService.AddObjectCallback() {
+            @Override
+            public void onSuccess(JSONObject response) {
+                Toast.makeText(AddObjetActivity.this, "Object added successfully", Toast.LENGTH_SHORT).show();
+                finish(); // Close the activity
+            }
+
+            @Override
+            public void onError(VolleyError error) {
+                Toast.makeText(AddObjetActivity.this, "Failed to add object", Toast.LENGTH_SHORT).show();
             }
         });
     }
@@ -196,23 +229,27 @@ public class AddObjetActivity extends AppCompatActivity {
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == REQUEST_IMAGE_CAPTURE && resultCode == RESULT_OK) {
-            displayImage();
-        } else if (requestCode == REQUEST_IMAGE_PICK && resultCode == RESULT_OK) {
-            Uri selectedImage = data.getData();
-            selectedImageView.setImageURI(selectedImage);
-            selectedImageView.setVisibility(View.VISIBLE);
-            removeImageButton.setVisibility(View.VISIBLE);
-            currentPhotoPath = selectedImage.getPath();
-        }
-    }
-
-    private void displayImage() {
-        File imgFile = new File(currentPhotoPath);
-        if (imgFile.exists()) {
-            Bitmap bitmap = BitmapFactory.decodeFile(imgFile.getAbsolutePath());
-            selectedImageView.setImageBitmap(bitmap);
-            selectedImageView.setVisibility(View.VISIBLE);
-            removeImageButton.setVisibility(View.VISIBLE);
+            File imgFile = new File(currentPhotoPath);
+            if (imgFile.exists()) {
+                Bitmap bitmap = BitmapFactory.decodeFile(imgFile.getAbsolutePath());
+                String encodedImage = ObjetService.encodeImageToBase64(bitmap);
+                imagesBase64.add(encodedImage);
+                selectedImageView.setImageBitmap(bitmap);
+                selectedImageView.setVisibility(View.VISIBLE);
+                removeImageButton.setVisibility(View.VISIBLE);
+            }
+        } else if (requestCode == REQUEST_IMAGE_PICK && resultCode == RESULT_OK && data != null) {
+            Uri selectedImageUri = data.getData();
+            try {
+                Bitmap bitmap = MediaStore.Images.Media.getBitmap(this.getContentResolver(), selectedImageUri);
+                String encodedImage = ObjetService.encodeImageToBase64(bitmap);
+                imagesBase64.add(encodedImage);
+                selectedImageView.setImageURI(selectedImageUri);
+                selectedImageView.setVisibility(View.VISIBLE);
+                removeImageButton.setVisibility(View.VISIBLE);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
         }
     }
 
