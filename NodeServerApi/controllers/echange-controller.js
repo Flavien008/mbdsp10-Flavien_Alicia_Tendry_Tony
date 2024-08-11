@@ -6,7 +6,7 @@ exports.createEchange = async (req, res) => {
     try {
         const responder = await Utilisateur.findByPk(responder_id);
         const post = await Poste.findByPk(post_id, {
-            include: [{ model: Postedetails, as: 'details' }]
+            include: [{ model: Postedetails}]
         });
 
         if (!post || !responder) {
