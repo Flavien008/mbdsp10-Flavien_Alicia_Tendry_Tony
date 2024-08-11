@@ -1,5 +1,6 @@
 <!DOCTYPE html>
-<html lang="en" class="light-style layout-menu-fixed" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+<html lang="en" class="light-style layout-menu-fixed" xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
 
 <head>
     <title>Backoffice</title>
@@ -86,7 +87,8 @@
                     </li><!--//nav-item-->
                     <li class="nav-item">
                         <!--//Bootstrap Icons: https://icons.getbootstrap.com/ -->
-                        <a th:class="${pageActuel.startsWith('categorie') ? 'nav-link active' : 'nav-link'}" th:href="@{/categorie/}">
+                        <a th:class="${pageActuel.startsWith('categorie') ? 'nav-link active' : 'nav-link'}"
+                           th:href="@{/categorie/}">
 								<span class="nav-icon">
 									<i class="fa fa-tag" aria-hidden="true"></i>
 								</span>
@@ -96,33 +98,33 @@
 
                     <li class="nav-item">
                         <!--//Bootstrap Icons: https://icons.getbootstrap.com/ -->
-                        <a th:class="${pageActuel.startsWith('utilisateur') ? 'nav-link active' : 'nav-link'}" th:href="@{/utilisateur/}">
+                        <a th:class="${pageActuel.startsWith('utilisateur') ? 'nav-link active' : 'nav-link'}"
+                           th:href="@{/utilisateur/}">
 								<span class="nav-icon">
 									<i class="fa fa-user" aria-hidden="true"></i>
 								</span>
                             <span class="nav-link-text">Utilisateur</span>
                         </a><!--//nav-link-->
-                    </li><!--//nav-item-->
+                    </li>
                     <li class="nav-item">
-                    <li class="nav-item">
-                        <!--//Bootstrap Icons: https://icons.getbootstrap.com/ -->
-                        <a th:class="${pageActuel.startsWith('post') ? 'nav-link active' : 'nav-link'}" th:href="@{/post/}">
-								<span class="nav-icon">
-									<i class="fa fa-paper-plane" aria-hidden="true"></i>
-								</span>
-                            <span class="nav-link-text">Post</span>
-                        </a><!--//nav-link-->
-                    </li><!--//nav-item-->
-                    <li class="nav-item">
-                    <li class="nav-item">
-                        <!--//Bootstrap Icons: https://icons.getbootstrap.com/ -->
-                        <a th:class="${pageActuel.startsWith('objet') ? 'nav-link active' : 'nav-link'}" th:href="@{/objet/}">
+                        <a th:class="${pageActuel.startsWith('objet') ? 'nav-link active' : 'nav-link'}"
+                           th:href="@{/objet/}">
 								<span class="nav-icon">
 									<i class="fa fa-cube" aria-hidden="true"></i>
 								</span>
                             <span class="nav-link-text">Objet</span>
-                        </a><!--//nav-link-->
-                    </li><!--//nav-item-->
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a th:class="${pageActuel.startsWith('post') ? 'nav-link active' : 'nav-link'}"
+                           th:href="@{/post/}">
+								<span class="nav-icon">
+									<i class="fa fa-paper-plane" aria-hidden="true"></i>
+								</span>
+                            <span class="nav-link-text">Post</span>
+                        </a>
+                    </li>
+
 
                 </ul><!--//app-menu-->
             </nav><!--//app-nav-->
@@ -131,22 +133,25 @@
                     <ul class="app-menu footer-menu list-unstyled">
 
                         <li class="nav-item">
-                            <!--//Bootstrap Icons: https://icons.getbootstrap.com/ -->
-                            <a class="nav-link"
-                               href="https://themes.3rdwavemedia.com/bootstrap-templates/admin-dashboard/portal-free-bootstrap-admin-dashboard-template-for-developers/">
-									<span class="nav-icon">
-										<i class="fa fa-sign-out" aria-hidden="true"></i>
-									</span>
-                                <span class="nav-link-text">Déconnexion</span>
-                            </a><!--//nav-link-->
-                        </li><!--//nav-item-->
-                    </ul><!--//footer-menu-->
-                </nav>
-            </div><!--//app-sidepanel-footer-->
 
-        </div><!--//sidepanel-inner-->
-    </div><!--//app-sidepanel-->
-</header><!--//app-header-->
+                            <form action="/logout" method="post">
+                                <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
+
+                                <button type="submit" class="nav-link">
+                                    <span class="nav-icon">
+                                            <i class="fa fa-sign-out" aria-hidden="true"></i>
+                                        </span>
+                                    <span class="nav-link-text">Déconnexion</span>
+                                </button>
+                            </form>
+                        </li>
+                    </ul>
+                </nav>
+            </div>
+
+        </div>
+    </div>
+</header>
 
 <div class="app-wrapper">
 
