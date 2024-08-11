@@ -9,6 +9,9 @@ const Objet = require("./objet");
 const HistoriqueProprietaire = require("./historiqueproprietaire");
 
 Utilisateur.belongsTo(Role, { foreignKey: 'role_id' });
+Utilisateur.hasMany(Poste,{  foreignKey: 'user_id' });
+Utilisateur.hasMany(Echange,{  foreignKey: 'proposer_id' });
+
 Poste.belongsTo(Utilisateur, {  foreignKey: 'user_id' });
 Objet.belongsTo(Utilisateur, {  foreignKey: 'user_id' });
 Objet.belongsTo(Categorie, { foreignKey: 'categorie_id' });
