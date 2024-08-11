@@ -47,13 +47,13 @@ public class ObjetService {
 
         if (createAtMin != null && createAtMax != null) {
             spec = spec.and((root, query, criteriaBuilder) ->
-                    criteriaBuilder.between(root.get("createAt"), createAtMin, createAtMax));
+                    criteriaBuilder.between(root.get("createdAt"), createAtMin, createAtMax));
         } else if (createAtMin != null) {
             spec = spec.and((root, query, criteriaBuilder) ->
-                    criteriaBuilder.greaterThanOrEqualTo(root.get("birthday"), createAtMin));
+                    criteriaBuilder.greaterThanOrEqualTo(root.get("createdAt"), createAtMin));
         } else if (createAtMax != null) {
             spec = spec.and((root, query, criteriaBuilder) ->
-                    criteriaBuilder.lessThanOrEqualTo(root.get("birthday"), createAtMax));
+                    criteriaBuilder.lessThanOrEqualTo(root.get("createdAt"), createAtMax));
         }
 
         return objetRepository.findAll(spec, pageable);
