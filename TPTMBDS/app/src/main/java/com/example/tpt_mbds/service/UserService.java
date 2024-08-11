@@ -1,12 +1,10 @@
 package com.example.tpt_mbds.service;
 
 import android.content.Context;
-import android.content.SharedPreferences;
 import android.util.Log;
 
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
-import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
@@ -20,11 +18,11 @@ public class UserService {
     private static final String LOGIN_URL = ApiConfig.BASE_URL + "/users/login";
 
     private RequestQueue requestQueue;
-    private SharedPreferences sharedPreferences;
+    private TokenManager tokenManager;
 
     public UserService(Context context) {
         requestQueue = Volley.newRequestQueue(context);
-        sharedPreferences = context.getSharedPreferences("UserPrefs", Context.MODE_PRIVATE);
+        tokenManager = new TokenManager(context);  // Initialize TokenManager
     }
 
     public void signup(String username, String email, String dateNaissance, int roleId, String password, final SignupCallback callback) {
@@ -40,13 +38,13 @@ public class UserService {
         }
 
         JsonObjectRequest request = new JsonObjectRequest(Request.Method.POST, SIGNUP_URL, requestBody,
-                new Response.Listener<JSONObject>() {
+                new com.android.volley.Response.Listener<JSONObject>() {
                     @Override
                     public void onResponse(JSONObject response) {
                         callback.onSuccess(response);
                     }
                 },
-                new Response.ErrorListener() {
+                new com.android.volley.Response.ErrorListener() {
                     @Override
                     public void onErrorResponse(VolleyError error) {
                         callback.onError(error);
@@ -54,11 +52,6 @@ public class UserService {
                 });
 
         requestQueue.add(request);
-    }
-
-    public interface SignupCallback {
-        void onSuccess(JSONObject response);
-        void onError(VolleyError error);
     }
 
     public void login(String username, String password, final LoginCallback callback) {
@@ -71,19 +64,17 @@ public class UserService {
         }
 
         JsonObjectRequest request = new JsonObjectRequest(Request.Method.POST, LOGIN_URL, requestBody,
-                new Response.Listener<JSONObject>() {
+                new com.android.volley.Response.Listener<JSONObject>() {
                     @Override
                     public void onResponse(JSONObject response) {
                         try {
                             JSONObject userObject = response.getJSONObject("user");
                             String token = response.getString("token");
 
-                            // Save user info and token to SharedPreferences
-                            SharedPreferences.Editor editor = sharedPreferences.edit();
-                            editor.putInt("userId", userObject.getInt("id"));
-                            editor.putString("username", userObject.getString("name"));
-                            editor.putString("token", token);
-                            editor.apply();
+                            // Save user info and token using TokenManager
+                            tokenManager.saveToken(token);
+                            tokenManager.saveUserId(userObject.getInt("id"));
+                            tokenManager.saveUsername(userObject.getString("name"));
 
                             callback.onSuccess(response);
                         } catch (JSONException e) {
@@ -91,7 +82,7 @@ public class UserService {
                         }
                     }
                 },
-                new Response.ErrorListener() {
+                new com.android.volley.Response.ErrorListener() {
                     @Override
                     public void onErrorResponse(VolleyError error) {
                         callback.onError(error);
@@ -99,6 +90,11 @@ public class UserService {
                 });
 
         requestQueue.add(request);
+    }
+
+    public interface SignupCallback {
+        void onSuccess(JSONObject response);
+        void onError(VolleyError error);
     }
 
     public interface LoginCallback {

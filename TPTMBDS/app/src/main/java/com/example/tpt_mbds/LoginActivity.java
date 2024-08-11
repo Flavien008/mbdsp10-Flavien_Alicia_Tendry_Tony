@@ -64,6 +64,7 @@ public class LoginActivity extends AppCompatActivity {
                 startActivity(intent);
                 finish(); // Close the login activity
             }
+
             @Override
             public void onError(VolleyError error) {
                 Toast.makeText(LoginActivity.this, "Login failed", Toast.LENGTH_SHORT).show();
