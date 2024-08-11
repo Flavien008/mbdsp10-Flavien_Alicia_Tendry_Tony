@@ -66,7 +66,7 @@ exports.getPostes = async (req, res) => {
     if (nomUtilisateur) {
         includeFilters.push({
             model: Utilisateur,
-            as: 'utilisateur',
+            as: 'Utilisateur',
             attributes: ['username', 'email'],
             where: {
                 username: { [Op.iLike]: `%${nomUtilisateur}%` }
@@ -75,7 +75,7 @@ exports.getPostes = async (req, res) => {
     } else {
         includeFilters.push({
             model: Utilisateur,
-            as: 'utilisateur',
+            as: 'Utilisateur',
             attributes: ['username', 'email']
         });
     }
@@ -84,7 +84,6 @@ exports.getPostes = async (req, res) => {
     if (nomObjet || categorieObjet) {
         includeFilters.push({
             model: Postedetails,
-            as: 'details',
             include: [
                 {
                     model: Objet,
@@ -105,7 +104,6 @@ exports.getPostes = async (req, res) => {
     } else {
         includeFilters.push({
             model: Postedetails,
-            as: 'details',
             include: [
                 {
                     model: Objet,
@@ -164,12 +162,11 @@ exports.getPosteById = async (req, res) => {
             include: [
                 {
                     model: Utilisateur,
-                    as: 'utilisateur',
+                    as: 'Utilisateur',
                     attributes: ['username', 'email']
                 },
                 {
                     model: Postedetails,
-                    as: 'details',
                     include: [
                         {
                             model: Objet,
