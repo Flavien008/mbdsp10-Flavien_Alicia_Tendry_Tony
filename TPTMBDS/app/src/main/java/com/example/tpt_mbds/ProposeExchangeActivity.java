@@ -29,9 +29,9 @@ public class ProposeExchangeActivity extends AppCompatActivity {
 
         // Créer une liste d'objets
         List<Objet> objets = new ArrayList<>();
-        objets.add(new Objet("Objet 1","category1","jadyfvhwapdoisv"));
-        objets.add(new Objet("Objet 2","category1","jadyfvhwapdoisv"));
-        objets.add(new Objet("Objet 3","category1","jadyfvhwapdoisv"));
+//        objets.add(new Objet("Objet 1","category1","jadyfvhwapdoisv"));
+//        objets.add(new Objet("Objet 2","category1","jadyfvhwapdoisv"));
+//        objets.add(new Objet("Objet 3","category1","jadyfvhwapdoisv"));
 
         // Créer un ArrayAdapter pour le Spinner
         ArrayAdapter<Objet> adapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, objets);

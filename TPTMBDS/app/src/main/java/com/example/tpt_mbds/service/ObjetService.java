@@ -77,6 +77,38 @@ public class ObjetService {
         requestQueue.add(request);
     }
 
+    public void fetchObjets(int page, int limit, final FetchObjetsCallback callback) {
+        String url = OBJET_URL + "?page=" + page + "&limit=" + limit;
+
+        JsonObjectRequest request = new JsonObjectRequest(Request.Method.GET, url, null,
+                new Response.Listener<JSONObject>() {
+                    @Override
+                    public void onResponse(JSONObject response) {
+                        callback.onSuccess(response);
+                    }
+                },
+                new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        callback.onError(error);
+                    }
+                }) {
+            @Override
+            public Map<String, String> getHeaders() throws AuthFailureError {
+                Map<String, String> headers = new HashMap<>();
+                headers.put("Authorization", "Bearer " + TokenManager.getInstance(context).getToken());
+                return headers;
+            }
+        };
+
+        requestQueue.add(request);
+    }
+
+    public interface FetchObjetsCallback {
+        void onSuccess(JSONObject response);
+        void onError(VolleyError error);
+    }
+
     public interface AddObjectCallback {
         void onSuccess(JSONObject response);
         void onError(VolleyError error);

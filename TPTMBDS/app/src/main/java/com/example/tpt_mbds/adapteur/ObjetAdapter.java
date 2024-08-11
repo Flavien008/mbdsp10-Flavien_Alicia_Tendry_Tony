@@ -4,7 +4,9 @@ import android.annotation.SuppressLint;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
-import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.util.Base64;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,7 +15,6 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
-
 
 import com.example.tpt_mbds.R;
 import com.example.tpt_mbds.model.Objet;
@@ -44,11 +45,25 @@ public class ObjetAdapter extends RecyclerView.Adapter<ObjetAdapter.ObjetViewHol
         holder.categoryTextView.setText(objet.getCategory());
         holder.descriptionTextView.setText(objet.getDescription());
 
+        // Decode Base64 string to a Bitmap and set it to the ImageView
+        String base64Image = objet.getImageBase64();
+        if (base64Image != null && !base64Image.isEmpty()) {
+            try {
+                byte[] decodedString = Base64.decode(base64Image.split(",")[1], Base64.DEFAULT);
+                Bitmap decodedByte = BitmapFactory.decodeByteArray(decodedString, 0, decodedString.length);
+                holder.objetImage.setImageBitmap(decodedByte);
+            } catch (Exception e) {
+                e.printStackTrace();
+                holder.objetImage.setImageResource(R.drawable.photo); // Fallback image in case of error
+            }
+        } else {
+            holder.objetImage.setImageResource(R.drawable.photo); // Fallback image
+        }
+
         holder.editIcon.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-//                Intent intent = new Intent(context, EditObjetActivity.class);
-//                context.startActivity(intent);
+                // Handle edit action
             }
         });
 
