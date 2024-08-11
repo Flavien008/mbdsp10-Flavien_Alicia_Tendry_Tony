@@ -21,21 +21,26 @@ import {
   IonSegmentButton,
   IonMenuButton,
   IonList,
-  IonSpinner
+  IonSpinner,
+  IonToast,
+  IonAlert // Importer IonAlert pour le modal de confirmation
 } from '@ionic/react';
-import { useParams } from 'react-router-dom';
-import { checkmarkCircle, closeCircle } from 'ionicons/icons';
+import { useParams, useHistory } from 'react-router-dom';
+import { checkmarkCircle, closeCircle, trashBin } from 'ionicons/icons';
 import axiosInstance from '../../utilitaire/axiosConfig';
 import './PostFiche.css';
 
 const PostFiche: React.FC = () => {
   const { id } = useParams<{ id: string }>();
+  const history = useHistory();
   const [selectedTab, setSelectedTab] = useState<string>('validé');
   const [post, setPost] = useState<any>(null);
   const [filteredExchanges, setFilteredExchanges] = useState<any[]>([]);
   const [allExchanges, setAllExchanges] = useState<any[]>([]);
   const [comments, setComments] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
+  const [showToast, setShowToast] = useState(false);
+  const [showAlert, setShowAlert] = useState(false); // État pour afficher ou masquer l'alerte
 
   useEffect(() => {
     fetchPost();
@@ -82,6 +87,22 @@ const PostFiche: React.FC = () => {
     } catch (error) {
       console.error('Error fetching comments:', error);
     }
+  };
+
+  const handleDelete = async () => {
+    try {
+      await axiosInstance.delete(`/postes/${id}`);
+      setShowToast(true);
+      setTimeout(() => {
+        history.push('/post'); // Rediriger vers la liste des posts après la suppression
+      }, 2000); // Attendre 2 secondes avant la redirection pour montrer le toast
+    } catch (error) {
+      console.error('Error deleting post:', error);
+    }
+  };
+
+  const confirmDelete = () => {
+    setShowAlert(true);
   };
 
   if (loading) {
@@ -139,6 +160,10 @@ const PostFiche: React.FC = () => {
                 <IonIcon icon={closeCircle} className="icon-nonClotured" />
               )}
             </p>
+            <IonButton color="danger" expand="block" onClick={confirmDelete}>
+              <IonIcon slot="start" icon={trashBin} />
+              Supprimer ce Post
+            </IonButton>
           </IonCardContent>
           <hr />
           <IonCardHeader>
@@ -163,7 +188,8 @@ const PostFiche: React.FC = () => {
             <IonLabel>Validé</IonLabel>
           </IonSegmentButton>
           <IonSegmentButton value="non validé">
-            <IonLabel>Non Validé</IonLabel></IonSegmentButton>
+            <IonLabel>Non Validé</IonLabel>
+            </IonSegmentButton>
         </IonSegment>
         <IonCard className="exchanges-card">
           <IonCardHeader>
@@ -223,6 +249,34 @@ const PostFiche: React.FC = () => {
             </IonList>
           </IonCardContent>
         </IonCard>
+        <IonToast
+          isOpen={showToast}
+          onDidDismiss={() => setShowToast(false)}
+          message="Le post a été supprimé avec succès."
+          duration={2000}
+          color="success"
+        />
+        <IonAlert
+          isOpen={showAlert}
+          onDidDismiss={() => setShowAlert(false)}
+          header={'Confirmation'}
+          message={'Êtes-vous sûr de vouloir supprimer ce post ?'}
+          buttons={[
+            {
+              text: 'Annuler',
+              role: 'cancel',
+              handler: () => {
+                setShowAlert(false);
+              }
+            },
+            {
+              text: 'Supprimer',
+              handler: () => {
+                handleDelete();
+              }
+            }
+          ]}
+        />
       </IonContent>
     </IonPage>
   );
