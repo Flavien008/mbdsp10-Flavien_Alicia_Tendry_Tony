@@ -42,4 +42,15 @@ public class Objet {
     @ManyToOne
     @JoinColumn(name = "categorie_id", nullable = false)
     private Categorie categorie;
+
+    @PrePersist
+    protected void onCreate() {
+        createdAt = LocalDateTime.now();
+        updatedAt = LocalDateTime.now();
+    }
+
+    @PreUpdate
+    protected void onUpdate() {
+        updatedAt = LocalDateTime.now();
+    }
 }

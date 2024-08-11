@@ -11,6 +11,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -60,5 +61,9 @@ public class CategorieService {
         } else {
             return categorieRepository.findAll(pageable);
         }
+    }
+
+    public List<Categorie> findAll(){
+        return categorieRepository.findAll();
     }
 }

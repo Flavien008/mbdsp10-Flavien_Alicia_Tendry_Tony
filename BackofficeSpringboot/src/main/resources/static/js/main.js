@@ -1,9 +1,12 @@
 'use strict';
+var sortBy = document.getElementById('sortBy');
+if(sortBy){
+    sortBy.addEventListener('change', function() {
+        const form = document.getElementById('filterForm');
+        form.submit();
+    });
+}
 
-document.getElementById('sortBy').addEventListener('change', function() {
-    const form = document.getElementById('filterForm');
-    form.submit();
-});
 
 function submitPagination(page) {
     const form = document.getElementById('filterForm');
@@ -58,4 +61,17 @@ function confirmDelete(button,lien) {
     });
 }
 
-
+function readURL(input) {
+    if (input.files && input.files[0]) {
+        var reader = new FileReader();
+        reader.onload = function(e) {
+            $('#imagePreview').css('background-image', 'url('+e.target.result +')');
+            $('#imagePreview').hide();
+            $('#imagePreview').fadeIn(650);
+        }
+        reader.readAsDataURL(input.files[0]);
+    }
+}
+$("#imageUpload").change(function() {
+    readURL(this);
+});
