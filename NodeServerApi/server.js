@@ -14,6 +14,7 @@ const commentaireRoutes = require('./routes/commentaire-routes');
 const notificationRoutes = require('./routes/notification-routes');
 const echangeRoutes = require('./routes/echange-routes');
 const historiqueRoutes = require('./routes/historiqueproprietaire-routes');
+const dashboardRoutes = require('./routes/dashboard-routes');
 const authenticateToken = require('./middlewares/authMiddleware');
 
 const connectDB = require('./config/mongo');
@@ -54,6 +55,7 @@ app.use(prefix + '/commentaires', authenticateToken, commentaireRoutes);
 app.use(prefix + '/notifications', authenticateToken, notificationRoutes);
 app.use(prefix + '/echanges', authenticateToken, echangeRoutes);
 app.use(prefix + '/historique', authenticateToken, historiqueRoutes);
+app.use(prefix + '/dashboard', dashboardRoutes);
 
 let port = process.env.PORT || 8010;
 
