@@ -52,7 +52,7 @@
         android:layout_marginTop="30dp"
         android:background="@drawable/button_background"
         android:text="Se connecter"
-        android:textColor="#000000" />
+        android:textColor="#FFFFFF" />
 
     <Button
         android:id="@+id/signup_button"
@@ -63,6 +63,6 @@
         android:layout_marginTop="20dp"
         android:background="@drawable/button_background_secondary"
         android:text="Inscription"
-        android:textColor="#000000" />
+        android:textColor="#FFFFFF" />
 
 </RelativeLayout>
