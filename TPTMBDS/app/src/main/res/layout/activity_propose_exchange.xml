@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#1C1C3D"
+    tools:context=".ProposeExchangeActivity">
+
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"
+        android:background="#2C2C4D"
+        android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
+        android:elevation="4dp">
+
+        <ImageView
+            android:id="@+id/back_arrow"
+            android:layout_width="35dp"
+            android:layout_height="35dp"
+            android:src="@drawable/ic_back_arrow"
+            android:contentDescription="Back"
+            android:layout_gravity="start"
+            android:clickable="true"
+            android:focusable="true"
+            android:padding="8dp" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:text="Proposer échange"
+            android:textColor="#FFFFFF"
+            android:textSize="20sp" />
+
+        <ImageView
+            android:id="@+id/home_icon"
+            android:layout_width="35dp"
+            android:layout_height="35dp"
+            android:src="@drawable/home"
+            android:contentDescription="Home"
+            android:layout_gravity="end"
+            android:padding="8dp" />
+    </androidx.appcompat.widget.Toolbar>
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@id/toolbar"
+        android:padding="16dp">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <EditText
+                android:id="@+id/description"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/edit_text_background"
+                android:hint="Taper la description du poste"
+                android:padding="12dp"
+                android:textColor="#000000"
+                android:textColorHint="#CCCCCC"
+                android:layout_marginTop="16dp" />
+
+            <Spinner
+                android:id="@+id/object_spinner"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/edit_text_background"
+                android:padding="12dp"
+                android:layout_marginTop="16dp" />
+
+            <Button
+                android:id="@+id/propose_button"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginTop="24dp"
+                android:background="@drawable/button_background"
+                android:drawableRight="@drawable/ic_check"
+                android:paddingLeft="12dp"
+                android:paddingRight="12dp"
+                android:paddingTop="8dp"
+                android:paddingBottom="8dp"
+                android:text="Proposer"
+                android:textColor="#FFFFFF"
+                android:textSize="14sp" />
+        </LinearLayout>
+    </ScrollView>
+</RelativeLayout>

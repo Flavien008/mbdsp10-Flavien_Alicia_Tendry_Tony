@@ -1,0 +1,181 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#1C1C3D"
+    tools:context=".AddObjetActivity">
+
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"
+        android:background="#2C2C4D"
+        android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
+        android:elevation="4dp">
+
+        <ImageView
+            android:id="@+id/back_arrow"
+            android:layout_width="35dp"
+            android:layout_height="35dp"
+            android:src="@drawable/ic_back_arrow"
+            android:contentDescription="Back"
+            android:layout_gravity="start"
+            android:clickable="true"
+            android:focusable="true"
+            android:padding="8dp" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:text="Ajouter Objet"
+            android:textColor="#FFFFFF"
+            android:textSize="20sp" />
+
+        <ImageView
+            android:id="@+id/home_icon"
+            android:layout_width="35dp"
+            android:layout_height="35dp"
+            android:src="@drawable/home"
+            android:contentDescription="Home"
+            android:layout_gravity="end"
+            android:padding="8dp" />
+    </androidx.appcompat.widget.Toolbar>
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@id/toolbar"
+        android:padding="16dp">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:padding="16dp">
+
+            <!-- Section for Take Picture and Upload Picture -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:gravity="center"
+                android:layout_marginBottom="16dp">
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:orientation="vertical">
+
+                    <ImageView
+                        android:id="@+id/take_picture"
+                        android:layout_width="60dp"
+                        android:layout_height="60dp"
+                        android:src="@drawable/ic_camera"
+                        android:contentDescription="Take Picture" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Prendre une image"
+                        android:textColor="#FFFFFF"
+                        android:layout_marginTop="8dp" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:orientation="vertical">
+
+                    <ImageView
+                        android:id="@+id/upload_picture"
+                        android:layout_width="60dp"
+                        android:layout_height="60dp"
+                        android:src="@drawable/ic_upload"
+                        android:contentDescription="Upload Picture" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Déposer une image"
+                        android:textColor="#FFFFFF"
+                        android:layout_marginTop="8dp" />
+                </LinearLayout>
+            </LinearLayout>
+
+            <!-- Section for Displaying the Selected Image -->
+            <ImageView
+                android:id="@+id/selected_image_view"
+                android:layout_width="200dp"
+                android:layout_height="200dp"
+                android:layout_gravity="center"
+                android:scaleType="centerCrop"
+                android:visibility="gone"
+                android:layout_marginBottom="16dp"/>
+
+            <Button
+                android:id="@+id/remove_image_button"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Retirer l'image"
+                android:visibility="gone"
+                android:layout_gravity="center"
+                android:layout_marginTop="8dp"
+                android:layout_marginBottom="16dp" />
+
+            <!-- Form Fields -->
+            <EditText
+                android:id="@+id/nom_edit_text"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/edit_text_background"
+                android:hint="Nom"
+                android:padding="12dp"
+                android:textColor="#000000"
+                android:textColorHint="#CCCCCC"
+                android:layout_marginTop="16dp" />
+
+            <EditText
+                android:id="@+id/description_edit_text"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/edit_text_background"
+                android:hint="Description"
+                android:padding="12dp"
+                android:textColor="#000000"
+                android:textColorHint="#CCCCCC"
+                android:layout_marginTop="16dp" />
+
+            <Spinner
+                android:id="@+id/categorie_spinner"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/edit_text_background"
+                android:padding="12dp"
+                android:textColor="#000000"
+                android:textColorHint="#CCCCCC"
+                android:layout_marginTop="16dp" />
+
+            <!-- Validation Button -->
+            <Button
+                android:id="@+id/valider_button"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginTop="24dp"
+                android:background="@drawable/button_background"
+                android:drawableRight="@drawable/ic_check"
+                android:paddingLeft="12dp"
+                android:paddingRight="12dp"
+                android:paddingTop="8dp"
+                android:paddingBottom="8dp"
+                android:text="Valider"
+                android:textColor="#FFFFFF"
+                android:textSize="14sp" />
+        </LinearLayout>
+    </ScrollView>
+</RelativeLayout>
