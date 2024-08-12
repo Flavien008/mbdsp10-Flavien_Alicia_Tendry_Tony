@@ -55,7 +55,7 @@ app.use(prefix + '/commentaires', authenticateToken, commentaireRoutes);
 app.use(prefix + '/notifications', authenticateToken, notificationRoutes);
 app.use(prefix + '/echanges', authenticateToken, echangeRoutes);
 app.use(prefix + '/historique', authenticateToken, historiqueRoutes);
-app.use(prefix + '/dashboard', dashboardRoutes);
+app.use(prefix + '/dashboard', authenticateToken , dashboardRoutes);
 
 let port = process.env.PORT || 8010;
 

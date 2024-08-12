@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { 
   IonPage, 
   IonHeader, 
@@ -11,8 +11,6 @@ import {
   IonCardContent, 
   IonRow, 
   IonCol, 
-  IonSelect, 
-  IonSelectOption, 
   IonItem, 
   IonLabel, 
   IonButtons,
@@ -20,40 +18,72 @@ import {
 } from '@ionic/react';
 import { Chart as ChartJS, ArcElement, CategoryScale, LinearScale, BarElement, Tooltip, Legend } from 'chart.js';
 import { Pie, Bar } from 'react-chartjs-2';
+import axiosInstance from '../../utilitaire/axiosConfig'; // Importer l'instance Axios
 import './Dashboard.css';
 
 // Enregistrer les composants nécessaires de chart.js
 ChartJS.register(ArcElement, CategoryScale, LinearScale, BarElement, Tooltip, Legend);
 
 const Dashboard: React.FC = () => {
-  const totalUsers = 1000;
-  const activeUsers = 200;
-  const newUsers = 50;
+  const currentYear = new Date().getFullYear();
+  const defaultDate1 = `${currentYear}-01-01`;
+  const defaultDate2 = `${currentYear}-12-31`;
 
-  const exchangesData = {
-    Jan: { total: 30, accepted: 20 },
-    Feb: { total: 40, accepted: 25 },
-    Mar: { total: 50, accepted: 30 },
-    Apr: { total: 60, accepted: 35 },
-    May: { total: 70, accepted: 40 },
-    Jun: { total: 80, accepted: 45 },
-    Jul: { total: 90, accepted: 50 },
-    Aug: { total: 100, accepted: 55 },
-    Sep: { total: 110, accepted: 60 },
-    Oct: { total: 120, accepted: 65 },
-    Nov: { total: 130, accepted: 70 },
-    Dec: { total: 140, accepted: 75 },
-  };
+  const [totalUsers, setTotalUsers] = useState<number>(0);
+  const [activeUsers, setActiveUsers] = useState<number>(0);
+  const [newUsers, setNewUsers] = useState<number>(0);
+  const [exchangesData, setExchangesData] = useState<any>({});
+  const [categories, setCategories] = useState<any>({});
+  const [date1, setDate1] = useState<string>(defaultDate1);
+  const [date2, setDate2] = useState<string>(defaultDate2);
 
-  const categories = {
-    Category1: 40,
-    Category2: 30,
-    Category3: 20,
-    Category4: 10,
-  };
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        // Appel API pour les statistiques des utilisateurs
+        const userStatsResponse = await axiosInstance.get('/dashboard/userstats', {
+          params: {
+            date1: date1,
+            date2: date2
+          }
+        });
+        const { totalUsers, activeUsers, newUsers } = userStatsResponse.data;
+        setTotalUsers(totalUsers);
+        setActiveUsers(activeUsers);
+        setNewUsers(newUsers);
 
-  const [selectedMonth, setSelectedMonth] = useState<string>('Jan');
-  const [selectedYear, setSelectedYear] = useState<number>(2023);
+        // Appel API pour les statistiques des échanges
+        const exchangeStatsResponse = await axiosInstance.get('/dashboard/exchangestats', {
+          params: {
+            date1: date1,
+            date2: date2
+          }
+        });
+        const exchangeStats = exchangeStatsResponse.data.reduce((acc: any, stat: any) => {
+          const month = new Date(stat.month).toLocaleString('default', { month: 'short' });
+          acc[month] = {
+            total: parseInt(stat.total),
+            accepted: parseInt(stat.accepted)
+          };
+          return acc;
+        }, {});
+        setExchangesData(exchangeStats);
+
+        // Appel API pour la distribution des catégories
+        const categoryDistributionResponse = await axiosInstance.get('/dashboard/categorydistribution');
+        const categoryDistribution = categoryDistributionResponse.data.reduce((acc: any, category: any) => {
+          acc[category.nom] = parseInt(category.count);
+          return acc;
+        }, {});
+        setCategories(categoryDistribution);
+
+      } catch (error) {
+        console.error('Error fetching dashboard data:', error);
+      }
+    };
+
+    fetchData();
+  }, [date1, date2]);
 
   const donutData = {
     labels: Object.keys(categories),
@@ -76,7 +106,7 @@ const Dashboard: React.FC = () => {
         borderWidth: 1,
         hoverBackgroundColor: 'rgba(75,192,192,0.6)',
         hoverBorderColor: 'rgba(75,192,192,1)',
-        data: Object.values(exchangesData).map(data => data.total)
+        data: Object.values(exchangesData).map((data: any) => data.total)
       },
       {
         label: 'Accepted Exchanges',
@@ -85,15 +115,10 @@ const Dashboard: React.FC = () => {
         borderWidth: 1,
         hoverBackgroundColor: 'rgba(153,102,255,0.6)',
         hoverBorderColor: 'rgba(153,102,255,1)',
-        data: Object.values(exchangesData).map(data => data.accepted)
+        data: Object.values(exchangesData).map((data: any) => data.accepted)
       }
     ]
   };
-
-  const filteredExchanges = Object.values(exchangesData).map(data => ({
-    total: data.total,
-    accepted: data.accepted,
-  }));
 
   return (
     <IonPage>
@@ -106,25 +131,27 @@ const Dashboard: React.FC = () => {
           </IonToolbar>
         </IonHeader>
       <IonContent className="ion-padding">
-      <IonRow>
+        <IonRow>
           <IonCol size="12" sizeMd="6">
             <IonItem>
-              <IonLabel>Mois</IonLabel>
-              <IonSelect value={selectedMonth} onIonChange={e => setSelectedMonth(e.detail.value)}>
-                {Object.keys(exchangesData).map((month, index) => (
-                  <IonSelectOption key={index} value={month}>{month}</IonSelectOption>
-                ))}
-              </IonSelect>
+              <IonLabel>Date Début</IonLabel>
+              <input 
+                type="date" 
+                value={date1} 
+                onChange={(e) => setDate1(e.target.value)} 
+                className="ion-input"
+              />
             </IonItem>
           </IonCol>
           <IonCol size="12" sizeMd="6">
             <IonItem>
-              <IonLabel>Année</IonLabel>
-              <IonSelect value={selectedYear} onIonChange={e => setSelectedYear(e.detail.value)}>
-                {[2023, 2022, 2021, 2020].map((year, index) => (
-                  <IonSelectOption key={index} value={year}>{year}</IonSelectOption>
-                ))}
-              </IonSelect>
+              <IonLabel>Date Fin</IonLabel>
+              <input 
+                type="date" 
+                value={date2} 
+                onChange={(e) => setDate2(e.target.value)} 
+                className="ion-input"
+              />
             </IonItem>
           </IonCol>
         </IonRow>

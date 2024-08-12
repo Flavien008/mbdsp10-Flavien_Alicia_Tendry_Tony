@@ -21,7 +21,8 @@ import {
   IonButtons,
   IonMenuButton,
   IonInfiniteScroll,
-  IonInfiniteScrollContent
+  IonInfiniteScrollContent,
+  IonText // Importer IonText pour afficher un message
 } from '@ionic/react';
 import { checkmarkCircle, closeCircle, eyeOutline } from 'ionicons/icons';
 import './ListePost.css';
@@ -36,7 +37,7 @@ interface Post {
   latitude: number;
   description: string;
   status: boolean; // true: clôturé, false: non clôturé
-  utilisateur: { username: string }; // Nom de l'utilisateur
+  Utilisateur: { username: string }; // Nom de l'utilisateur
 }
 
 const ListePost: React.FC = () => {
@@ -134,41 +135,49 @@ const ListePost: React.FC = () => {
             </IonRow>
           </IonCardContent>
         </IonCard>
-        <IonRow>
-          {posts.map(post => (
-            <IonCol key={post.poste_id} size="12" sizeMd="6">
-              <IonCard>
-                <IonCardHeader className="ion-card-header">
-                  <div>
-                    <IonCardTitle className="ion-card-title">{post.titre}</IonCardTitle>
-                    <IonLabel className="ion-card-subtitle" style={{ display: 'block', marginTop: '8px' }}>
-                      Par : {post.utilisateur.username}
-                    </IonLabel>
-                  </div>
-                </IonCardHeader>
 
-                <IonCardContent>
-                  <p><strong>Description:</strong> {post.description}</p>
-                  <p><strong>Créé le:</strong> {new Date(post.created_at).toLocaleDateString()}</p>
-                  <p><strong>Longitude:</strong> {post.longitude}</p>
-                  <p><strong>Latitude:</strong> {post.latitude}</p>
-                  <p>
-                    <strong>Statut:</strong>
-                    {post.status ? (
-                      <IonIcon icon={checkmarkCircle} className="icon-clotured" />
-                    ) : (
-                      <IonIcon icon={closeCircle} className="icon-nonClotured" />
-                    )}
-                  </p>
-                  <IonButton routerLink={`/post-fiche/${post.poste_id}`} fill="clear">
-                    <IonIcon slot="start" icon={eyeOutline} />
-                    Voir la fiche
-                  </IonButton>
-                </IonCardContent>
-              </IonCard>
-            </IonCol>
-          ))}
-        </IonRow>
+        {posts.length > 0 ? (
+          <IonRow>
+            {posts.map(post => (
+              <IonCol key={post.poste_id} size="12" sizeMd="6">
+                <IonCard>
+                  <IonCardHeader className="ion-card-header">
+                    <div>
+                      <IonCardTitle className="ion-card-title">{post.titre}</IonCardTitle>
+                      <IonLabel className="ion-card-subtitle" style={{ display: 'block', marginTop: '8px' }}>
+                      {post.Utilisateur ? `Par : ${post.Utilisateur.username}` : ''}
+                      </IonLabel>
+                    </div>
+                  </IonCardHeader>
+
+                  <IonCardContent>
+                    <p><strong>Description:</strong> {post.description}</p>
+                    <p><strong>Créé le:</strong> {new Date(post.created_at).toLocaleDateString()}</p>
+                    <p><strong>Longitude:</strong> {post.longitude}</p>
+                    <p><strong>Latitude:</strong> {post.latitude}</p>
+                    <p>
+                      <strong>Statut:</strong>
+                      {post.status ? (
+                        <IonIcon icon={checkmarkCircle} className="icon-clotured" />
+                      ) : (
+                        <IonIcon icon={closeCircle} className="icon-nonClotured" />
+                      )}
+                    </p>
+                    <IonButton routerLink={`/post-fiche/${post.poste_id}`} fill="clear">
+                      <IonIcon slot="start" icon={eyeOutline} />
+                      Voir la fiche
+                    </IonButton>
+                  </IonCardContent>
+                </IonCard>
+              </IonCol>
+            ))}
+          </IonRow>
+        ) : (
+          <IonText color="medium" className="ion-text-center" style={{ marginTop: '20px' }}>
+            Aucun post trouvé.
+          </IonText>
+        )}
+        
         <IonInfiniteScroll
           onIonInfinite={async (event) => {
             await fetchPosts();

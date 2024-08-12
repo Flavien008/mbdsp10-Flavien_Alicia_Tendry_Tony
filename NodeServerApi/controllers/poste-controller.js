@@ -234,6 +234,16 @@ exports.deletePoste = async (req, res) => {
 
         // Supprimer les détails du poste
         await Postedetails.destroy({ where: { post_id: id } });
+
+        // Supprimer les échanges liés au poste et leurs détails
+        const echanges = await db.Echange.findAll({ where: { post_id: id } });
+        for (const echange of echanges) {
+            // Supprimer les détails de chaque échange
+            await db.EchangeDetail.destroy({ where: { echange_id: echange.id } });
+            // Supprimer l'échange
+            await echange.destroy();
+        }
+
         // Supprimer le poste
         await poste.destroy();
 
@@ -247,7 +257,14 @@ exports.deletePoste = async (req, res) => {
 
         res.json({ message: 'Post deleted successfully' });
     } catch (error) {
-        res.status(500).json({ message: 'Error deleting post', error });
+        console.error('Error deleting post:', error.message); // Journaliser le message d'erreur
+        console.error('Stack trace:', error.stack); // Journaliser la trace de la pile
+
+        res.status(500).json({ 
+            message: 'Error deleting post', 
+            error: error.message 
+        });
     }
 };
+
 
