@@ -36,7 +36,7 @@ export class AuthService {
       tap(response => {
         if (response && response.token) {
           sessionStorage.setItem('authToken', response.token);
-          sessionStorage.setItem('currentUser', JSON.stringify(response.user)); // Store user details
+          sessionStorage.setItem('currentUser', JSON.stringify(response.user)); 
         }
       })
     );
