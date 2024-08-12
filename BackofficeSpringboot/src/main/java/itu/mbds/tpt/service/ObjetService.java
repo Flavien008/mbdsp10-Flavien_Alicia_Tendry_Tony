@@ -2,6 +2,7 @@ package itu.mbds.tpt.service;
 
 import itu.mbds.tpt.entity.Image;
 import itu.mbds.tpt.entity.Objet;
+import itu.mbds.tpt.entity.stat.CategoryCount;
 import itu.mbds.tpt.repository.ImageRepository;
 import itu.mbds.tpt.repository.ObjetRepository;
 import itu.mbds.tpt.util.ObjetImage;
@@ -14,6 +15,8 @@ import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
+import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 @Service
@@ -24,6 +27,10 @@ public class ObjetService {
 
     @Autowired
     ImageRepository imageRepository;
+
+    public long count() {
+        return objetRepository.count();
+    }
 
     public Page<Objet> findAll(int page, int size, String sortBy, String nom, String proprietaire, LocalDate createAtMin, LocalDate createAtMax, String categorie) {
         Pageable pageable = PageRequest.of(page, size, Sort.by(sortBy));
@@ -126,5 +133,9 @@ public class ObjetService {
             e.printStackTrace();
             throw e;
         }
+    }
+
+    public List<CategoryCount> countObjectsByCategory() {
+        return objetRepository.countObjectsByCategory();
     }
 }

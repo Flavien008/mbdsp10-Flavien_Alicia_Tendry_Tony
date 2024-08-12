@@ -1,16 +1,142 @@
 <!DOCTYPE html>
 
-<html lang="en"
-      xmlns:th="http://www.thymeleaf.org"
-      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
       layout:decorate="~{fragments/layout}">
+
 <body>
 <div layout:fragment="content">
     <div class="container-xl">
+        <div class="d-flex flex-row justify-content-between ">
+            <h1 class="app-page-title">Post</h1>
+            <div><a th:href="@{/post/add}" class="btn btn-primary"><i class="fa fa-plus"></i> Nouveau</a></div>
+        </div>
 
-        <h1 class="app-page-title">Post</h1>
+        <form id="filterForm" th:action="@{/post/}" method="get">
+            <input type="hidden" name="page" class="form-control form-control-sm" id="page" th:value="${page}">
+            <input type="hidden" name="size" class="form-control form-control-sm" id="size" th:value="${size}">
+            <div class="d-flex flex-row flex-wrap gap-2">
+                <div class="mb-3 row">
+                    <label for="inputName" class="col-sm-2 col-form-label">Titre</label>
+                    <div class="col-sm-10">
+                        <input type="text" name="titre" class="form-control form-control-sm" id="inputName" th:value="${titre}">
+                    </div>
+                </div>
+                <div class="mb-3 row col-4">
+                    <label for="inputName" class="col-sm-3 col-form-label">Auteur</label>
+                    <div class="col-sm-9">
+                        <input type="text" name="auteur" class="form-control form-control-sm" id="inputEmail" th:value="${auteur}">
+                    </div>
+                </div>
+
+                <div class="mb-3 row ">
+                    <label for="inputDateCreation" class="col-sm-auto col-form-label">Date de publication</label>
+                    <div class="col-sm-7 d-flex flex-row">
+                        <input type="date" placeholder="Date début" name="createdAtMin" class="form-control form-control-sm" id="inputDateCreation" th:value="${createAtMin}" />
+                        <input type="date" placeholder="Date fin" name="createdAtMax" class="form-control form-control-sm" id="inputDateCreationMax" th:value="${createAtMax}" />
+                    </div>
+                </div>
+                <div class="mb-3 row">
+                    <label for="inputStatus" class="col-sm-3 col-form-label">Status</label>
+                    <div class="col-sm-9">
+                        <select name="status" id="inputStatus" class="form-select" aria-label="Choisir un catégorie" >
+                            <option value="" >Tous</option>
+                            <option value="true" >Clôturé</option>
+                            <option value="false" >Non clôturé</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="mb-3 ">
+                    <button type="submit" class="btn btn-outline-primary"><i class="fa fa-search"></i></button>
+                </div>
+
+            </div>
+            <hr/>
+            <div class="d-flex flex-row justify-content-between align-items-baseline">
+                <div class="col-md-3 mb-3 row">
+                    <label for="sortBy" class="col-sm-4 col-form-label">Trié par</label>
+                    <div class="col-sm-8 mt-1">
+                        <select id="sortBy" name="sortBy" class="form-select form-select-sm" aria-label=".form-select-sm example">
+                            <option th:selected="${sortBy == 'id'}" value="id">Id</option>
+                            <option th:selected="${sortBy == 'titre'}" value="titre">Titre</option>
+                            <option th:selected="${sortBy == 'utilisateur.username'}" value="utilisateur.username">Auteur</option>
+                            <option th:selected="${sortBy == 'status'}" value="status">Status</option>
+                            <option th:selected="${sortBy == 'createdAt'}" value="createdAt">Date de publication</option>
+                        </select>
+                    </div>
+                </div>
+                <div><p class="text-center" th:text="${totalElements} + ' résultat(s)'" ></p></div>
+                <div>
+                    <nav aria-label="Page navigation example">
+                        <div th:if="${totalPages > 0}">
+                            <ul class="pagination pagination-sm justify-content-end">
+                                <li class="page-item" th:classappend="${page == 0} ? 'disabled'">
+                                    <button class="page-link btn btn-outline-primary" th:onclick="'submitPagination(' + ${page - 1} + ');'">
+                                        <i class="fa fa-arrow-left"></i>
+                                    </button>
+                                </li>
+
+                                <li class="page-item" th:each="i : ${#numbers.sequence(0, totalPages - 1)}" th:classappend="${i == page} ? 'active'">
+                                    <button class="page-link btn btn-outline-primary" th:onclick="'submitPagination(' + ${i} + ');'" th:text="${i + 1}"></button>
+                                </li>
+
+                                <li class="page-item" th:classappend="${page == totalPages - 1} ? 'disabled'">
+                                    <button class="page-link btn btn-outline-primary" th:onclick="'submitPagination(' + ${page + 1} + ');'">
+                                        <i class="fa fa-arrow-right"></i>
+                                    </button>
+                                </li>
+                            </ul>
+
+                        </div>
+
+                        <div th:if="${totalPages == 0}">
+                            <p class="text-center">Aucune donnée disponible.</p>
+                        </div>
+                    </nav>
+                </div>
+            </div>
+        </form>
+
+        <div class="tab-content" id="orders-table-tab-content">
+            <div class="tab-pane fade show active" id="orders-all" role="tabpanel" aria-labelledby="orders-all-tab">
+                <div class="app-card app-card-orders-table shadow-sm mb-5">
+                    <div class="app-card-body">
+                        <div class="table-responsive">
+                            <table class="table app-table-hover mb-0">
+                                <thead>
+                                <tr>
+                                    <th class="cell">Id</th>
+                                    <th class="cell">Titre</th>
+                                    <th class="cell">Auteur</th>
+                                    <th class="cell">Status</th>
+                                    <th class="cell">Date de publication</th>
+                                    <th class="cell"></th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                <tr th:each="post : ${posts}">
+                                    <td class="cell" th:text="${post.id}">Id</td>
+                                    <td class="cell" th:text="${post.titre}">Titre</td>
+                                    <td class="cell" th:text="${post.utilisateur.username}">Auteur</td>
+                                    <td class="cell" th:text="${post.status}">Status</td>
+                                    <td class="cell" th:text="${post.createdAt}">Date de publication</td>
+                                    <td class="cell">
+                                        <a class="btn btn-outline-primary" th:href="@{/post/detail/{id}(id=${post.id})}" ><i class="fa fa-eye"></i></a>
+                                        <a class="btn btn-outline-warning" th:href="@{/post/edit/{id}(id=${post.id})}" ><i class="fa fa-edit"></i></a>
+                                        <a class="btn btn-outline-danger" onclick="confirmDelete(this,'/post/delete/')"
+                                           th:attr="data-id=${post.id}" ><i class="fa fa-trash"></i></a>
+                                    </td>
+                                </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
-    <div>
+</div>
 
 </body>
+
 </html>

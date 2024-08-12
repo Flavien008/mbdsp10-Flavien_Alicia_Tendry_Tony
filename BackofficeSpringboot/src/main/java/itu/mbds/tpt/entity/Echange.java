@@ -7,6 +7,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Data
 @Builder
@@ -40,4 +41,7 @@ public class Echange {
 
     @Column(name = "status", length = 20, nullable = false)
     private String status;
+
+    @OneToMany(mappedBy = "echange", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<EchangeDetail> echangeDetails;
 }

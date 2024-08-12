@@ -15,6 +15,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 
@@ -27,6 +28,15 @@ public class UtilisateurService {
     private RoleRepository roleRepository;
     @Autowired
     private PasswordConfiguration passwordConfiguration;
+
+    public long count() {
+        return utilisateurRepository.count();
+    }
+
+    public long countNewUsers() {
+        LocalDateTime last24Hours = LocalDateTime.now().minusDays(1);
+        return utilisateurRepository.countNewUsersInLast24Hours(last24Hours);
+    }
 
     public Utilisateur findUtilisateurByEmail(String email){
         return utilisateurRepository.findByEmail(email);
