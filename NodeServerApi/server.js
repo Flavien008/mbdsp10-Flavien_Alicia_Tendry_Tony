@@ -80,7 +80,7 @@ app.use(prefix + '/echanges', authenticateToken, echangeRoutes);
 app.use(prefix + '/historique', authenticateToken, historiqueRoutes);
 app.use(prefix + '/dashboard', authenticateToken , dashboardRoutes);
 
-let port = process.env.PORT || 8010;
+let port = process.env.PORT || 5555;
 
 // On démarre le serveur
 app.listen(port, "0.0.0.0", () => {
