@@ -98,6 +98,7 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.PostViewHolder
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(context, PostDetailsActivity.class);
+                intent.putExtra("POST_ID", post.getPostId()); // Passer seulement l'ID du post
                 context.startActivity(intent);
             }
         });

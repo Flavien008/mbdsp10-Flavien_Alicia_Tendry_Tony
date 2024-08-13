@@ -295,6 +295,39 @@ exports.getPostes = async (req, res) => {
     }
 };
 
+// exports.getPosteById = async (req, res) => {
+//     const { id } = req.params;
+
+//     try {
+//         const poste = await Poste.findByPk(id, {
+//             include: [
+//                 {
+//                     model: Utilisateur,
+//                     as: 'Utilisateur',
+//                     attributes: ['username', 'email']
+//                 },
+//                 {
+//                     model: Postedetails,
+//                     include: [
+//                         {
+//                             model: Objet,
+//                             as: 'Objet'
+//                         }
+//                     ]
+//                 }
+//             ]
+//         });
+//         if (!poste) {
+//             return res.status(404).json({ message: 'Post not found' });
+//         }
+
+//         res.json(poste);
+//     } catch (error) {
+//         res.status(500).json({ message: 'Error fetching post', error });
+//     }
+// };
+
+
 exports.getPosteById = async (req, res) => {
     const { id } = req.params;
 
@@ -311,18 +344,45 @@ exports.getPosteById = async (req, res) => {
                     include: [
                         {
                             model: Objet,
-                            as: 'Objet'
+                            as: 'Objet',
+                            include: [
+                                {
+                                    model: Categorie,
+                                    as: 'Categorie'
+                                }
+                            ]
                         }
                     ]
                 }
             ]
         });
+
         if (!poste) {
             return res.status(404).json({ message: 'Post not found' });
         }
 
-        res.json(poste);
+        // Fetch images for each object within the post
+        const postDetailsWithImages = await Promise.all(poste.Postedetails.map(async (detail) => {
+            const images = await Image.find({ item_id: detail.Objet.item_id });
+            // const images = await Image.findAll({ where: { item_id: detail.Objet.id } });
+            return { 
+                ...detail.toJSON(), 
+                Objet: { 
+                    ...detail.Objet.toJSON(), 
+                    images 
+                } 
+            };
+        }));
+
+        // Attach the images to the post details
+        const posteWithImages = {
+            ...poste.toJSON(),
+            Postedetails: postDetailsWithImages
+        };
+
+        res.json(posteWithImages);
     } catch (error) {
+        console.error('Error fetching post:', error);
         res.status(500).json({ message: 'Error fetching post', error });
     }
 };

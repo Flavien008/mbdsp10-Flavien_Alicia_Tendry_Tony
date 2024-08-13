@@ -1,7 +1,9 @@
 package com.example.tpt_mbds;
 
-import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.os.Bundle;
+import android.util.Base64;
 import android.view.View;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
@@ -9,6 +11,7 @@ import android.webkit.WebViewClient;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -18,11 +21,14 @@ import com.example.tpt_mbds.adapteur.CommentAdapter;
 import com.example.tpt_mbds.adapteur.ExchangeAdapter;
 import com.example.tpt_mbds.model.Comment;
 import com.example.tpt_mbds.model.Exchange;
+import com.example.tpt_mbds.model.Post;
+import com.example.tpt_mbds.service.PostService;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class PostDetailsActivity extends AppCompatActivity {
+
     private RecyclerView commentRecyclerView;
     private CommentAdapter commentAdapter;
     private List<Comment> commentList;
@@ -32,6 +38,8 @@ public class PostDetailsActivity extends AppCompatActivity {
     private List<Exchange> exchangeList;
 
     private WebView mapWebView;
+    private TextView titleTextView, categoryTextView, descriptionTextView;
+    private ImageView postImage;
 
     private Button proposerEchangeButton;
     private LinearLayout echangeLayout;
@@ -40,6 +48,15 @@ public class PostDetailsActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_post_details);
+
+        // Obtenir l'ID du post à partir de l'intent
+        int postId = getIntent().getIntExtra("POST_ID", -1);
+
+        // Initialiser les vues
+//        titleTextView = findViewById(R.id.title_text_view);
+        categoryTextView = findViewById(R.id.category_text_view);
+        descriptionTextView = findViewById(R.id.description_text_view);
+        postImage = findViewById(R.id.post_image);
 
         //Commentaire
         commentRecyclerView = findViewById(R.id.comment_recycler_view);
@@ -73,16 +90,12 @@ public class PostDetailsActivity extends AppCompatActivity {
 
         // Bouton Proposer échange
         proposerEchangeButton = findViewById(R.id.proposer_echange_button);
-        proposerEchangeButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(PostDetailsActivity.this, ProposeExchangeActivity.class);
-                startActivity(intent);
-            }
+        proposerEchangeButton.setOnClickListener(v -> {
+            // Logique pour proposer un échange
         });
 
         // Section Echange (à remplacer avec votre layout actuel pour les échanges)
-        echangeLayout = findViewById(R.id.echange_layout); // Assurez-vous que cette ID existe dans votre layout XML
+        echangeLayout = findViewById(R.id.echange_layout);
 
         // Vérifiez si l'utilisateur visualise son propre post ou non
         boolean isOwnPost = checkIfOwnPost();
@@ -92,6 +105,38 @@ public class PostDetailsActivity extends AppCompatActivity {
             echangeLayout.setVisibility(View.GONE); // Masquer la liste des échanges
         }
 
+        if (postId != -1) {
+            fetchPostDetails(postId);
+        } else {
+            // Gérer le cas où l'ID est manquant
+            finish();
+        }
+    }
+
+    private void fetchPostDetails(int postId) {
+        // Utiliser votre service pour récupérer les détails du post
+        PostService postService = new PostService(this);
+        postService.fetchPostById(postId, new PostService.FetchPostCallback() {
+            @Override
+            public void onSuccess(Post post) {
+//                titleTextView.setText(post.getTitle());
+                categoryTextView.setText(post.getCategory());
+                descriptionTextView.setText(post.getDescription());
+
+                // Décodez l'image Base64 et affichez-la
+                String base64Image = post.getImageBase64();
+                if (base64Image != null && !base64Image.isEmpty()) {
+                    byte[] decodedString = Base64.decode(base64Image.split(",")[1], Base64.DEFAULT);
+                    Bitmap decodedByte = BitmapFactory.decodeByteArray(decodedString, 0, decodedString.length);
+                    postImage.setImageBitmap(decodedByte);
+                }
+            }
+
+            @Override
+            public void onError(String message) {
+                // Gérer l'erreur de récupération
+            }
+        });
     }
 
     private void populateCommentList() {
@@ -113,9 +158,6 @@ public class PostDetailsActivity extends AppCompatActivity {
 
     private boolean checkIfOwnPost() {
         // Logique pour vérifier si l'utilisateur visualise son propre post
-        // Cela pourrait être basé sur l'ID de l'utilisateur et l'ID du créateur du post
-        // Par exemple :
-        // return post.getAuthorId().equals(currentUserId);
-        return false; // Exemple par défaut, à remplacer par la logique réelle(false ty ntena izy)
+        return false; // Exemple par défaut, à remplacer par la logique réelle
     }
 }
