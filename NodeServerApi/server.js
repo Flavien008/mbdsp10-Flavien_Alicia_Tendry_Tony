@@ -87,4 +87,16 @@ app.listen(port, "0.0.0.0", () => {
     console.log('Serveur démarré sur http://localhost:' + port);
 });
 
+app.on('error', (err) => {
+    if (err.code === 'EADDRINUSE') {
+        console.log(`Le port ${port} est déjà utilisé, essai sur un autre port...`);
+        app.listen(0, "0.0.0.0", () => {
+            const newPort = app.address().port;
+            console.log(`Serveur démarré sur un port libre : http://localhost:${newPort}`);
+        });
+    } else {
+        console.error(`Erreur du serveur : ${err}`);
+    }
+});
+
 module.exports = app;
