@@ -24,6 +24,8 @@ public class PostService {
     private RequestQueue requestQueue;
     private TokenManager tokenManager;
 
+    private Context context;
+
     public PostService(Context context) {
         this.requestQueue = Volley.newRequestQueue(context);
         this.tokenManager = TokenManager.getInstance(context);
@@ -78,6 +80,38 @@ public class PostService {
     }
 
     public interface AddPostCallback {
+        void onSuccess(JSONObject response);
+        void onError(VolleyError error);
+    }
+
+    public void fetchPosts(int page, int limit, final FetchPostsCallback callback) {
+        String url = POST_URL + "?page=" + page + "&limit=" + limit;
+
+        JsonObjectRequest request = new JsonObjectRequest(Request.Method.GET, url, null,
+                new Response.Listener<JSONObject>() {
+                    @Override
+                    public void onResponse(JSONObject response) {
+                        callback.onSuccess(response);
+                    }
+                },
+                new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        callback.onError(error);
+                    }
+                }) {
+            @Override
+            public Map<String, String> getHeaders() throws AuthFailureError {
+                Map<String, String> headers = new HashMap<>();
+                headers.put("Authorization", "Bearer " + TokenManager.getInstance(context).getToken());
+                return headers;
+            }
+        };
+
+        requestQueue.add(request);
+    }
+
+    public interface FetchPostsCallback {
         void onSuccess(JSONObject response);
         void onError(VolleyError error);
     }
