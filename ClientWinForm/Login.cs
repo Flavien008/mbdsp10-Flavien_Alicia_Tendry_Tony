@@ -32,7 +32,6 @@ namespace ClientWinForm
             }
 
             string baseUri = ConfigurationManager.AppSettings["BaseUri"];
-            MessageBox.Show("baseUri" + baseUri);
             using (HttpClient client = new HttpClient())
             {
                 var loginData = new
@@ -50,15 +49,14 @@ namespace ClientWinForm
                     var result = JsonConvert.DeserializeObject<LoginResponse>(responseData);
 
                     string authToken = result.Token;
-                    MessageBox.Show("tokenn"+authToken);
                     this.Hide();
 
-                    //MainForm mainForm = new MainForm(authToken);
-                    //mainForm.Show();
+                    MainForm mainForm = new MainForm(authToken);
+                    mainForm.Show();
                 }
                 else
                 {
-                    MessageBox.Show("Login failed. Please check your credentials.");
+                    MessageBox.Show("Verifier vos informations.");
                 }
             }
         }
