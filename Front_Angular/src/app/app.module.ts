@@ -7,7 +7,7 @@ import { AppComponent } from './app.component';
 
 import { PagesModule } from './pages/pages.module';
 import { HttpClientModule } from '@angular/common/http';
-import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import { CarouselModule } from 'ngx-owl-carousel-o';
 
 
 @NgModule({
@@ -20,7 +20,7 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
     AppRoutingModule,
     PagesModule,
     HttpClientModule,
-    NgbModule
+    CarouselModule
   ],
   providers: [],
   bootstrap: [AppComponent]

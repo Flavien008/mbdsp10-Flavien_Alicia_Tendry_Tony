@@ -20,6 +20,7 @@ export class ItemService {
       const user = JSON.parse(currentUser); 
       userId = user.id; 
     }
+    console.log(token);
 
     const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
 

@@ -70,7 +70,7 @@
 
                                                         <div class="card-body">
                                                             <h3 class="product-title mb-2 fs-base">
-                                                                <a class="d-block text-truncate" [routerLink]="['/auctionlive']" [queryParams]="{ id: item.item_id }">
+                                                                <a class="d-block text-truncate" routerLink="/auctionlive/{{item.item_id}}">
                                                                     {{item.name}}
                                                                 </a>
                                                             </h3>

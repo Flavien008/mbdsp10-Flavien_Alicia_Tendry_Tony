@@ -10,7 +10,7 @@ import { CreatenewitemComponent } from './createnewitem/createnewitem.component'
 const routes: Routes = [
 
   {
-    path: 'auctionlive', component: AuctionLiveComponent
+    path: 'auctionlive/:id', component: AuctionLiveComponent
   },
   {
     path: 'auctionbuy', component: AuctionBuyComponent
