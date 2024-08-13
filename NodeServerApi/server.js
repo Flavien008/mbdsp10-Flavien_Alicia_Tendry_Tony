@@ -18,6 +18,7 @@ const dashboardRoutes = require('./routes/dashboard-routes');
 const authenticateToken = require('./middlewares/authMiddleware');
 
 const connectDB = require('./config/mongo');
+const { Role } = require('./models');
 
 // CORS Middleware
 app.use(cors());
@@ -36,12 +37,34 @@ app.use(bodyParser.json({ limit: '50mb' }));
 
 connectDB();
 
+
+async function insertDefaultRoles() {
+    await Role.findOrCreate({
+        where: { role_id: 1 },
+        defaults: { role_id: 1, nom: 'admin' }
+    });
+
+    await Role.findOrCreate({
+        where: { role_id: 2 },
+        defaults: { role_id: 2, nom: 'user' }
+    });
+}
+
+
 sequelize.sync()
     .then(() => {
-        console.log('Database & tables created!');
+        console.log('Database synchronized');
+        return insertDefaultRoles(); // Appeler la fonction pour insérer les rôles par défaut
     })
-    .catch(error => {
-        console.error('Error synchronizing the database:', error);
+    .then(() => {
+        console.log('Default roles inserted');
+        // Démarrer le serveur après l'insertion des rôles par défaut
+        app.listen(port, () => {
+            console.log(`Server running on port ${port}`);
+        });
+    })
+    .catch((err) => {
+        console.error('Error synchronizing the database:', err);
     });
 
 const prefix = '/api';
