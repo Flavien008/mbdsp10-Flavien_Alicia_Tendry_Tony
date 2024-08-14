@@ -33,12 +33,9 @@
                         <div class="file-drop-icon ci-cloud-upload"></div>
                         <span class="file-drop-message">Drag and drop here to upload</span>
                     </ngx-dropzone-label>
-                    @for(f of files;track $index){
-                    <ngx-dropzone-preview [removable]="true" (removed)="onRemove(f)">
+                    <ngx-dropzone-preview *ngFor="let f of files; trackBy: trackByFn" [removable]="true" (removed)="onRemove(f)">
                         <ngx-dropzone-label>{{ f.name }} ({{ f.type }})</ngx-dropzone-label>
                     </ngx-dropzone-preview>
-                    }
-                    <!-- <button class="file-drop-btn btn btn-outline-accent" type="button">Or select file</button> -->
                 </ngx-dropzone>
 
             </div>
@@ -48,41 +45,35 @@
                 <div class="row gy-md-4 gy-3">
                     <div class="col-12">
                         <label class="form-label" for="details-title">Nom de l'objet<span class="ms-1 text-danger">*</span></label>
-                        <input class="form-control" id="details-title" type="Text" formControlName="title" placeholder="Nom de l'objet" required [ngClass]="{ 'is-invalid': submitted && form['title'].errors }">
-                        <div class="invalid-feedback">SVP, entrez le nom.</div><span class="form-text">Maximum 100
-                            characters. No HTML or emoji allowed.</span>
+                        <input class="form-control" id="details-title" type="text" formControlName="title" placeholder="Nom de l'objet" required [ngClass]="{ 'is-invalid': submitted && form['title'].errors }">
+                        <div class="invalid-feedback">SVP, entrez le nom.</div>
+                        <span class="form-text">Maximum 100 characters. No HTML or emoji allowed.</span>
                     </div>
                     <div class="col-sm-6">
                         <label class="form-label" for="details-category">Category</label>
                         <select class="form-select" id="details-category" formControlName="category">
                             <option disabled selected>Choose category</option>
-                            <option value="Art">Art</option>
-                            <option value="Photography">Photography</option>
-                            <option value="Music">Music</option>
-                            <option value="Gaming">Gaming</option>
-                            <option value="Sports">Sports</option>
-                            <option value="Collections">Collections</option>
-                            <option value="Utility">Utility</option>
+                            <option *ngFor="let category of categories" [value]="category.categorie_id">{{ category.nom }}</option>
                         </select>
                     </div>
                    
                     <div class="col-12">
                         <label class="form-label" for="details-description">Description</label>
-                        <textarea class="form-control" id="details-description" rows="4" placeholder="Enter a short description of your item" formControlName="description"></textarea><span class="form-text">0 of
-                            500 characters used.</span>
+                        <textarea class="form-control" id="details-description" rows="4" placeholder="Enter a short description of your item" formControlName="description"></textarea>
+                        <span class="form-text">0 of 500 characters used.</span>
                     </div>
                 </div>
             </div>
-            <!-- Price & payment options-->
+            <!-- Submit button-->
             <div>
-                <!-- Submit-->
                 <div class="pt-2">
-                    <button class="btn btn-lg btn-accent d-block w-100" type="submit">Create item</button>
+                    <button class="btn btn-lg btn-accent d-block w-100" type="submit" [disabled]="isSubmitting">
+                        <span *ngIf="isSubmitting" class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+                        <span *ngIf="!isSubmitting">Create item</span>
+                    </button>
                 </div>
             </div>
         </form>
-        <!-- Preview-->
-        
     </div>
 </section>
 <!-- Footer -->

@@ -41,36 +41,29 @@
                                                 <div class="col mb-2" *ngFor="let item of myitems">
                                                     <article class="card h-100 border-0 shadow">
                                                         <!-- Carousel for Item Images -->
-                                                        <!-- Carousel for Item Images -->
-                                                        <div id="carousel-{{item.item_id}}" class="carousel slide"
-                                                            data-bs-ride="carousel">
-                                                            <div class="carousel-inner">
-                                                                <div *ngFor="let image of item.images; let i = index"
-                                                                    [ngClass]="{'carousel-item': true, 'active': i === 0}">
-                                                                    <img [src]="image.img" class="d-block w-100"
-                                                                        alt="Product image">
+                                                        <div>
+                                                            <div
+                                                                class="carousel-container position-relative rounded-3 overflow-hidden mb-lg-4 mb-2">
+                                                                <div class="carousel-slide"
+                                                                    *ngFor="let image of item?.images; let i = index"
+                                                                    [class.active]="i === item.currentSlide">
+                                                                    <img [src]="image.img" alt="Image {{i + 1}}"
+                                                                        class="d-block w-100">
                                                                 </div>
-                                                            </div>
-                                                            <button class="carousel-control-prev" type="button"
-                                                                [attr.data-bs-target]="'#carousel-' + item.item_id"
-                                                                data-bs-slide="prev">
-                                                                <span class="carousel-control-prev-icon"
-                                                                    aria-hidden="true"></span>
-                                                                <span class="visually-hidden">Previous</span>
-                                                            </button>
-                                                            <button class="carousel-control-next" type="button"
-                                                                [attr.data-bs-target]="'#carousel-' + item.item_id"
-                                                                data-bs-slide="next">
-                                                                <span class="carousel-control-next-icon"
-                                                                    aria-hidden="true"></span>
-                                                                <span class="visually-hidden">Next</span>
-                                                            </button>
-                                                        </div>
 
+                                                                <!-- Navigation buttons -->
+                                                                <a class="prev"
+                                                                    (click)="prevSlide(item)">&#10094;</a>
+                                                                <a class="next"
+                                                                    (click)="nextSlide(item)">&#10095;</a>
+                                                            </div>
+
+                                                        </div>
 
                                                         <div class="card-body">
                                                             <h3 class="product-title mb-2 fs-base">
-                                                                <a class="d-block text-truncate" routerLink="/auctionlive/{{item.item_id}}">
+                                                                <a class="d-block text-truncate"
+                                                                    routerLink="/auctionlive/{{item.item_id}}">
                                                                     {{item.name}}
                                                                 </a>
                                                             </h3>

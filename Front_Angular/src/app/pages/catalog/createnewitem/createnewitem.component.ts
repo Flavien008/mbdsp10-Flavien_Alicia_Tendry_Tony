@@ -1,124 +1,116 @@
 import { Component, OnInit } from '@angular/core';
-import { UntypedFormBuilder, Validators, UntypedFormGroup, UntypedFormArray, AbstractControl } from '@angular/forms';
-
+import { UntypedFormBuilder, Validators, UntypedFormGroup } from '@angular/forms';
+import { CategoryService } from '../categorie.service';
+import { ItemCreateService } from './createnewitem.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-createnewitem',
   templateUrl: './createnewitem.component.html',
   styleUrls: ['./createnewitem.component.scss']
 })
-
-// Createnewitem Component
 export class CreatenewitemComponent implements OnInit {
 
   selectedcategory: any;
   itemData!: UntypedFormGroup;
   submitted = false;
+  isSubmitting = false;  // Ajouter cette propriété
+  categories: any[] = [];
+  files: File[] = [];
+  imageBase64Strings: string[] = [];
 
-  userForm: UntypedFormGroup;
-
-  constructor(public formBuilder: UntypedFormBuilder) {
-    this.selectedcategory = 'ETH'
-
-    this.userForm = this.formBuilder.group({
-      sizes: this.formBuilder.array([
-        this.formBuilder.control(null)
-      ])
-    })
+  constructor(
+    public formBuilder: UntypedFormBuilder,
+    private categoryService: CategoryService,
+    private itemCreateService: ItemCreateService,
+    private router: Router
+  ) {
+    this.selectedcategory = 'ETH';
   }
 
   ngOnInit(): void {
-
-    // When the user clicks on the button, scroll to the top of the document
     document.documentElement.scrollTop = 0;
 
-    // Remove header user profile and create button
-    document.querySelector('.user')?.classList.add('d-none')
-    document.querySelector('.create')?.classList.add('d-none')
-    document.querySelector('.craeteitem')?.classList.add('d-none')
-
-    //Remove mail subscription footer
-    document.querySelector('.bg-secondary')?.classList.add('d-none')
-    document.querySelector('.footer .bg-dark')?.classList.remove('mt-n10', 'pt-10')
-
-    // Validation
     this.itemData = this.formBuilder.group({
       title: ['', [Validators.required]],
       category: ['', [Validators.required]],
-      collection: ['', [Validators.required]],
       description: ['', [Validators.required]],
-      image: ['', [Validators.required]],
-      price: ['', [Validators.required]],
-      paymenttype: ['', [Validators.required]],
-      address: ['', [Validators.required]],
-      size: ['', [Validators.required]],
-      sizes: [''],
     });
 
+    this.categoryService.getCategories().subscribe(
+      (response) => {
+        this.categories = response;
+      },
+      (error) => {
+        console.error('Error loading categories', error);
+      }
+    );
   }
-
-  /**
-* Returns form
-*/
-  get form() {
-    return this.itemData.controls;
-  }
-
-  onNavChange(ev: any) {
-    const nav = document.getElementsByClassName('priceoption')
-    if (nav) {
-      const items = Array.from(nav);
-      items.forEach(element => {
-        var tag = element.querySelectorAll('div.btn-outline-accent')
-        tag.forEach(el => {
-          el.classList.remove('active')
-          if (el.getElementsByTagName('span')[0].innerHTML == ev.nextId) {
-            el.classList.add('active')
-            el.getElementsByTagName('a')[0].classList.remove('active')
-          }
-        })
-      });
-    }
-  }
-
-  files: File[] = [];
 
   onSelect(event: any) {
     this.files.push(...event.addedFiles);
-    this.itemData.setValue({
-      'image': this.files[0].name
-    })
+    this.convertFilesToBase64();
   }
 
   onRemove(event: any) {
     this.files.splice(this.files.indexOf(event), 1);
+    this.convertFilesToBase64();
   }
 
-  changeprice(event: any) {
-    this.selectedcategory = event.target.closest('span')?.innerHTML
+  convertFilesToBase64() {
+    this.imageBase64Strings = [];
+
+    this.files.forEach(file => {
+      const reader = new FileReader();
+      reader.onload = (e: any) => {
+        this.imageBase64Strings.push(e.target.result);
+      };
+      reader.readAsDataURL(file);
+    });
   }
 
   createitem() {
-    if (this.itemData.valid) {
-    }
     this.submitted = true;
+
+    const currentUser = sessionStorage.getItem('currentUser'); 
+    let userId: number | null = null;
+    if (currentUser) {
+      const user = JSON.parse(currentUser); 
+      userId = user.id; 
+    }
+
+    if (this.itemData.valid) {
+      this.isSubmitting = true;  // Début du chargement
+
+      const itemData = {
+        user_id: userId,
+        categorie_id: this.itemData.get('category')?.value,
+        name: this.itemData.get('title')?.value,
+        description: this.itemData.get('description')?.value,
+        images: this.imageBase64Strings
+      };
+
+      this.itemCreateService.createItem(itemData).subscribe(
+        (response) => {
+          console.log('Item created successfully', response);
+          this.router.navigate(['/success']);
+        },
+        (error) => {
+          console.error('Error creating item', error);
+          this.isSubmitting = false;  // Arrête le chargement en cas d'erreur
+        },
+        () => {
+          this.isSubmitting = false;  // Arrête le chargement après la soumission
+        }
+      );
+    }
   }
 
-  // Add Item
-  addItem(): void {
-    (this.userForm.get('sizes') as UntypedFormArray).push(
-      this.formBuilder.control(null)
-    );
+  trackByFn(index: any, item: any) {
+    return index;
   }
 
-  // Delete Item
-  removeItem(index: any) {
-    (this.userForm.get('sizes') as UntypedFormArray).removeAt(index);
+  get form() {
+    return this.itemData.controls;
   }
-
-  // Get Item Data 
-  getItemFormControls(): AbstractControl[] {
-    return (<UntypedFormArray>this.userForm.get('sizes')).controls
-  }
-
 }

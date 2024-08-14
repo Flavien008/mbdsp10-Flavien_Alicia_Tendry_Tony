@@ -14,33 +14,7 @@ export class MyItemComponent implements OnInit {
   totalPages: number = 0;
   hasNext: boolean = false;
   hasPrev: boolean = false;
-  isLoading: boolean = false; // Pour l'état de chargement
-
-  // Configuration du carousel
-  customOptions: any = {
-    loop: true,
-    mouseDrag: true,
-    touchDrag: true,
-    pullDrag: true,
-    dots: true,
-    navSpeed: 700,
-    navText: ['Prev', 'Next'],
-    responsive: {
-      0: {
-        items: 1
-      },
-      400: {
-        items: 2
-      },
-      740: {
-        items: 3
-      },
-      940: {
-        items: 4
-      }
-    },
-    nav: true
-  };
+  isLoading: boolean = false; 
 
   constructor(private itemService: ItemService) { }
 
@@ -52,7 +26,8 @@ export class MyItemComponent implements OnInit {
     this.isLoading = true; // Commence le chargement
     this.itemService.getItems(this.page, this.limit).subscribe(
       response => {
-        this.myitems = response.data;
+        // Ajouter la propriété currentSlide à chaque item
+        this.myitems = response.data.map((item: any) => ({ ...item, currentSlide: 0 }));
         this.totalItems = response.total;
         this.totalPages = response.totalPages;
         this.hasNext = response.hasNext;
@@ -64,6 +39,14 @@ export class MyItemComponent implements OnInit {
         this.isLoading = false; // Terminer le chargement même en cas d'erreur
       }
     );
+  }
+
+  prevSlide(item: any) {
+    item.currentSlide = (item.currentSlide === 0) ? item.images.length - 1 : item.currentSlide - 1;
+  }
+
+  nextSlide(item: any) {
+    item.currentSlide = (item.currentSlide === item.images.length - 1) ? 0 : item.currentSlide + 1;
   }
 
   goToNextPage() {
