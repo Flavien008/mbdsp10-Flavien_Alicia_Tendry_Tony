@@ -1,6 +1,7 @@
 package itu.mbds.tpt.repository;
 
 import itu.mbds.tpt.entity.Utilisateur;
+import itu.mbds.tpt.entity.stat.AgeGroup;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 import org.springframework.data.jpa.repository.Query;
@@ -16,6 +17,9 @@ public interface UtilisateurRepository extends JpaRepository<Utilisateur, Intege
 
     @Query("SELECT COUNT(u) FROM Utilisateur u WHERE u.createAt >= :startDate")
     long countNewUsersInLast24Hours(@Param("startDate") LocalDateTime startDate);
+
+    @Query(value = "SELECT * FROM AgeGroupStats ",nativeQuery = true)
+    List<AgeGroup> findAgeGroupStatistics();
 
     List<Utilisateur> findByUsernameContaining(String username);
 

@@ -1,5 +1,6 @@
 package itu.mbds.tpt.service;
 
+import itu.mbds.tpt.entity.stat.AgeGroup;
 import itu.mbds.tpt.entity.stat.CategoryCount;
 import itu.mbds.tpt.entity.stat.EchangeCount;
 import itu.mbds.tpt.repository.EchangeRepository;
@@ -87,5 +88,9 @@ public class DashboardService {
         data.put("data", dataByMonth.values().toArray(new Integer[0]));
 
         return data;
+    }
+
+    public List<AgeGroup> getAgeGroupStatistics() {
+        return utilisateurService.getAgeGroupStatistics();
     }
 }

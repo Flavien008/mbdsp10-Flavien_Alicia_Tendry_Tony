@@ -118,7 +118,7 @@
                                     <td class="cell" th:text="${post.id}">Id</td>
                                     <td class="cell" th:text="${post.titre}">Titre</td>
                                     <td class="cell" th:text="${post.utilisateur.username}">Auteur</td>
-                                    <td class="cell" th:text="${post.status}">Status</td>
+                                    <td class="cell" th:text="${post.status ? 'Accepté': 'Refusé'}">Status</td>
                                     <td class="cell" th:text="${post.createdAt}">Date de publication</td>
                                     <td class="cell">
                                         <a class="btn btn-outline-primary" th:href="@{/post/detail/{id}(id=${post.id})}" ><i class="fa fa-eye"></i></a>

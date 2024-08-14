@@ -2,6 +2,7 @@ package itu.mbds.tpt.service;
 
 import itu.mbds.tpt.entity.Role;
 import itu.mbds.tpt.entity.Utilisateur;
+import itu.mbds.tpt.entity.stat.AgeGroup;
 import itu.mbds.tpt.repository.RoleRepository;
 import itu.mbds.tpt.repository.UtilisateurRepository;
 import itu.mbds.tpt.security.PasswordConfiguration;
@@ -136,6 +137,10 @@ public class UtilisateurService {
 
     public List<Utilisateur> findByBirthdayBetween(LocalDate dtnMin, LocalDate dtnMax) {
         return utilisateurRepository.findByBirthdayBetween(dtnMin, dtnMax);
+    }
+
+    public List<AgeGroup> getAgeGroupStatistics() {
+        return utilisateurRepository.findAgeGroupStatistics();
     }
 
 }
