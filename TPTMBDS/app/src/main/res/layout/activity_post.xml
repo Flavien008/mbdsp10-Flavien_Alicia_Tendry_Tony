@@ -89,12 +89,14 @@
         android:layout_below="@id/tab_buttons"
         android:background="#FFFFFF" />
 
+    <!-- Layout for Loading Spinner -->
+
     <LinearLayout
         android:id="@+id/search_add_buttons"
         android:layout_width="112dp"
         android:layout_height="60dp"
         android:layout_below="@id/active_tab_indicator"
-        android:layout_marginTop="131dp"
+        android:layout_marginTop="9dp"
         android:gravity="center_horizontal"
         android:orientation="horizontal"
         android:padding="16dp">
@@ -123,13 +125,12 @@
         android:layout_height="wrap_content"
         android:layout_below="@id/search_add_buttons"
         android:layout_alignParentEnd="true"
-        android:layout_marginTop="-8dp"
-        android:layout_marginEnd="0dp"
+        android:layout_marginTop="-1dp"
+        android:layout_marginEnd="4dp"
         android:clipToPadding="false"
         android:padding="16dp"
         android:scrollbars="vertical" />
 
-    <!-- Layout for Loading Spinner -->
     <RelativeLayout
         android:id="@+id/loading_layout"
         android:layout_width="match_parent"

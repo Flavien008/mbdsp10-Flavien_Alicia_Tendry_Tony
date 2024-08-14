@@ -12,6 +12,7 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -38,27 +39,37 @@ public class PostDetailsActivity extends AppCompatActivity {
     private List<Exchange> exchangeList;
 
     private WebView mapWebView;
-    private TextView titleTextView, categoryTextView, descriptionTextView;
+    private TextView categoryTextView, descriptionTextView;
     private ImageView postImage;
 
     private Button proposerEchangeButton;
     private LinearLayout echangeLayout;
+
+    private View loadingLayout;
+    private View contentLayout;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_post_details);
 
+        // Initialiser les vues de chargement et de contenu
+        loadingLayout = findViewById(R.id.loading_layout);
+        contentLayout = findViewById(R.id.content_layout);
+
+        // Cacher le contenu au début
+        contentLayout.setVisibility(View.GONE);
+        loadingLayout.setVisibility(View.VISIBLE);
+
         // Obtenir l'ID du post à partir de l'intent
         int postId = getIntent().getIntExtra("POST_ID", -1);
 
         // Initialiser les vues
-//        titleTextView = findViewById(R.id.title_text_view);
         categoryTextView = findViewById(R.id.category_text_view);
         descriptionTextView = findViewById(R.id.description_text_view);
         postImage = findViewById(R.id.post_image);
 
-        //Commentaire
+        // Commentaire
         commentRecyclerView = findViewById(R.id.comment_recycler_view);
         commentRecyclerView.setLayoutManager(new LinearLayoutManager(this));
 
@@ -68,7 +79,7 @@ public class PostDetailsActivity extends AppCompatActivity {
         commentAdapter = new CommentAdapter(commentList);
         commentRecyclerView.setAdapter(commentAdapter);
 
-        //Exchange
+        // Exchange
         exchangeRecyclerView = findViewById(R.id.exchange_recycler_view);
         exchangeRecyclerView.setLayoutManager(new LinearLayoutManager(this));
 
@@ -119,7 +130,11 @@ public class PostDetailsActivity extends AppCompatActivity {
         postService.fetchPostById(postId, new PostService.FetchPostCallback() {
             @Override
             public void onSuccess(Post post) {
-//                titleTextView.setText(post.getTitle());
+                // Cacher le layout de chargement et afficher le contenu
+                loadingLayout.setVisibility(View.GONE);
+                contentLayout.setVisibility(View.VISIBLE);
+
+                // Remplir les vues avec les données du post
                 categoryTextView.setText(post.getCategory());
                 descriptionTextView.setText(post.getDescription());
 
@@ -134,7 +149,8 @@ public class PostDetailsActivity extends AppCompatActivity {
 
             @Override
             public void onError(String message) {
-                // Gérer l'erreur de récupération
+                loadingLayout.setVisibility(View.GONE);
+                Toast.makeText(PostDetailsActivity.this, "Erreur: " + message, Toast.LENGTH_SHORT).show();
             }
         });
     }

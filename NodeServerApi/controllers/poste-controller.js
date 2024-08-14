@@ -371,7 +371,7 @@ exports.getPosteById = async (req, res) => {
                     ...detail.Objet.toJSON(), 
                     images 
                 } 
-            };
+            };  
         }));
 
         // Attach the images to the post details
