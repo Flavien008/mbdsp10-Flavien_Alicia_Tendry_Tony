@@ -12,7 +12,6 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -23,6 +22,7 @@ import com.example.tpt_mbds.adapteur.ExchangeAdapter;
 import com.example.tpt_mbds.model.Comment;
 import com.example.tpt_mbds.model.Exchange;
 import com.example.tpt_mbds.model.Post;
+import com.example.tpt_mbds.service.CommentService;
 import com.example.tpt_mbds.service.PostService;
 
 import java.util.ArrayList;
@@ -39,12 +39,11 @@ public class PostDetailsActivity extends AppCompatActivity {
     private List<Exchange> exchangeList;
 
     private WebView mapWebView;
-    private TextView categoryTextView, descriptionTextView;
+    private TextView titleTextView, categoryTextView, descriptionTextView;
     private ImageView postImage;
 
     private Button proposerEchangeButton;
     private LinearLayout echangeLayout;
-
     private View loadingLayout;
     private View contentLayout;
 
@@ -52,14 +51,6 @@ public class PostDetailsActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_post_details);
-
-        // Initialiser les vues de chargement et de contenu
-        loadingLayout = findViewById(R.id.loading_layout);
-        contentLayout = findViewById(R.id.content_layout);
-
-        // Cacher le contenu au début
-        contentLayout.setVisibility(View.GONE);
-        loadingLayout.setVisibility(View.VISIBLE);
 
         // Obtenir l'ID du post à partir de l'intent
         int postId = getIntent().getIntExtra("POST_ID", -1);
@@ -69,23 +60,20 @@ public class PostDetailsActivity extends AppCompatActivity {
         descriptionTextView = findViewById(R.id.description_text_view);
         postImage = findViewById(R.id.post_image);
 
+        loadingLayout = findViewById(R.id.loading_layout);
+        contentLayout = findViewById(R.id.content_layout);
+
         // Commentaire
         commentRecyclerView = findViewById(R.id.comment_recycler_view);
         commentRecyclerView.setLayoutManager(new LinearLayoutManager(this));
-
         commentList = new ArrayList<>();
-        populateCommentList();
-
         commentAdapter = new CommentAdapter(commentList);
         commentRecyclerView.setAdapter(commentAdapter);
 
         // Exchange
         exchangeRecyclerView = findViewById(R.id.exchange_recycler_view);
         exchangeRecyclerView.setLayoutManager(new LinearLayoutManager(this));
-
         exchangeList = new ArrayList<>();
-        populateExchangeList();
-
         exchangeAdapter = new ExchangeAdapter(exchangeList, this);
         exchangeRecyclerView.setAdapter(exchangeAdapter);
 
@@ -118,6 +106,7 @@ public class PostDetailsActivity extends AppCompatActivity {
 
         if (postId != -1) {
             fetchPostDetails(postId);
+            fetchComments(postId);
         } else {
             // Gérer le cas où l'ID est manquant
             finish();
@@ -125,16 +114,10 @@ public class PostDetailsActivity extends AppCompatActivity {
     }
 
     private void fetchPostDetails(int postId) {
-        // Utiliser votre service pour récupérer les détails du post
         PostService postService = new PostService(this);
         postService.fetchPostById(postId, new PostService.FetchPostCallback() {
             @Override
             public void onSuccess(Post post) {
-                // Cacher le layout de chargement et afficher le contenu
-                loadingLayout.setVisibility(View.GONE);
-                contentLayout.setVisibility(View.VISIBLE);
-
-                // Remplir les vues avec les données du post
                 categoryTextView.setText(post.getCategory());
                 descriptionTextView.setText(post.getDescription());
 
@@ -145,22 +128,34 @@ public class PostDetailsActivity extends AppCompatActivity {
                     Bitmap decodedByte = BitmapFactory.decodeByteArray(decodedString, 0, decodedString.length);
                     postImage.setImageBitmap(decodedByte);
                 }
+
+                // Hide loading and show content
+                loadingLayout.setVisibility(View.GONE);
+                contentLayout.setVisibility(View.VISIBLE);
             }
 
             @Override
             public void onError(String message) {
-                loadingLayout.setVisibility(View.GONE);
-                Toast.makeText(PostDetailsActivity.this, "Erreur: " + message, Toast.LENGTH_SHORT).show();
+                // Gérer l'erreur de récupération
             }
         });
     }
 
-    private void populateCommentList() {
-        commentList.add(new Comment("Tommy Anderson", "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed pellentesque sagittis turpis ut sodales."));
-        commentList.add(new Comment("Jean Philips", "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed pellentesque sagittis turpis ut sodales."));
-        commentList.add(new Comment("Ronald Simon", "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed pellentesque sagittis turpis ut sodales."));
-        commentList.add(new Comment("Luc Hervé", "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed pellentesque sagittis turpis ut sodales."));
-        // Ajoutez plus de commentaires si nécessaire
+    private void fetchComments(int postId) {
+        CommentService commentService = new CommentService(this);
+        commentService.fetchCommentsByPostId(postId, new CommentService.FetchCommentsCallback() {
+            @Override
+            public void onSuccess(List<Comment> comments) {
+                commentList.clear();
+                commentList.addAll(comments);
+                commentAdapter.notifyDataSetChanged();
+            }
+
+            @Override
+            public void onError(String message) {
+                // Gérer l'erreur de récupération
+            }
+        });
     }
 
     private void populateExchangeList() {
