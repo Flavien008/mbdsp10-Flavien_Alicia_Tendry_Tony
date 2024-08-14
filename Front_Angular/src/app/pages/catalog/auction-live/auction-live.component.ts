@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { ItemService } from './auction-live.service';
 
 @Component({
@@ -15,7 +15,8 @@ export class AuctionLiveComponent implements OnInit {
 
   constructor(
     private itemService: ItemService,
-    private route: ActivatedRoute // Inject the ActivatedRoute to get the route information
+    private route: ActivatedRoute,
+    private router: Router // Inject the ActivatedRoute to get the route information
   ) { }
 
   ngOnInit(): void {
@@ -47,5 +48,24 @@ export class AuctionLiveComponent implements OnInit {
 
   nextSlide() {
     this.currentSlide = (this.currentSlide === this.item.images.length - 1) ? 0 : this.currentSlide + 1;
+  }
+
+  editItem() {
+    this.router.navigate(['updateitem/'+this.item?.objet?.item_id]);
+  }
+
+  // Method to delete the item
+  deleteItem() {
+    if (confirm('Êtes-vous sûr de vouloir supprimer cet objet ?')) {
+      this.itemService.deleteItem(this.item?.objet?.item_id).subscribe(
+        response => {
+          console.log('Item deleted successfully', response);
+          this.router.navigate(['/']);  // Redirect to home or another page after deletion
+        },
+        error => {
+          console.error('Error deleting item', error);
+        }
+      );
+    }
   }
 }

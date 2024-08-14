@@ -22,29 +22,37 @@
 
                     <div class="bg-secondary rounded-3 p-4 mb-3">
                         <div class="form-check form-switch">
-                            <input class="form-check-input" type="checkbox" id="nf-disable-all" [(ngModel)]="masterSelected" >
+                            <input class="form-check-input" type="checkbox" id="nf-disable-all" [(ngModel)]="masterSelected">
                             <label class="form-check-label fw-medium" for="nf-disable-all">
                                 Enable/disable all notifications
                             </label>
                         </div>
                     </div>
 
+                    <!-- Spinner de chargement -->
+                    <div *ngIf="isLoading" class="text-center my-4">
+                        <div class="spinner-border" role="status">
+                            <span class="visually-hidden">Loading...</span>
+                        </div>
+                    </div>
+
                     <div id="notification-settings" class="bg-white rounded-3 shadow-sm p-4">
-                        <div *ngFor="let notify of allnotification; trackBy: trackById" class="border-bottom pb-3 mb-3 d-flex align-items-center" [class.read]="notify.read" (click)="markAsRead(notify)">
+                        <div *ngFor="let notify of allnotification; trackBy: trackById" class="border-bottom pb-3 mb-3 d-flex align-items-center" [class.read]="notify.read">
                             <div class="me-3">
                                 <i class="bi bi-bell"></i> <!-- Bell icon -->
                             </div>
                             <div class="flex-grow-1">
                                 <div class="form-check form-switch">
-                                    <label class="form-check-label" [for]="'nf-' + notify.id">
-                                        {{notify.title}}
+                                    <label class="form-check-label" [for]="'nf-' + notify._id">
+                                        {{ notify.message }}
                                     </label>
                                 </div>
-                                <div class="form-text">{{notify.subtitle}}</div>
+                                <div class="form-text">{{ notify.created_at | date:'medium' }}</div>
                             </div>
-                            <div class="ms-3">
-                                <span *ngIf="!notify.read" class="badge bg-warning text-dark">New</span>
+                            <div class="ms-3 d-flex">
+                                <span *ngIf="!notify.read" class="badge bg-warning text-dark me-2">New</span>
                             </div>
+                            <button class="btn btn-danger btn-sm" (click)="deleteNotification(notify)">Delete</button>
                         </div>
                     </div>
 

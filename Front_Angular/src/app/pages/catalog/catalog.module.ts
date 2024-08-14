@@ -24,13 +24,15 @@ import { CreatenewitemComponent } from './createnewitem/createnewitem.component'
 
 //Drop Zone
 import { NgxDropzoneModule } from 'ngx-dropzone';
+import { UpdateItemComponent } from './uptadeitem/updateitem.component';
 
 @NgModule({
   declarations: [
     AuctionLiveComponent,
     AuctionBuyComponent,
     VendorComponent,
-    CreatenewitemComponent
+    CreatenewitemComponent,
+    UpdateItemComponent
   ],
   imports: [
     CommonModule,

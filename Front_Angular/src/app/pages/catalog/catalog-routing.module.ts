@@ -6,6 +6,7 @@ import { AuctionLiveComponent } from './auction-live/auction-live.component';
 import { AuctionBuyComponent } from './auction-buy/auction-buy.component';
 import { VendorComponent } from './vendor/vendor.component';
 import { CreatenewitemComponent } from './createnewitem/createnewitem.component';
+import { UpdateItemComponent } from './uptadeitem/updateitem.component';
 
 const routes: Routes = [
 
@@ -20,6 +21,9 @@ const routes: Routes = [
   },
   {
     path: 'createnewitem', component: CreatenewitemComponent
+  },
+  {
+    path: 'updateitem/:id', component:  UpdateItemComponent
   },
 ];
 

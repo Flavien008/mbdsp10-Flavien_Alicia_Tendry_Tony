@@ -23,4 +23,16 @@ export class ItemService {
       })
     );
   }
+  deleteItem(id: number): Observable<any> {
+    const token = sessionStorage.getItem('authToken');
+
+    const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
+
+    return this.http.delete(`${this.apiUrl}/${id}`, { headers }).pipe(
+      catchError((error) => {
+        console.error('Error deleting item:', error);
+        return throwError(error);
+      })
+    );
+  }
 }
