@@ -9,14 +9,17 @@ import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.android.volley.VolleyError;
 import com.example.tpt_mbds.adapteur.CommentAdapter;
 import com.example.tpt_mbds.adapteur.ExchangeAdapter;
 import com.example.tpt_mbds.model.Comment;
@@ -24,6 +27,7 @@ import com.example.tpt_mbds.model.Exchange;
 import com.example.tpt_mbds.model.Post;
 import com.example.tpt_mbds.service.CommentService;
 import com.example.tpt_mbds.service.PostService;
+import com.example.tpt_mbds.service.TokenManager;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -39,13 +43,17 @@ public class PostDetailsActivity extends AppCompatActivity {
     private List<Exchange> exchangeList;
 
     private WebView mapWebView;
-    private TextView titleTextView, categoryTextView, descriptionTextView;
+    private TextView categoryTextView, descriptionTextView;
     private ImageView postImage;
 
     private Button proposerEchangeButton;
     private LinearLayout echangeLayout;
-    private View loadingLayout;
-    private View contentLayout;
+    private EditText commentInput;
+    private Button addCommentButton;
+    private PostService postService;
+    private CommentService commentService;
+
+    private int postId;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -53,15 +61,17 @@ public class PostDetailsActivity extends AppCompatActivity {
         setContentView(R.layout.activity_post_details);
 
         // Obtenir l'ID du post à partir de l'intent
-        int postId = getIntent().getIntExtra("POST_ID", -1);
+        postId = getIntent().getIntExtra("POST_ID", -1);
 
-        // Initialiser les vues
+        // Initialize views
         categoryTextView = findViewById(R.id.category_text_view);
         descriptionTextView = findViewById(R.id.description_text_view);
         postImage = findViewById(R.id.post_image);
+        commentInput = findViewById(R.id.comment_input);
+        addCommentButton = findViewById(R.id.add_comment_button);
 
-        loadingLayout = findViewById(R.id.loading_layout);
-        contentLayout = findViewById(R.id.content_layout);
+        postService = new PostService(this);
+        commentService = new CommentService(this);
 
         // Commentaire
         commentRecyclerView = findViewById(R.id.comment_recycler_view);
@@ -70,6 +80,16 @@ public class PostDetailsActivity extends AppCompatActivity {
         commentAdapter = new CommentAdapter(commentList);
         commentRecyclerView.setAdapter(commentAdapter);
 
+        // Set up add comment button
+        addCommentButton.setOnClickListener(v -> {
+            String commentText = commentInput.getText().toString().trim();
+            if (!commentText.isEmpty()) {
+                addComment(commentText);
+            } else {
+                Toast.makeText(PostDetailsActivity.this, "Commentaire vide", Toast.LENGTH_SHORT).show();
+            }
+        });
+
         // Exchange
         exchangeRecyclerView = findViewById(R.id.exchange_recycler_view);
         exchangeRecyclerView.setLayoutManager(new LinearLayoutManager(this));
@@ -77,7 +97,7 @@ public class PostDetailsActivity extends AppCompatActivity {
         exchangeAdapter = new ExchangeAdapter(exchangeList, this);
         exchangeRecyclerView.setAdapter(exchangeAdapter);
 
-        // Configuration de la WebView
+        // WebView Configuration
         mapWebView = findViewById(R.id.map_webview);
         WebSettings webSettings = mapWebView.getSettings();
         webSettings.setJavaScriptEnabled(true);
@@ -87,62 +107,53 @@ public class PostDetailsActivity extends AppCompatActivity {
         ImageView backArrow = findViewById(R.id.back_arrow);
         backArrow.setOnClickListener(v -> finish());
 
-        // Bouton Proposer échange
+        // Button Proposer échange
         proposerEchangeButton = findViewById(R.id.proposer_echange_button);
         proposerEchangeButton.setOnClickListener(v -> {
             // Logique pour proposer un échange
         });
 
-        // Section Echange (à remplacer avec votre layout actuel pour les échanges)
         echangeLayout = findViewById(R.id.echange_layout);
 
-        // Vérifiez si l'utilisateur visualise son propre post ou non
         boolean isOwnPost = checkIfOwnPost();
-
         if (!isOwnPost) {
             proposerEchangeButton.setVisibility(View.VISIBLE);
-            echangeLayout.setVisibility(View.GONE); // Masquer la liste des échanges
+            echangeLayout.setVisibility(View.GONE);
         }
 
         if (postId != -1) {
             fetchPostDetails(postId);
-            fetchComments(postId);
         } else {
-            // Gérer le cas où l'ID est manquant
             finish();
         }
     }
 
     private void fetchPostDetails(int postId) {
-        PostService postService = new PostService(this);
         postService.fetchPostById(postId, new PostService.FetchPostCallback() {
             @Override
             public void onSuccess(Post post) {
                 categoryTextView.setText(post.getCategory());
                 descriptionTextView.setText(post.getDescription());
 
-                // Décodez l'image Base64 et affichez-la
                 String base64Image = post.getImageBase64();
                 if (base64Image != null && !base64Image.isEmpty()) {
                     byte[] decodedString = Base64.decode(base64Image.split(",")[1], Base64.DEFAULT);
                     Bitmap decodedByte = BitmapFactory.decodeByteArray(decodedString, 0, decodedString.length);
                     postImage.setImageBitmap(decodedByte);
                 }
-
-                // Hide loading and show content
-                loadingLayout.setVisibility(View.GONE);
-                contentLayout.setVisibility(View.VISIBLE);
             }
 
             @Override
             public void onError(String message) {
-                // Gérer l'erreur de récupération
+                Toast.makeText(PostDetailsActivity.this, "Erreur de chargement du post", Toast.LENGTH_SHORT).show();
             }
         });
+
+        // Fetch comments
+        fetchComments();
     }
 
-    private void fetchComments(int postId) {
-        CommentService commentService = new CommentService(this);
+    private void fetchComments() {
         commentService.fetchCommentsByPostId(postId, new CommentService.FetchCommentsCallback() {
             @Override
             public void onSuccess(List<Comment> comments) {
@@ -153,18 +164,28 @@ public class PostDetailsActivity extends AppCompatActivity {
 
             @Override
             public void onError(String message) {
-                // Gérer l'erreur de récupération
+                Toast.makeText(PostDetailsActivity.this, "Erreur lors de la récupération des commentaires", Toast.LENGTH_SHORT).show();
             }
         });
     }
 
-    private void populateExchangeList() {
-        exchangeList.add(new Exchange("Jean Philips", "Produit2", "Validé"));
-        exchangeList.add(new Exchange("Tommy Anderson", "Produit5", "Valider"));
-        exchangeList.add(new Exchange("Marc Rolland", "Produit3", "Valider"));
-        exchangeList.add(new Exchange("Ronald Simon", "Produit2", "Valider"));
-        exchangeList.add(new Exchange("Luc Hervé", "Produit9", "Valider"));
-        // Ajoutez plus d'échanges si nécessaire
+    private void addComment(String commentText) {
+        int userId = TokenManager.getInstance(this).getUserId();
+        String userName = TokenManager.getInstance(this).getUsername();
+        String useridstring = ""+userId+"";
+;
+        commentService.addComment(commentText, useridstring, postId,userName, new CommentService.AddCommentCallback() {
+            @Override
+            public void onSuccess(Comment comment) {
+                commentList.add(0, comment); // Add new comment at the top
+                commentAdapter.notifyItemInserted(0);
+                commentInput.setText(""); // Clear input field
+            }
+            @Override
+            public void onError(String message) {
+                Toast.makeText(PostDetailsActivity.this, "Erreur lors de l'ajout du commentaire", Toast.LENGTH_SHORT).show();
+            }
+        });
     }
 
     private boolean checkIfOwnPost() {

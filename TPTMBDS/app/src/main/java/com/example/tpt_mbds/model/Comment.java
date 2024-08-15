@@ -20,6 +20,11 @@ public class Comment {
         this.createdAt = createdAt;
     }
 
+    public Comment(String id, String author, String description) {
+        this.id = id;
+        this.description = description;
+        this.author = author;
+    }
     public String getAuthor() {
         return author;
     }
