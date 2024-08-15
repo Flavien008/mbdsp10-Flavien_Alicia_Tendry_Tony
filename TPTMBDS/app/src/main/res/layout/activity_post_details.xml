@@ -1,4 +1,3 @@
-<?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -64,14 +63,15 @@
                 android:layout_marginTop="16dp" />
 
             <ImageView
+                android:id="@+id/post_image"
                 android:layout_width="match_parent"
                 android:layout_height="200dp"
-                android:src="@drawable/photo"
                 android:scaleType="centerCrop"
                 android:contentDescription="Post Image"
                 android:layout_marginTop="8dp" />
 
             <TextView
+                android:id="@+id/category_text_view"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Catégorie"
@@ -80,12 +80,35 @@
                 android:layout_marginTop="8dp" />
 
             <TextView
+                android:id="@+id/description_text_view"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed pellentesque sagittis turpis ut sodales."
                 android:textColor="#FFFFFF"
                 android:textSize="14sp"
                 android:layout_marginTop="4dp" />
+
+            <!-- Formulaire de commentaire -->
+            <EditText
+                android:id="@+id/comment_input"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Ajouter un commentaire"
+                android:padding="12dp"
+                android:textColor="#FFFFFF"
+                android:textColorHint="#CCCCCC"
+                android:background="@drawable/edit_text_background"
+                android:layout_marginTop="8dp" />
+
+            <Button
+                android:id="@+id/add_comment_button"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Ajouter"
+                android:layout_gravity="end"
+                android:layout_marginTop="8dp"
+                android:background="@drawable/button_background"
+                android:textColor="#FFFFFF" />
 
             <!-- Commentaires -->
             <TextView
@@ -95,16 +118,6 @@
                 android:textColor="#FFFFFF"
                 android:textSize="18sp"
                 android:layout_marginTop="16dp" />
-
-            <EditText
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:hint="Rechercher Commentaire"
-                android:padding="12dp"
-                android:textColor="#FFFFFF"
-                android:textColorHint="#CCCCCC"
-                android:background="@drawable/edit_text_background"
-                android:layout_marginTop="8dp" />
 
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/comment_recycler_view"
@@ -139,8 +152,6 @@
                     android:layout_marginTop="4dp" />
             </LinearLayout>
 
-            <!-- Autres placeholders de commentaires -->
-
             <!-- Section Lieu avec la WebView pour Leaflet -->
             <TextView
                 android:id="@+id/lieu_section_id"
@@ -156,36 +167,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="200dp" />
 
-            <!-- Autres sections ici -->
-
-            <!-- Échange -->
-<!--            <TextView-->
-<!--                android:layout_width="wrap_content"-->
-<!--                android:layout_height="wrap_content"-->
-<!--                android:text="Échange"-->
-<!--                android:textColor="#FFFFFF"-->
-<!--                android:textSize="18sp"-->
-<!--                android:layout_marginTop="16dp" />-->
-
-<!--            <Spinner-->
-<!--                android:layout_width="match_parent"-->
-<!--                android:layout_height="wrap_content"-->
-<!--                android:layout_marginTop="8dp"-->
-<!--                android:background="@drawable/edit_text_background"-->
-<!--                android:padding="12dp"-->
-<!--                android:textColor="#FFFFFF"-->
-<!--                android:textColorHint="#CCCCCC" />-->
-
-<!--            <EditText-->
-<!--                android:layout_width="match_parent"-->
-<!--                android:layout_height="wrap_content"-->
-<!--                android:hint="Rechercher Échange"-->
-<!--                android:padding="12dp"-->
-<!--                android:textColor="#FFFFFF"-->
-<!--                android:textColorHint="#CCCCCC"-->
-<!--                android:background="@drawable/edit_text_background"-->
-<!--                android:layout_marginTop="8dp" />-->
-            <!-- Bouton Proposer Echange -->
+            <!-- Échange Section -->
             <Button
                 android:id="@+id/proposer_echange_button"
                 android:layout_width="wrap_content"
@@ -196,7 +178,7 @@
                 android:textColor="#FFFFFF"
                 android:drawableRight="@drawable/echange"
                 android:visibility="gone" /> <!-- Hide by default -->
-            <!-- Placeholder pour les échanges -->
+
             <LinearLayout
                 android:id="@+id/echange_layout"
                 android:layout_width="match_parent"
@@ -231,10 +213,22 @@
                     android:layout_marginTop="8dp"
                     android:clipToPadding="false"
                     android:scrollbars="vertical" />
-
             </LinearLayout>
-
-            <!-- Autres placeholders d'échange -->
         </LinearLayout>
     </ScrollView>
+
+    <!-- Layout de chargement -->
+    <RelativeLayout
+        android:id="@+id/loading_layout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:visibility="gone"
+        android:gravity="center"
+        android:background="?attr/android:windowBackground">
+
+        <ProgressBar
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:indeterminate="true" />
+    </RelativeLayout>
 </RelativeLayout>
