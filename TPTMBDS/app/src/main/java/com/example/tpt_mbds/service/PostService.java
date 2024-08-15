@@ -143,7 +143,8 @@ public class PostService {
                             String longitude = response.getString("longitude");
                             String latitude = response.getString("latitude");
                             String location = longitude + ", " + latitude;
-                            String author = response.getJSONObject("Utilisateur").getString("username");
+//                            String author = response.getJSONObject("Utilisateur").getString("username");
+                            String author = response.getString("user_id");
 
                             // Récupérer les détails du poste
                             JSONArray postDetailsArray = response.getJSONArray("Postedetails");

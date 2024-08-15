@@ -12,6 +12,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -54,6 +55,8 @@ public class PostDetailsActivity extends AppCompatActivity {
     private CommentService commentService;
 
     private int postId;
+    private int authorId;
+    private RelativeLayout loadingLayout;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -69,6 +72,7 @@ public class PostDetailsActivity extends AppCompatActivity {
         postImage = findViewById(R.id.post_image);
         commentInput = findViewById(R.id.comment_input);
         addCommentButton = findViewById(R.id.add_comment_button);
+        loadingLayout = findViewById(R.id.loading_layout); // Initialiser le layout de chargement
 
         postService = new PostService(this);
         commentService = new CommentService(this);
@@ -109,17 +113,8 @@ public class PostDetailsActivity extends AppCompatActivity {
 
         // Button Proposer échange
         proposerEchangeButton = findViewById(R.id.proposer_echange_button);
-        proposerEchangeButton.setOnClickListener(v -> {
-            // Logique pour proposer un échange
-        });
 
         echangeLayout = findViewById(R.id.echange_layout);
-
-        boolean isOwnPost = checkIfOwnPost();
-        if (!isOwnPost) {
-            proposerEchangeButton.setVisibility(View.VISIBLE);
-            echangeLayout.setVisibility(View.GONE);
-        }
 
         if (postId != -1) {
             fetchPostDetails(postId);
@@ -129,11 +124,24 @@ public class PostDetailsActivity extends AppCompatActivity {
     }
 
     private void fetchPostDetails(int postId) {
+        loadingLayout.setVisibility(View.VISIBLE); // Show loading layout
+
         postService.fetchPostById(postId, new PostService.FetchPostCallback() {
             @Override
             public void onSuccess(Post post) {
                 categoryTextView.setText(post.getCategory());
                 descriptionTextView.setText(post.getDescription());
+                authorId = Integer.parseInt(post.getAuthor());
+
+                // Check if it's the user's own post after fetching details
+                boolean isOwnPost = checkIfOwnPost();
+                if (isOwnPost) {
+                    proposerEchangeButton.setVisibility(View.GONE);
+                    echangeLayout.setVisibility(View.VISIBLE);
+                } else {
+                    proposerEchangeButton.setVisibility(View.VISIBLE);
+                    echangeLayout.setVisibility(View.GONE);
+                }
 
                 String base64Image = post.getImageBase64();
                 if (base64Image != null && !base64Image.isEmpty()) {
@@ -141,10 +149,13 @@ public class PostDetailsActivity extends AppCompatActivity {
                     Bitmap decodedByte = BitmapFactory.decodeByteArray(decodedString, 0, decodedString.length);
                     postImage.setImageBitmap(decodedByte);
                 }
+
+                loadingLayout.setVisibility(View.GONE); // Hide loading layout after execution
             }
 
             @Override
             public void onError(String message) {
+                loadingLayout.setVisibility(View.GONE); // Hide loading layout in case of error
                 Toast.makeText(PostDetailsActivity.this, "Erreur de chargement du post", Toast.LENGTH_SHORT).show();
             }
         });
@@ -172,15 +183,16 @@ public class PostDetailsActivity extends AppCompatActivity {
     private void addComment(String commentText) {
         int userId = TokenManager.getInstance(this).getUserId();
         String userName = TokenManager.getInstance(this).getUsername();
-        String useridstring = ""+userId+"";
-;
-        commentService.addComment(commentText, useridstring, postId,userName, new CommentService.AddCommentCallback() {
+        String useridstring = "" + userId;
+
+        commentService.addComment(commentText, useridstring, postId, userName, new CommentService.AddCommentCallback() {
             @Override
             public void onSuccess(Comment comment) {
                 commentList.add(0, comment); // Add new comment at the top
                 commentAdapter.notifyItemInserted(0);
                 commentInput.setText(""); // Clear input field
             }
+
             @Override
             public void onError(String message) {
                 Toast.makeText(PostDetailsActivity.this, "Erreur lors de l'ajout du commentaire", Toast.LENGTH_SHORT).show();
@@ -189,7 +201,10 @@ public class PostDetailsActivity extends AppCompatActivity {
     }
 
     private boolean checkIfOwnPost() {
-        // Logique pour vérifier si l'utilisateur visualise son propre post
-        return false; // Exemple par défaut, à remplacer par la logique réelle
+        int currentUserId = TokenManager.getInstance(this).getUserId();
+        System.out.println("currentUserId: " + currentUserId);
+        System.out.println("authorId: " + authorId);
+
+        return currentUserId == authorId; // Compare the current user's ID with the author ID
     }
 }
