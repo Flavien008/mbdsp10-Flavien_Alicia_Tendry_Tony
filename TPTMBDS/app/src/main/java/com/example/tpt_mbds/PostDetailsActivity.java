@@ -27,6 +27,7 @@ import com.example.tpt_mbds.model.Comment;
 import com.example.tpt_mbds.model.Exchange;
 import com.example.tpt_mbds.model.Post;
 import com.example.tpt_mbds.service.CommentService;
+import com.example.tpt_mbds.service.ExchangeService;
 import com.example.tpt_mbds.service.PostService;
 import com.example.tpt_mbds.service.TokenManager;
 
@@ -53,6 +54,7 @@ public class PostDetailsActivity extends AppCompatActivity {
     private Button addCommentButton;
     private PostService postService;
     private CommentService commentService;
+    private ExchangeService exchangeService;
 
     private int postId;
     private int authorId;
@@ -76,6 +78,7 @@ public class PostDetailsActivity extends AppCompatActivity {
 
         postService = new PostService(this);
         commentService = new CommentService(this);
+        exchangeService = new ExchangeService(this);
 
         // Commentaire
         commentRecyclerView = findViewById(R.id.comment_recycler_view);
@@ -138,6 +141,7 @@ public class PostDetailsActivity extends AppCompatActivity {
                 if (isOwnPost) {
                     proposerEchangeButton.setVisibility(View.GONE);
                     echangeLayout.setVisibility(View.VISIBLE);
+                    fetchExchanges(); // Fetch exchanges if it's the user's post
                 } else {
                     proposerEchangeButton.setVisibility(View.VISIBLE);
                     echangeLayout.setVisibility(View.GONE);
@@ -162,6 +166,22 @@ public class PostDetailsActivity extends AppCompatActivity {
 
         // Fetch comments
         fetchComments();
+    }
+
+    private void fetchExchanges() {
+        exchangeService.fetchExchanges(new ExchangeService.FetchExchangesCallback() {
+            @Override
+            public void onSuccess(List<Exchange> exchanges) {
+                exchangeList.clear();
+                exchangeList.addAll(exchanges);
+                exchangeAdapter.notifyDataSetChanged();
+            }
+
+            @Override
+            public void onError(String message) {
+                Toast.makeText(PostDetailsActivity.this, "Erreur lors de la récupération des échanges", Toast.LENGTH_SHORT).show();
+            }
+        });
     }
 
     private void fetchComments() {

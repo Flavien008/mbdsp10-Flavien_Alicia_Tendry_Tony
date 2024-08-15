@@ -28,33 +28,23 @@ public class ExchangeAdapter extends RecyclerView.Adapter<ExchangeAdapter.Exchan
     @NonNull
     @Override
     public ExchangeViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.exchange_item, parent, false);
+        View view = LayoutInflater.from(context).inflate(R.layout.exchange_item, parent, false);
         return new ExchangeViewHolder(view);
     }
 
     @Override
     public void onBindViewHolder(@NonNull ExchangeViewHolder holder, int position) {
         Exchange exchange = exchangeList.get(position);
-        holder.holderTextView.setText(exchange.getHolder());
-        holder.objectTextView.setText(exchange.getObject());
-        holder.statusButton.setText(exchange.getStatus());
+        holder.exchangeHolder.setText(exchange.getProposerUsername());
+        holder.exchangeObject.setText(exchange.getObjectNames().get(0)); // Assuming one object per exchange
 
-        if (exchange.getStatus().equals("Validé")) {
-            holder.statusButton.setBackgroundColor(context.getResources().getColor(android.R.color.holo_green_light));
+        if ("pending".equals(exchange.getStatus())) {
+            holder.exchangeStatus.setText("Valider");
+            holder.exchangeStatus.setEnabled(true);
         } else {
-            holder.statusButton.setBackground(context.getResources().getDrawable(R.drawable.button_background));
+            holder.exchangeStatus.setText("Validé");
+            holder.exchangeStatus.setEnabled(false);
         }
-
-        holder.statusButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                // Logique de validation
-                if (exchange.getStatus().equals("Valider")) {
-                    exchange.setStatus("Validé");
-                    notifyItemChanged(position);
-                }
-            }
-        });
     }
 
     @Override
@@ -62,17 +52,16 @@ public class ExchangeAdapter extends RecyclerView.Adapter<ExchangeAdapter.Exchan
         return exchangeList.size();
     }
 
-    public static class ExchangeViewHolder extends RecyclerView.ViewHolder {
-
-        TextView holderTextView;
-        TextView objectTextView;
-        Button statusButton;
+    static class ExchangeViewHolder extends RecyclerView.ViewHolder {
+        TextView exchangeHolder;
+        TextView exchangeObject;
+        Button exchangeStatus;
 
         public ExchangeViewHolder(@NonNull View itemView) {
             super(itemView);
-            holderTextView = itemView.findViewById(R.id.exchange_holder);
-            objectTextView = itemView.findViewById(R.id.exchange_object);
-            statusButton = itemView.findViewById(R.id.exchange_status);
+            exchangeHolder = itemView.findViewById(R.id.exchange_holder);
+            exchangeObject = itemView.findViewById(R.id.exchange_object);
+            exchangeStatus = itemView.findViewById(R.id.exchange_status);
         }
     }
 }

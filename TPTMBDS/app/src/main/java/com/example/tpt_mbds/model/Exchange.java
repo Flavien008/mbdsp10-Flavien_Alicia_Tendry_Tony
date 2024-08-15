@@ -1,37 +1,45 @@
 package com.example.tpt_mbds.model;
 
+import java.util.List;
+
 public class Exchange {
-    private String holder;
-    private String object;
+    private int id;
+    private String proposerUsername;
+    private String responderUsername;
+    private String postTitle;
     private String status;
+    private List<String> objectNames;
 
-    public Exchange(String holder, String object, String status) {
-        this.holder = holder;
-        this.object = object;
+    public Exchange(int id, String proposerUsername, String responderUsername, String postTitle, String status, List<String> objectNames) {
+        this.id = id;
+        this.proposerUsername = proposerUsername;
+        this.responderUsername = responderUsername;
+        this.postTitle = postTitle;
         this.status = status;
+        this.objectNames = objectNames;
     }
 
-    public String getHolder() {
-        return holder;
+    public int getId() {
+        return id;
     }
 
-    public void setHolder(String holder) {
-        this.holder = holder;
+    public String getProposerUsername() {
+        return proposerUsername;
     }
 
-    public String getObject() {
-        return object;
+    public String getResponderUsername() {
+        return responderUsername;
     }
 
-    public void setObject(String object) {
-        this.object = object;
+    public String getPostTitle() {
+        return postTitle;
     }
 
     public String getStatus() {
         return status;
     }
 
-    public void setStatus(String status) {
-        this.status = status;
+    public List<String> getObjectNames() {
+        return objectNames;
     }
 }
