@@ -48,6 +48,7 @@
                                         <h3 class="product-title mb-2 fs-base">
                                             <a class="d-block text-truncate" routerLink="/auctionlive">
                                                 {{collect.title}}
+                                                
                                             </a>
                                         </h3>
                                     </div>
@@ -141,30 +142,52 @@
                                   
                                     <li class="nav-item" [ngbNavItem]="4">
                                         <a ngbNavLink class="nav-link" data-bs-toggle="tab" role="tab">
-                                          Commentaires
+                                            Commentaires
                                         </a>
                                         <ng-template ngbNavContent>
-                                          <!-- Comment Section -->
-                                          <!-- <div class="comment-section">
-                                            <div class="comment" *ngFor="let comment of comments">
-                                              <img src="assets/img/nft/vendor/avatar-square.jpg"  alt="User Avatar" class="comment-avatar">
-                                              <div class="comment-body">
-                                                <div class="comment-header">
-                                                  <span class="comment-author">{{ comment.author }}</span>
-                                                  <span class="comment-time">{{ comment.time }}</span>
+                                            <div class="comment-section">
+                                                <!-- Afficher un indicateur de chargement lors du chargement, de l'ajout ou de la suppression des commentaires -->
+                                                <div *ngIf="isLoadingComments" class="text-center my-3">
+                                                    <div class="spinner-border" role="status">
+                                                        <span class="visually-hidden">Chargement...</span>
+                                                    </div>
                                                 </div>
-                                                <div class="comment-content">{{ comment.content }}</div>
-                                                
-                                               
-                                              </div>
+                                    
+                                                <!-- Liste des commentaires -->
+                                                <div *ngIf="!isLoadingComments">
+                                                    <div class="comment" *ngFor="let comment of comments">
+                                                        <img src="assets/img/nft/vendor/avatar-square.jpg" alt="User Avatar" class="comment-avatar">
+                                                        <div class="comment-body">
+                                                            <div class="comment-header">
+                                                                <span class="comment-author">{{ comment.utilisateur.username }}</span>
+                                                                <span class="comment-time">{{ comment.created_at }}</span>
+                                                                <!-- Icône de suppression -->
+                                                                <button *ngIf="currentUser.id === comment.utilisateur._id || currentUser.id === postDetails.user_id"
+                                                                        class="btn btn-link p-0 ms-2"
+                                                                        (click)="deleteComment(comment._id, comment.auteur_id)">
+                                                                    <i class="ci-trash text-danger"></i>
+                                                                </button>
+                                                            </div>
+                                                            <div class="comment-content">{{ comment.description }}</div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                    
+                                                <!-- Input pour ajouter un commentaire -->
+                                                <div class="comment-input d-flex align-items-center mt-3">
+                                                    <img src="assets/img/nft/vendor/avatar-square.jpg" alt="User Avatar" class="comment-avatar me-2">
+                                                    <input type="text" class="form-control me-2" placeholder="Commenter en tant que {{ currentUser.name }}" [(ngModel)]="newComment">
+                                                    <!-- Icône d'envoi -->
+                                                    <button class="btn btn-link p-0" (click)="submitComment()">
+                                                        <i class="ci-send text-primary"></i>
+                                                    </button>
+                                                </div>
                                             </div>
-                                            <div class="comment-input">
-                                              <img src="assets/img/nft/vendor/avatar-square.jpg" alt="User Avatar" class="comment-avatar">
-                                              <input type="text" class="form-control" placeholder="Commenter en tant que {{ currentUser.name }}">
-                                            </div>
-                                          </div> -->
                                         </ng-template>
-                                      </li>
+                                    </li>
+                                    
+                                      
+                                      
                                       
                                 </ul>
                             </div>

@@ -1,4 +1,4 @@
-import { Component, OnInit, AfterViewInit } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { PostService } from './auction-buy.service';
 import * as L from 'leaflet';
@@ -13,7 +13,11 @@ export class AuctionBuyComponent implements OnInit {
   morecollection: any[] = [];
   breadCrumbItems!: any;
   isLoading: boolean = true;
+  comments: any[] = [];
   private map!: L.Map;
+  currentUser : any;
+  newComment: string = '';
+  isLoadingComments: boolean = false;
 
   constructor(
     private postService: PostService,
@@ -21,6 +25,7 @@ export class AuctionBuyComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
+    this.currentUser = JSON.parse(sessionStorage.getItem('currentUser') || '{}');
     document.documentElement.scrollTop = 0;
 
     this.breadCrumbItems = [
@@ -29,12 +34,14 @@ export class AuctionBuyComponent implements OnInit {
       { label: 'Details de la publication', active: true }
     ];
 
-    // Récupérer l'ID du post à partir de l'URL
     const postId = this.route.snapshot.paramMap.get('id');
     
-    // Charger les détails du post
     if (postId) {
       this.loadPostDetails(postId);
+      this.loadComments(postId);
+    }
+    if(!this.isLoading){
+      console.log(this.postDetails)
     }
   }
 
@@ -45,7 +52,8 @@ export class AuctionBuyComponent implements OnInit {
         this.postDetails = response;
         this.morecollection = response.Postedetails.map((detail: any) => detail.Objet);
         this.isLoading = false;
-        this.initializeMap(); // Initialiser la carte après avoir chargé les détails du post
+        this.initializeMap();
+        console.log(this.morecollection)
       },
       error => {
         console.error('Erreur lors du chargement des détails du post:', error);
@@ -54,35 +62,90 @@ export class AuctionBuyComponent implements OnInit {
     );
   }
 
+  loadComments(postId: string): void {
+    this.isLoadingComments = true;
+    this.postService.getCommentsByPostId(postId).subscribe(
+      (response) => {
+        this.comments = response;
+        this.isLoadingComments = false;
+      },
+      (error) => {
+        console.error('Error loading comments:', error);
+        this.isLoadingComments = false;
+      }
+    );
+  }
+
   initializeMap(): void {
-    console.log('Initializing map...');
     if (!this.postDetails || !this.postDetails.longitude || !this.postDetails.latitude) {
-        console.warn('No post details or coordinates available');
+      return;
+    }
+
+    setTimeout(() => {
+      const mapContainer = document.getElementById('map');
+      if (!mapContainer) {
+        console.error('Map container not found');
+        return;
+      }
+
+      if (!this.map) {
+        this.map = L.map(mapContainer).setView([this.postDetails.latitude, this.postDetails.longitude], 13);
+
+        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+          attribution: '© OpenStreetMap contributors'
+        }).addTo(this.map);
+
+        L.marker([this.postDetails.latitude, this.postDetails.longitude]).addTo(this.map)
+          .bindPopup(this.postDetails.titre)
+          .openPopup();
+      }
+    }, 0);
+  }
+
+  submitComment(): void {
+    if (this.newComment.trim()) {
+      const comment = {
+        description: this.newComment,
+        auteur_id: this.currentUser.id,
+        poste_id: this.postDetails.poste_id
+      };
+      
+      this.postService.createComment(comment).subscribe(
+        response => {
+          console.log('Commentaire ajouté avec succès');
+          this.comments.push(response);
+          this.newComment = ''; // Réinitialiser le champ de saisie
+          const postId = this.route.snapshot.paramMap.get('id');
+          if (postId) {
+          this.loadComments(postId); 
+          }
+        },
+        error => {
+          console.error('Erreur lors de l\'ajout du commentaire:', error);
+        }
+      );
+    }
+  }
+  deleteComment(commentId: string, auteurId: string): void {
+    // Vérifier si l'utilisateur est l'auteur du post ou du commentaire
+    if (this.currentUser.id !== this.postDetails.user_id && this.currentUser.id !== auteurId) {
+        console.error('Vous n\'avez pas l\'autorisation de supprimer ce commentaire');
         return;
     }
 
-    // Utiliser setTimeout pour différer l'initialisation de la carte
-    setTimeout(() => {
-        const mapContainer = document.getElementById('map');
-        console.log('Map container:', mapContainer);
-        if (!mapContainer) {
-            console.error('Map container not found');
-            return;
+    this.isLoadingComments = true; // Démarrer l'indicateur de chargement
+    this.postService.deleteComment(commentId).subscribe(
+        () => {
+            console.log('Commentaire supprimé avec succès');
+            this.comments = this.comments.filter(comment => comment._id !== commentId);
+            this.isLoadingComments = false; // Arrêter l'indicateur de chargement
+        },
+        error => {
+            console.error('Erreur lors de la suppression du commentaire:', error);
+            this.isLoadingComments = false; // Arrêter l'indicateur de chargement en cas d'erreur
         }
-
-        if (!this.map) {
-            console.log('Creating map...');
-            this.map = L.map(mapContainer).setView([this.postDetails.latitude, this.postDetails.longitude], 13);
-
-            L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-                attribution: '© OpenStreetMap contributors'
-            }).addTo(this.map);
-
-            L.marker([this.postDetails.latitude, this.postDetails.longitude]).addTo(this.map)
-                .bindPopup(this.postDetails.titre)
-                .openPopup();
-        }
-    }, 0); // Lancer après l'affichage du DOM
+    );
 }
+  
 
 }
