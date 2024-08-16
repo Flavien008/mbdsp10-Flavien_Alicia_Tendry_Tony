@@ -1,142 +1,88 @@
-import { Component, OnInit } from '@angular/core';
-
-//Data Get
-import { collection } from '../auction-live/data';
-
-// Swiper Slider
-// import { SwiperOptions } from 'swiper';
-import { favorite } from '../../account/favorite/data';
+import { Component, OnInit, AfterViewInit } from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
+import { PostService } from './auction-buy.service';
+import * as L from 'leaflet';
 
 @Component({
   selector: 'app-auction-buy',
   templateUrl: './auction-buy.component.html',
   styleUrls: ['./auction-buy.component.scss']
 })
-
-// AuctionBuy Component
 export class AuctionBuyComponent implements OnInit {
-
+  postDetails: any;
+  morecollection: any[] = [];
   breadCrumbItems!: any;
-  morecollection: any;
+  isLoading: boolean = true;
+  private map!: L.Map;
 
-  // set the current year
-  year: number = new Date().getFullYear();
-  private _diff?: any;
-  _days?: number;
-  _hours?: number;
-  _minutes?: number;
-  _seconds?: number;
-  timer: any;
-
-  constructor() { }
+  constructor(
+    private postService: PostService,
+    private route: ActivatedRoute
+  ) { }
 
   ngOnInit(): void {
-    // When the user clicks on the button, scroll to the top of the document
     document.documentElement.scrollTop = 0;
 
-    // Remove header user profile and create button
-    document.querySelector('.user')?.classList.add('d-none')
-    document.querySelector('.create')?.classList.add('d-none')
-    document.querySelector('.craeteitem')?.classList.add('d-none')
-
-    /**
-   * BreadCrumb
-   */
     this.breadCrumbItems = [
       { label: 'Home', link: '/' },
       { label: 'Marketplace', link: '/' },
-      { label: 'Single Project', active: true, link: '/Single Project' }
+      { label: 'Details de la publication', active: true }
     ];
 
-    //Fetch Data
-    this.morecollection = collection
-  }
-
-  /**
- * creator Swiper setting
- */
-  Collection = {
-    slidesToShow: 2, // Number of slides to show at once
-    slidesToScroll: 1, // Number of slides to scroll when navigating
-    arrows: true,
-    infinite: false, // Show navigation arrows
-    responsive: [
-      {
-        breakpoint: 575, // Breakpoint for smaller screens
-        settings: {
-          slidesToShow: 1
-        }
-      },
-      {
-        breakpoint: 768, // Breakpoint for larger screens
-        settings: {
-          slidesToShow: 2
-        }
-      },
-      {
-        breakpoint: 1080, // Breakpoint for larger screens
-        settings: {
-          slidesToShow: 3
-        }
-      },
-    ]
-  };
-
-  /**
-    * Count date set
-    */
-  countdown(time: any) {
-    if(Date.parse(time) > Date.parse(new Date().toString())){
-      this._diff = Date.parse(time) - Date.parse(new Date().toString());
-      this._days = Math.floor(this._diff / (1000 * 60 * 60 * 24));
-      this._hours = Math.floor((this._diff / (1000 * 60 * 60)) % 24);
-      this._minutes = Math.floor((this._diff / 1000 / 60) % 60);
-      this._seconds = Math.floor((this._diff / 1000) % 60);
-      return ((this._hours < 10) ? '0' + this._hours : this._hours) + ':' + ((this._minutes < 10) ? '0' + this._minutes : this._minutes) + ':' + ((this._seconds < 10) ? '0' + this._seconds : this._seconds)
-    }else{
-      return '00:00:00'
+    // Récupérer l'ID du post à partir de l'URL
+    const postId = this.route.snapshot.paramMap.get('id');
+    
+    // Charger les détails du post
+    if (postId) {
+      this.loadPostDetails(postId);
     }
   }
 
-  // Add Favorite
-  addfavorite(id: any) {
-    this.morecollection[id].is_like = '1'
-    favorite.push(this.morecollection[id])
+  loadPostDetails(postId: string): void {
+    this.isLoading = true;
+    this.postService.getPostById(postId).subscribe(
+      response => {
+        this.postDetails = response;
+        this.morecollection = response.Postedetails.map((detail: any) => detail.Objet);
+        this.isLoading = false;
+        this.initializeMap(); // Initialiser la carte après avoir chargé les détails du post
+      },
+      error => {
+        console.error('Erreur lors du chargement des détails du post:', error);
+        this.isLoading = false;
+      }
+    );
   }
 
-  comments = [
-    {
-      avatar: 'path_to_avatar1',
-      author: 'Tendry Arivony',
-      time: '1 sem',
-      content: 'Très belle initiative',
-      replies: [
-        {
-          avatar: 'path_to_reply_avatar1',
-          author: 'Clarra Anna Smirth',
-          time: '2 j',
-          content: 'Merci beaucoup'
-        }
-      ]
-    },
-    {
-      avatar: 'path_to_avatar2',
-      author: 'Flavien Rakotoarison',
-      time: '5 j',
-      content: 'Merci beaucoup',
-      replies: []
-    },
-    {
-      avatar: 'path_to_avatar3',
-      author: 'Alicia',
-      time: '5 j',
-      content: 'Merci',
-      replies: []
+  initializeMap(): void {
+    console.log('Initializing map...');
+    if (!this.postDetails || !this.postDetails.longitude || !this.postDetails.latitude) {
+        console.warn('No post details or coordinates available');
+        return;
     }
-  ];
-  currentUser = {
-    name: 'Tendry Arivony',
-    avatar: 'path_to_current_user_avatar'
-  };
+
+    // Utiliser setTimeout pour différer l'initialisation de la carte
+    setTimeout(() => {
+        const mapContainer = document.getElementById('map');
+        console.log('Map container:', mapContainer);
+        if (!mapContainer) {
+            console.error('Map container not found');
+            return;
+        }
+
+        if (!this.map) {
+            console.log('Creating map...');
+            this.map = L.map(mapContainer).setView([this.postDetails.latitude, this.postDetails.longitude], 13);
+
+            L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+                attribution: '© OpenStreetMap contributors'
+            }).addTo(this.map);
+
+            L.marker([this.postDetails.latitude, this.postDetails.longitude]).addTo(this.map)
+                .bindPopup(this.postDetails.titre)
+                .openPopup();
+        }
+    }, 0); // Lancer après l'affichage du DOM
+}
 
 }

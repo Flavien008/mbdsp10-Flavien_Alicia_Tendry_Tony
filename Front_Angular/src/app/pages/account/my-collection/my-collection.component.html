@@ -48,7 +48,7 @@
                                             </button>
                                         </div>
                                         <!-- Collage of Object Images -->
-                                        <a class="d-block" routerLink="/auctionbuy">
+                                        <a class="d-block" routerLink="/auctionbuy/{{post.poste_id}}">
                                             <div class="row row-cols-2 g-2">
                                                 <div class="col" *ngFor="let detail of post.Postedetails">
                                                     <img class="rounded-1" [src]="detail.Objet.image" alt="Object image">

@@ -14,7 +14,7 @@ const routes: Routes = [
     path: 'auctionlive/:id', component: AuctionLiveComponent
   },
   {
-    path: 'auctionbuy', component: AuctionBuyComponent
+    path: 'auctionbuy/:id', component: AuctionBuyComponent
   },
   {
     path: 'vendor', component: VendorComponent
