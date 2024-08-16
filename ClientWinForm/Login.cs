@@ -50,6 +50,7 @@ namespace ClientWinForm
 
                     string authToken = result.Token;
                     this.Hide();
+                    
 
                     MainForm mainForm = new MainForm(authToken);
                     mainForm.Show();
