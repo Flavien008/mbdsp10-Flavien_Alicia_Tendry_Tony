@@ -1,5 +1,6 @@
 package com.example.tpt_mbds;
 
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
@@ -116,6 +117,11 @@ public class PostDetailsActivity extends AppCompatActivity {
 
         // Button Proposer échange
         proposerEchangeButton = findViewById(R.id.proposer_echange_button);
+        proposerEchangeButton.setOnClickListener(v -> {
+            Intent intent = new Intent(PostDetailsActivity.this, ProposeExchangeActivity.class);
+            intent.putExtra("POST_ID", postId);
+            startActivity(intent);
+        });
 
         echangeLayout = findViewById(R.id.echange_layout);
 
@@ -127,7 +133,7 @@ public class PostDetailsActivity extends AppCompatActivity {
     }
 
     private void fetchPostDetails(int postId) {
-        loadingLayout.setVisibility(View.VISIBLE); // Show loading layout
+        showLoading(); // Show loading layout
 
         postService.fetchPostById(postId, new PostService.FetchPostCallback() {
             @Override
@@ -154,12 +160,12 @@ public class PostDetailsActivity extends AppCompatActivity {
                     postImage.setImageBitmap(decodedByte);
                 }
 
-                loadingLayout.setVisibility(View.GONE); // Hide loading layout after execution
+                hideLoading(); // Hide loading layout after execution
             }
 
             @Override
             public void onError(String message) {
-                loadingLayout.setVisibility(View.GONE); // Hide loading layout in case of error
+                hideLoading(); // Hide loading layout in case of error
                 Toast.makeText(PostDetailsActivity.this, "Erreur de chargement du post", Toast.LENGTH_SHORT).show();
             }
         });
@@ -226,5 +232,15 @@ public class PostDetailsActivity extends AppCompatActivity {
         System.out.println("authorId: " + authorId);
 
         return currentUserId == authorId; // Compare the current user's ID with the author ID
+    }
+
+    private void showLoading() {
+        loadingLayout.setVisibility(View.VISIBLE);
+        findViewById(R.id.content_layout).setVisibility(View.GONE);
+    }
+
+    private void hideLoading() {
+        loadingLayout.setVisibility(View.GONE);
+        findViewById(R.id.content_layout).setVisibility(View.VISIBLE);
     }
 }
