@@ -38,23 +38,23 @@
                         <!-- Product carousel -->
                         <ngx-slick-carousel>
                             <div ngxSlickItem *ngFor="let collect of morecollection; let i = index" class="swiper-slide mb-3">
-                                <article class="card h-100 border-0 shadow">
-                                    <div class="card-img-top position-relative overflow-hidden">
-                                        <a class="d-block" routerLink="/auctionlive">
-                                            <img src="{{collect.image}}" alt="Product image">
-                                        </a>
-                                    </div>
-                                    <div class="card-body">
-                                        <h3 class="product-title mb-2 fs-base">
-                                            <a class="d-block text-truncate" routerLink="/auctionlive">
-                                                {{collect.title}}
-                                                
-                                            </a>
-                                        </h3>
-                                    </div>
-                                </article>
+                              <article class="card h-100 border-0 shadow">
+                                <div class="card-img-top position-relative overflow-hidden">
+                                  <a class="d-block" routerLink="/auctionlive">
+                                    <img [src]="collect.images[0]?.img" alt="Product image"> <!-- Accès à la première image -->
+                                  </a>
+                                </div>
+                                <div class="card-body">
+                                  <h3 class="product-title mb-2 fs-base">
+                                    <a class="d-block text-truncate" routerLink="/auctionlive/{{collect.objet.item_id}}">
+                                      {{ collect.objet.name }} <!-- Affichage du nom de l'objet -->
+                                    </a>
+                                  </h3>
+                                </div>
+                              </article>
                             </div>
-                        </ngx-slick-carousel>
+                          </ngx-slick-carousel>
+                          
                         
                     </section>
                 </div>

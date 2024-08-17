@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { PostService } from './auction-buy.service';
 import * as L from 'leaflet';
+import { firstValueFrom } from 'rxjs';
 
 @Component({
   selector: 'app-auction-buy',
@@ -50,10 +51,10 @@ export class AuctionBuyComponent implements OnInit {
     this.postService.getPostById(postId).subscribe(
       response => {
         this.postDetails = response;
-        this.morecollection = response.Postedetails.map((detail: any) => detail.Objet);
+        console.log(response.Postedetails)
+        this.loadObjectsForPost(response.Postedetails);
         this.isLoading = false;
         this.initializeMap();
-        console.log(this.morecollection)
       },
       error => {
         console.error('Erreur lors du chargement des détails du post:', error);
@@ -74,6 +75,24 @@ export class AuctionBuyComponent implements OnInit {
         this.isLoadingComments = false;
       }
     );
+  }
+
+  loadObjectsForPost(postDetails: any[]): void {
+    const itemRequests = postDetails.map((detail: any) =>
+      firstValueFrom(this.postService.getItemById(detail.Objet.item_id))
+    );
+  
+    console.log(itemRequests); // Affiche des promesses
+  
+    this.isLoading = true;
+    Promise.all(itemRequests).then((responses: any[]) => {
+      this.morecollection = responses;
+      this.isLoading = false;
+      console.log(this.morecollection); // Affiche les réponses des objets
+    }).catch(error => {
+      console.error('Erreur lors du chargement des objets:', error);
+      this.isLoading = false;
+    });
   }
 
   initializeMap(): void {

@@ -5,6 +5,7 @@ const Utilisateur = db.Utilisateur;
 const Objet = db.Objet;
 const Categorie = db.Categorie;
 const Notification = require('../models/notification'); 
+const Image = require('../models/image');
 
 const { Op } = require('sequelize'); // Importer Op de Sequelize
 
@@ -80,7 +81,6 @@ exports.getPostes = async (req, res) => {
         });
     }
 
-
     if (nomObjet || categorieObjet) {
         includeFilters.push({
             model: Postedetails,
@@ -119,7 +119,6 @@ exports.getPostes = async (req, res) => {
         });
     }
 
-
     const order = [];
     if (sortByDate) {
         order.push(['created_at', sortByDate.toUpperCase()]); 
@@ -137,6 +136,24 @@ exports.getPostes = async (req, res) => {
             order: order.length ? order : [['created_at', 'DESC']] 
         });
 
+        // Fetch images for each object in the post details
+        const postsWithImages = await Promise.all(rows.map(async (post) => {
+            const postDetailsWithImages = await Promise.all(post.Postedetails.map(async (detail) => {
+                const images = await Image.find({ item_id: detail.Objet.item_id });
+                return {
+                    ...detail.toJSON(),
+                    Objet: {
+                        ...detail.Objet.toJSON(),
+                        images
+                    }
+                };
+            }));
+            return {
+                ...post.toJSON(),
+                Postedetails: postDetailsWithImages
+            };
+        }));
+
         const totalPages = Math.ceil(count / limit);
         const hasNext = page < totalPages;
         const hasPrev = page > 1;
@@ -147,9 +164,10 @@ exports.getPostes = async (req, res) => {
             totalPages,
             hasNext,
             hasPrev,
-            data: rows
+            data: postsWithImages
         });
     } catch (error) {
+        console.error('Error fetching posts:', error);
         res.status(500).json({ message: 'Error fetching posts', error });
     }
 };

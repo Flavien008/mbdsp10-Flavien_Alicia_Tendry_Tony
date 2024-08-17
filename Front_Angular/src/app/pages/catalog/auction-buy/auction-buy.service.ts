@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { Observable } from 'rxjs';
+import { catchError, Observable, throwError } from 'rxjs';
 import { environment } from '../../../../environments/environment';
 
 @Injectable({
@@ -33,5 +33,16 @@ export class PostService {
     const token = sessionStorage.getItem('authToken');
     const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
     return this.http.delete<any>(`${environment.apiUrl}/commentaires/${commentId}`, { headers });
+  }
+
+  getItemById(id: string): Observable<any> {
+    const token = sessionStorage.getItem('authToken');
+    const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
+    return this.http.get<any>(`${environment.apiUrl}/objets/${id}`, { headers }).pipe(
+      catchError((error) => {
+        console.error('Error fetching item:', error);
+        return throwError(error);
+      })
+    );
   }
 }
