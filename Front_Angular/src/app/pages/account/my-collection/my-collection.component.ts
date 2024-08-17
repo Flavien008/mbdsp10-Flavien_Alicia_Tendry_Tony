@@ -35,6 +35,7 @@ export class MyCollectionComponent implements OnInit {
         this.hasNext = response.hasNext;
         this.hasPrev = response.hasPrev;
         this.isLoading = false; // Fin du chargement
+        console.log(this.myPosts);
       },
       error => {
         console.error('Failed to load posts', error);
