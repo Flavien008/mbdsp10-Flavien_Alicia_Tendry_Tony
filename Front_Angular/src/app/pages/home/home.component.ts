@@ -1,68 +1,33 @@
 import { Component, OnInit } from '@angular/core';
-
-//Data Get
 import { HomeService } from './home.service';
-import { favorite } from '../account/favorite/data';
-
-// Range Slider
-import { DecimalPipe } from '@angular/common';
-import { Observable } from 'rxjs';
-import { HomeModel } from './home.model';
-import { Options } from 'ngx-slider-v2';
 
 @Component({
   selector: 'home',
   templateUrl: './home.component.html',
   styleUrls: ['./home.component.scss'],
-  providers: [HomeService, DecimalPipe]
+  providers: [HomeService]
 })
-
-// CatalogV1 Component
 export class HomeComponent implements OnInit {
-
   public isCollapsed = true;
   breadCrumbItems!: Array<{}>;
-  allproduct: any;
+  allproduct: any[] = [];
+  categories: any[] = [];
+  selectedCategory: string = '';  
+  isLoading: boolean = true;
+  searchTerm: string = '';  
+  sortByDate: string = 'DESC'; // Par défaut, trier par date de manière décroissante
+  page: number = 1;         
+  pageSize: number = 10;    
+  total: number = 0;        
 
-  // Table data
-  CatelogList!: Observable<HomeModel[]>;
-  total: Observable<number>;
-
-  // set the current year
-  year: number = new Date().getFullYear();
-  private _diff?: any;
-  _days?: number;
-  _hours?: number;
-  _minutes?: number;
-  _seconds?: number;
-  timer: any;
-
-  constructor(public service: HomeService) {
-    this.CatelogList = service.countries$;
-    this.total = service.total$;
-  }
+  constructor(public service: HomeService) {}
 
   ngOnInit(): void {
-
-    // When the user clicks on the button, scroll to the top of the document
+    this.fetchCategories();
+    this.fetchPosts();
+    
     document.documentElement.scrollTop = 0;
 
-    // Remove header user profile and create button
-    document.querySelector('.user')?.classList.add('d-none')
-    document.querySelector('.create')?.classList.add('d-none')
-    document.querySelector('.craeteitem')?.classList.add('d-none')
-
-    //Fetch Data
-    setTimeout(() => {
-      this.CatelogList.subscribe(x => {
-        this.allproduct = Object.assign([], x);
-      });
-      document.getElementById('elmLoader')?.classList.add('d-none')
-    }, 1200)
-
-    /**
-   * BreadCrumb
-   */
     this.breadCrumbItems = [
       { label: 'Home', link: '' },
       { label: 'NFT Marketplace', link: '/' },
@@ -70,44 +35,74 @@ export class HomeComponent implements OnInit {
     ];
   }
 
+  fetchCategories(): void {
+    this.service.getCategories().subscribe(
+      (response) => {
+        this.categories = response;
+      },
+      (error) => {
+        console.error('Error fetching categories:', error);
+      }
+    );
+  }
 
-  // Price Slider
-  minValue: number = 8;
-  maxValue: number = 18;
-  options: Options = {
-    floor: 0,
-    ceil: 30,
-    step: 8,
-    showTicks: true
-  };
+  fetchPosts(): void {
+    this.isLoading = true;
+    this.service.getAllPosts(this.page, this.pageSize, this.searchTerm, this.selectedCategory, this.sortByDate).subscribe(
+      (response) => {
+        this.allproduct = response.data.map((post: any) => {
+          post.collageImages = this.getCollageImages(post.Postedetails);
+          return post;
+        });
+        this.total = response.total;  
+        this.pageSize = response.totalPages ? Math.ceil(this.total / response.totalPages) : this.pageSize;
+        this.isLoading = false;
+      },
+      (error) => {
+        console.error('Error fetching posts:', error);
+        this.isLoading = false;
+      }
+    );
+  }
 
-  /**
-   * Count date set
-   */
-  countdown(time: any) {
-    if(Date.parse(time) > Date.parse(new Date().toString())){
-      this._diff = Date.parse(time) - Date.parse(new Date().toString());
-      this._days = Math.floor(this._diff / (1000 * 60 * 60 * 24));
-      this._hours = Math.floor((this._diff / (1000 * 60 * 60)) % 24);
-      this._minutes = Math.floor((this._diff / 1000 / 60) % 60);
-      this._seconds = Math.floor((this._diff / 1000) % 60);
-      return ((this._hours < 10) ? '0' + this._hours : this._hours) + ':' + ((this._minutes < 10) ? '0' + this._minutes : this._minutes) + ':' + ((this._seconds < 10) ? '0' + this._seconds : this._seconds)
-    }else{
-      return '00:00:00'
+  getCollageImages(postDetails: any[]): any[] {
+    const images: any[] = [];
+    
+    for (const detail of postDetails) {
+        if (detail.Objet && detail.Objet.images) {
+            images.push(...detail.Objet.images.slice(0, 3 - images.length));
+        }
+        if (images.length >= 3) {
+            break; 
+        }
     }
+
+    return images;
   }
 
-  /**
- * Range Slider Wise Data Filter
- */
-  valueChange(value: number, boundary: boolean): void { }
-
-  // Add to Favorite
-  addfavorite(id: any) {
-    this.allproduct[id].is_like = '1'
-    favorite.push(this.allproduct[id])
+  trackByFn(index: number, item: any): any {
+    return item.poste_id;
   }
 
+  onPageChange(newPage: number) {
+    this.page = newPage;
+    this.fetchPosts();
+  }
 
+  onCategoryChange(category: string) {
+    this.selectedCategory = category;
+    this.page = 1;  
+    this.fetchPosts();
+  }
 
+  onSearchTermChange(): void {
+    this.page = 1;
+    this.fetchPosts();
+  }
+
+  onSortChange(event: any): void {
+    this.sortByDate = event.target.value;
+    this.page = 1;
+    this.fetchPosts();
+  }
 }
