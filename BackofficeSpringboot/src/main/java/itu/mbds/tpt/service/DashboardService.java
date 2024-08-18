@@ -3,7 +3,6 @@ package itu.mbds.tpt.service;
 import itu.mbds.tpt.entity.stat.AgeGroup;
 import itu.mbds.tpt.entity.stat.CategoryCount;
 import itu.mbds.tpt.entity.stat.EchangeCount;
-import itu.mbds.tpt.repository.EchangeRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -26,7 +25,7 @@ public class DashboardService {
     private PostService postService;
 
     @Autowired
-    private EchangeRepository echangeRepository;
+    private EchangeService echangeService;
 
     public long getTotalUtilisateurs() {
         return utilisateurService.count();
@@ -70,7 +69,7 @@ public class DashboardService {
     }
 
     public Map<String, Object> getEchangesByMonthAndStatus(int year, String status) {
-        List<EchangeCount> result = echangeRepository.countEchangesByMonthAndStatus(year, status.isEmpty() ? null : status);
+        List<EchangeCount> result = echangeService.countEchangesByMonthAndStatus(year, status.isEmpty() ? null : status);
 
 
         Map<String, Integer> dataByMonth = new LinkedHashMap<>();
@@ -92,5 +91,17 @@ public class DashboardService {
 
     public List<AgeGroup> getAgeGroupStatistics() {
         return utilisateurService.getAgeGroupStatistics();
+    }
+
+    public long getTotalEchanges() {
+        return echangeService.getTotalEchanges();
+    }
+
+    public long getAcceptedEchanges() {
+        return echangeService.getAcceptedEchanges();
+    }
+
+    public long getRefusedEchanges() {
+        return echangeService.getRefusedEchanges();
     }
 }

@@ -44,6 +44,16 @@ public class HomeController {
             List<AgeGroup> ageStats = dashboardService.getAgeGroupStatistics();
             model.addObject("ageStats", ageStats);
 
+            long totalEchanges = dashboardService.getTotalEchanges();
+            long acceptedEchanges = dashboardService.getAcceptedEchanges();
+            long refusedEchanges = dashboardService.getRefusedEchanges();
+
+            model.addObject("totalEchanges", totalEchanges);
+            model.addObject("acceptedEchanges", acceptedEchanges);
+            model.addObject("refusedEchanges", refusedEchanges);
+
+            
+
             model.addObject("year", year);
             model.addObject("status", status);
         } catch (Exception e) {

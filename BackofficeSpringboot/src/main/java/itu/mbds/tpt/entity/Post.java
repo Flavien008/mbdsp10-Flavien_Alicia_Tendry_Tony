@@ -14,34 +14,35 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
-@Table(name = "post")
+@Table(name = "\"Postes\"")
 public class Post {
 
     @Id
+    @Column(name = "\"poste_id\"")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
     @ManyToOne
-    @JoinColumn(name = "user_id", nullable = false)
+    @JoinColumn(name = "\"user_id\"", nullable = false)
     private Utilisateur utilisateur;
 
-    @Column(name = "created_at", nullable = false, updatable = false)
+    @Column(name = "\"created_at\"", nullable = false, updatable = false)
     @Temporal(TemporalType.TIMESTAMP)
     private LocalDateTime createdAt;
 
-    @Column(name = "titre", nullable = false)
+    @Column(name = "\"titre\"", nullable = false)
     private String titre;
 
-    @Column(name = "longitude")
+    @Column(name = "\"longitude\"")
     private double longitude;
 
-    @Column(name = "latitude")
+    @Column(name = "\"latitude\"")
     private double latitude;
 
-    @Column(name = "description", nullable = false)
+    @Column(name = "\"description\"", nullable = false)
     private String description;
 
-    @Column(name = "status", nullable = false)
+    @Column(name = "\"status\"", nullable = false)
     private boolean status;
 
     @OneToMany(mappedBy = "post", cascade = CascadeType.ALL, orphanRemoval = true)

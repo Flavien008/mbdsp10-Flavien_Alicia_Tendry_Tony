@@ -18,4 +18,6 @@ public interface EchangeRepository extends JpaRepository<Echange, Integer> {
             "AND (:status IS NULL OR e.status = :status) " +
             "GROUP BY MONTH(e.createdAt)")
     List<EchangeCount> countEchangesByMonthAndStatus(@Param("year") int year, @Param("status") String status);
+
+    long countByStatus(String status);
 }
