@@ -34,6 +34,12 @@ public class SecurityConfiguration {
                 .csrf(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests((authorize) -> authorize
                         .requestMatchers("/resources/**","/css/**", "/js/**", "/images/**", "/plugins/**","/login").permitAll()
+                        .requestMatchers("/").hasRole("admin")
+                        .requestMatchers("/categorie/**").hasRole("admin")
+                        .requestMatchers("/utilisateur/**").hasRole("admin")
+                        .requestMatchers("/post/**").hasRole("admin")
+                        .requestMatchers("/objet/**").hasRole("admin")
+                        .requestMatchers("/objet/**").hasRole("admin")
                         .anyRequest().authenticated()
                 )
                 .formLogin((form) -> form
@@ -43,6 +49,9 @@ public class SecurityConfiguration {
                         .permitAll()
                 )
                 .logout(withDefaults())
+                .exceptionHandling((exceptions) -> exceptions
+                        .accessDeniedPage("/login?errorAccess=true")
+                )
                 .httpBasic(withDefaults());
         // @formatter:on
         return http.build();

@@ -39,7 +39,10 @@
                             <div class="extra mt-3 row justify-content-between">
                                 <div class="col-12">
                                     <div th:if="${param.error}" class="alert alert-danger" ><span style="font-family: var(--bs-body-font-family)">Email ou mot de passe incorrect</span></div>
-                                </div><!--//col-6-->
+                                    <div th:if="${param.errorAccess}" class="alert alert-danger" ><span style="font-family: var(--bs-body-font-family)">Vous n'êtes pas autorisés</span></div>
+                                </div>
+
+                                <!--//col-6-->
                             </div><!--//extra-->
                         </div><!--//form-group-->
                         <div class="text-center">
