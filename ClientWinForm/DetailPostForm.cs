@@ -32,7 +32,6 @@ namespace ClientWinForm
 
         private void LoadPostDetails()
         {
-            // Afficher les détails du poste
             lblTitle.Text = _postDetails.Titre;
             lblDescription.Text = _postDetails.Description;
             lblUtilisateur.Text = _postDetails.Utilisateur.Username;
@@ -50,7 +49,7 @@ namespace ClientWinForm
                 {
                     dataGridViewEchanges.Columns.Clear();
 
-                    // Ajouter les colonnes
+       
                     dataGridViewEchanges.Columns.Add(new DataGridViewTextBoxColumn
                     {
                         Name = "Proposer",
@@ -125,8 +124,6 @@ namespace ClientWinForm
                     dataGridViewEchanges.AutoGenerateColumns = false;
                     dataGridViewEchanges.DataSource = bindingList;
 
-                    // Masquer le bouton Valider si l'échange est déjà validé
-                    // Masquer le bouton Valider si l'échange est déjà validé
                     foreach (DataGridViewRow row in dataGridViewEchanges.Rows)
                     {
                         var statusCell = row.Cells["Status"];
@@ -161,8 +158,7 @@ namespace ClientWinForm
                 var selectedEchange = (EchangeViewModel)dataGridViewEchanges.Rows[e.RowIndex].DataBoundItem;
                 if (selectedEchange != null && selectedEchange.Status == "pending")
                 {
-                    // Ajouter un message de débogage pour vérifier l'ID sélectionné
-                    MessageBox.Show($"ID de l'échange sélectionné : {selectedEchange.Id}");
+                   
                     ValidateEchange(selectedEchange.Id);
                 }
             }
@@ -178,8 +174,7 @@ namespace ClientWinForm
                 if (success)
                 {
                     MessageBox.Show("L'échange a été validé avec succès.");
-                    await LoadEchangesAsync(); // Recharger les échanges
-                    MessageBox.Show("Les échanges ont été rechargés.");
+                    await LoadEchangesAsync(); 
                 }
                 else
                 {
