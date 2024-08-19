@@ -2,9 +2,11 @@
 using System.Collections.Generic;
 using System.Configuration;
 using System.Net.Http;
+using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using ClientWinForm.Models;
+using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 
 namespace ClientWinForm.Services
@@ -109,6 +111,38 @@ namespace ClientWinForm.Services
                 return null;
             }
         }
+
+        public async Task<bool> ValidateEchangeAsync(int echangeId)
+        {
+            try
+            {
+                string baseUri = ConfigurationManager.AppSettings["BaseUri"];
+                string url = $"{baseUri}/echanges/{echangeId}";
+
+                var payload = new { status = "validé" };
+                var content = new StringContent(JsonConvert.SerializeObject(payload), Encoding.UTF8, "application/json");
+
+                HttpResponseMessage response = await _httpClient.PutAsync(url, content);
+
+                // Ajoutez une vérification du statut de la réponse
+                if (response.IsSuccessStatusCode)
+                {
+                    return true;
+                }
+                else
+                {
+                    MessageBox.Show($"Erreur de l'API : {response.StatusCode}");
+                    return false;
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Erreur lors de l'appel de l'API : {ex.Message}");
+                return false;
+            }
+        }
+
+
 
 
     }

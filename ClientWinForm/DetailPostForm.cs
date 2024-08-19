@@ -23,6 +23,9 @@ namespace ClientWinForm
             _postService = new PostService(authToken);
 
             InitializeComponent();
+
+            dataGridViewEchanges.CellClick += dataGridViewEchanges_CellClick;
+
             LoadPostDetails();
             LoadEchangesAsync();
         }
@@ -45,57 +48,61 @@ namespace ClientWinForm
 
                 if (echanges != null)
                 {
-                    // Nettoyez les colonnes avant de les ajouter à nouveau pour éviter les doublons
                     dataGridViewEchanges.Columns.Clear();
 
-                    // Ajoutez les colonnes sans afficher les IDs
-                    var proposerColumn = new DataGridViewTextBoxColumn
+                    // Ajouter les colonnes
+                    dataGridViewEchanges.Columns.Add(new DataGridViewTextBoxColumn
                     {
                         Name = "Proposer",
                         HeaderText = "Proposé par",
-                        DataPropertyName = "Proposer"  // Assurez-vous que cette propriété existe et est correctement peuplée
-                    };
-                    dataGridViewEchanges.Columns.Add(proposerColumn);
+                        DataPropertyName = "Proposer"
+                    });
 
-                    var responderColumn = new DataGridViewTextBoxColumn
+                    dataGridViewEchanges.Columns.Add(new DataGridViewTextBoxColumn
                     {
                         Name = "Responder",
                         HeaderText = "Répondu par",
-                        DataPropertyName = "Responder"  // Assurez-vous que cette propriété existe et est correctement peuplée
-                    };
-                    dataGridViewEchanges.Columns.Add(responderColumn);
+                        DataPropertyName = "Responder"
+                    });
 
-                    var objetsColumn = new DataGridViewTextBoxColumn
+                    dataGridViewEchanges.Columns.Add(new DataGridViewTextBoxColumn
                     {
                         Name = "Objets",
                         HeaderText = "Objets échangés",
                         DataPropertyName = "ObjetsString"
-                    };
-                    dataGridViewEchanges.Columns.Add(objetsColumn);
+                    });
 
-                    var descriptionColumn = new DataGridViewTextBoxColumn
+                    dataGridViewEchanges.Columns.Add(new DataGridViewTextBoxColumn
                     {
                         Name = "Description",
                         HeaderText = "Description",
                         DataPropertyName = "Description"
-                    };
-                    dataGridViewEchanges.Columns.Add(descriptionColumn);
+                    });
 
-                    var statusColumn = new DataGridViewTextBoxColumn
+                    dataGridViewEchanges.Columns.Add(new DataGridViewTextBoxColumn
                     {
                         Name = "Status",
                         HeaderText = "Statut",
                         DataPropertyName = "Status"
-                    };
-                    dataGridViewEchanges.Columns.Add(statusColumn);
+                    });
 
-                    var createdAtColumn = new DataGridViewTextBoxColumn
+                    dataGridViewEchanges.Columns.Add(new DataGridViewTextBoxColumn
                     {
                         Name = "CreatedAt",
                         HeaderText = "Créé le",
                         DataPropertyName = "Created_At"
+                    });
+
+                    // Ajouter la colonne de validation
+                    var validateButtonColumn = new DataGridViewButtonColumn
+                    {
+                        Name = "Validate",
+                        HeaderText = "Valider",
+                        Text = "Valider",
+                        UseColumnTextForButtonValue = true,
+                        Width = 80
                     };
-                    dataGridViewEchanges.Columns.Add(createdAtColumn);
+                    dataGridViewEchanges.Columns.Add(validateButtonColumn);
 
                     // Transformez les données pour générer la chaîne d'objets
                     var bindingList = new BindingList<EchangeViewModel>();
@@ -105,6 +112,7 @@ namespace ClientWinForm
                         var objetsString = string.Join(", ", echange.EchangeDetails.Select(ed => ed.Objet.Name));
                         bindingList.Add(new EchangeViewModel
                         {
+                            Id = echange.Id,
                             Proposer = echange.Proposer?.Username ?? "N/A",
                             Responder = echange.Responder?.Username ?? "N/A",
                             ObjetsString = objetsString,
@@ -116,6 +124,22 @@ namespace ClientWinForm
 
                     dataGridViewEchanges.AutoGenerateColumns = false;
                     dataGridViewEchanges.DataSource = bindingList;
+
+                    // Masquer le bouton Valider si l'échange est déjà validé
+                    // Masquer le bouton Valider si l'échange est déjà validé
+                    foreach (DataGridViewRow row in dataGridViewEchanges.Rows)
+                    {
+                        var statusCell = row.Cells["Status"];
+
+                        if (statusCell != null && statusCell.Value != null && statusCell.Value.ToString() != "pending")
+                        {
+                            var cell = (DataGridViewButtonCell)row.Cells["Validate"];
+                            cell.FlatStyle = FlatStyle.Flat;
+                            cell.Style.ForeColor = cell.Style.BackColor;
+                            cell.ReadOnly = true;
+                        }
+                    }
+
                 }
                 else
                 {
@@ -127,6 +151,48 @@ namespace ClientWinForm
                 MessageBox.Show($"Erreur lors du chargement des échanges: {ex.Message}");
             }
         }
+
+
+
+        private void dataGridViewEchanges_CellClick(object sender, DataGridViewCellEventArgs e)
+        {
+            if (e.RowIndex >= 0 && e.ColumnIndex == dataGridViewEchanges.Columns["Validate"].Index)
+            {
+                var selectedEchange = (EchangeViewModel)dataGridViewEchanges.Rows[e.RowIndex].DataBoundItem;
+                if (selectedEchange != null && selectedEchange.Status == "pending")
+                {
+                    // Ajouter un message de débogage pour vérifier l'ID sélectionné
+                    MessageBox.Show($"ID de l'échange sélectionné : {selectedEchange.Id}");
+                    ValidateEchange(selectedEchange.Id);
+                }
+            }
+        }
+
+
+        private async void ValidateEchange(int echangeId)
+        {
+            try
+            {
+                var success = await _postService.ValidateEchangeAsync(echangeId);
+
+                if (success)
+                {
+                    MessageBox.Show("L'échange a été validé avec succès.");
+                    await LoadEchangesAsync(); // Recharger les échanges
+                    MessageBox.Show("Les échanges ont été rechargés.");
+                }
+                else
+                {
+                    MessageBox.Show("Erreur lors de la validation de l'échange.");
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Erreur: {ex.Message}");
+            }
+        }
+
+
 
 
 
