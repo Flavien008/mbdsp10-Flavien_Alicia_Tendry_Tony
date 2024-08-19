@@ -8,8 +8,8 @@ namespace ClientWinForm.Models
 {
     public class Post
     {
-        public int PosteId { get; set; }
-        public int UserId { get; set; }
+        public int poste_id { get; set; }
+        public int user_id { get; set; }
         public DateTime CreatedAt { get; set; }
         public string Titre { get; set; }
         public string Longitude { get; set; }

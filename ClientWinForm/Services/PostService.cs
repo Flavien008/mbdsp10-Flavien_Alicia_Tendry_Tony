@@ -35,7 +35,7 @@ namespace ClientWinForm.Services
 
             return null;
         }
-        private async Task<bool> DeletePostAsync(string postId)
+        public async Task<bool> DeletePostAsync(string postId)
         {
             try
             {

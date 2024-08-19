@@ -2,13 +2,6 @@
 using ClientWinForm.Models;
 using System;
 using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Drawing.Printing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace ClientWinForm
@@ -25,13 +18,15 @@ namespace ClientWinForm
         {
             InitializeComponent();
         }
+
         public ListePost(string token)
         {
             _authToken = token;
             _postService = new PostService(token);
             InitializeComponent();
-            
-            
+
+            // Ajouter un gestionnaire pour l'événement CellClick
+            dataGridViewPosts.CellClick += dataGridViewPosts_CellClick;
         }
 
         private void button1_Click(object sender, EventArgs e)
@@ -52,21 +47,6 @@ namespace ClientWinForm
             }
         }
 
-        private void label6_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        private void label7_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        private void label5_Click(object sender, EventArgs e)
-        {
-
-        }
-
         private void ListePost_Load(object sender, EventArgs e)
         {
             if (!DesignMode)
@@ -74,15 +54,16 @@ namespace ClientWinForm
                 LoadPosts(currentPage);
             }
         }
+
         private async void LoadPosts(int page)
         {
             string dateDebut = dtpDateDebut.Value.ToString("yyyy-MM-dd");
             string dateFin = dtpDateFin.Value.ToString("yyyy-MM-dd");
             string nomUtilisateur = txtUtilisateur.Text;
             string texte = txtTitre.Text;
-            string nomObjet = ""; 
+            string nomObjet = "";
             string categorieObjet = cboCategorie.SelectedItem?.ToString();
-            int status = 0; 
+            int status = 0;
             string sortByDate = "DESC";
 
             var postsResponse = await _postService.GetPostsAsync(dateDebut, dateFin, nomUtilisateur, texte, nomObjet, categorieObjet, status, sortByDate, page, pageSize);
@@ -91,10 +72,38 @@ namespace ClientWinForm
             {
                 var posts = postsResponse["data"].ToObject<List<Post>>();
                 dataGridViewPosts.DataSource = posts;
-                dataGridViewPosts.Columns["Utilisateur"].DataPropertyName = "Utilisateur.Username";
+
+                if (!dataGridViewPosts.Columns.Contains("poste_id"))
+                {
+                    DataGridViewTextBoxColumn idColumn = new DataGridViewTextBoxColumn();
+                    idColumn.Name = "poste_id";
+                    idColumn.DataPropertyName = "PosteId";  // Utilisez "PosteId" car c'est ainsi que la propriété est nommée dans votre classe Post
+                    idColumn.HeaderText = "ID du Poste";
+                    dataGridViewPosts.Columns.Add(idColumn);
+                }
+
+                // Ajout de la colonne de suppression si elle n'existe pas déjà
+                if (!dataGridViewPosts.Columns.Contains("btnDelete"))
+                {
+                    DataGridViewButtonColumn btnDelete = new DataGridViewButtonColumn();
+                    btnDelete.HeaderText = "Supprimer";
+                    btnDelete.Name = "btnDelete";
+                    btnDelete.Text = "Supprimer";
+                    btnDelete.UseColumnTextForButtonValue = true;
+                    dataGridViewPosts.Columns.Add(btnDelete);
+                }
+
+                if (!dataGridViewPosts.Columns.Contains("Utilisateur"))
+                {
+                    DataGridViewTextBoxColumn userColumn = new DataGridViewTextBoxColumn();
+                    userColumn.Name = "Utilisateur";
+                    userColumn.DataPropertyName = "Utilisateur.Username";  // Liaison correcte avec "Utilisateur.Username"
+                    userColumn.HeaderText = "Nom d'utilisateur";
+                    dataGridViewPosts.Columns.Add(userColumn);
+                }
 
                 int totalResults = postsResponse["total"].ToObject<int>();
-                totalPages = postsResponse["totalPages"].ToObject<int>(); ;
+                totalPages = postsResponse["totalPages"].ToObject<int>();
 
                 lblResultCount.Text = $"{totalResults} résultats";
                 lblPageNumber.Text = $"{currentPage}/{totalPages}";
@@ -111,6 +120,59 @@ namespace ClientWinForm
         {
             currentPage = 1;
             LoadPosts(currentPage);
+        }
+
+        private void label5_Click(object sender, EventArgs e)
+        {
+            // Logique à exécuter lorsque label5 est cliqué
+        }
+
+        private void label6_Click(object sender, EventArgs e)
+        {
+            // Logique à exécuter lorsque label6 est cliqué
+        }
+
+        private void label7_Click(object sender, EventArgs e)
+        {
+            // Logique à exécuter lorsque label7 est cliqué
+        }
+
+        private async void dataGridViewPosts_CellClick(object sender, DataGridViewCellEventArgs e)
+        {
+            if (e.ColumnIndex == dataGridViewPosts.Columns["btnDelete"].Index && e.RowIndex >= 0)
+            {
+                // Assurez-vous que la cellule n'est pas nulle avant d'accéder à sa valeur
+                var cell = dataGridViewPosts.Rows[e.RowIndex].Cells["poste_id"];
+                var postId = cell?.Value?.ToString();
+
+                if (!string.IsNullOrEmpty(postId))
+                {
+                    // Demander une confirmation avant de supprimer
+                    var confirmResult = MessageBox.Show("Êtes-vous sûr de vouloir supprimer ce poste ?",
+                                                         "Confirmation de suppression",
+                                                         MessageBoxButtons.YesNo);
+
+                    if (confirmResult == DialogResult.Yes)
+                    {
+                        // Appeler l'API pour supprimer le poste
+                        var result = await _postService.DeletePostAsync(postId);
+
+                        if (result)
+                        {
+                            MessageBox.Show("Poste supprimé avec succès.");
+                            LoadPosts(currentPage); // Recharger les posts après la suppression
+                        }
+                        else
+                        {
+                            MessageBox.Show("Erreur lors de la suppression du poste.");
+                        }
+                    }
+                }
+                else
+                {
+                    MessageBox.Show("Erreur : L'ID du poste est introuvable.");
+                }
+            }
         }
     }
 }
