@@ -60,15 +60,15 @@
             <div style="min-width: 14rem">
               <h6 class="dropdown-header">&#64;{{ currentUser?.name }}</h6>
               <a class="dropdown-item d-flex align-items-center" routerLink="/setting">
-                <i class="ci-settings opacity-60 me-2"></i>Profile Settings
+                <i class="ci-settings opacity-60 me-2"></i>Parametre du profil
               </a>
               <a class="dropdown-item d-flex align-items-center" routerLink="/myitem">
-                <i class="ci-image opacity-60 me-2"></i>My Items
-                <span class="fs-xs text-muted ms-auto">5</span>
+                <i class="ci-image opacity-60 me-2"></i>Mes objets
+          
               </a>
               <a class="dropdown-item d-flex align-items-center" routerLink="/mycollection">
-                <i class="ci-view-list opacity-60 me-2"></i>My Collections
-                <span class="fs-xs text-muted ms-auto">2</span>
+                <i class="ci-view-list opacity-60 me-2"></i>Mes publications
+             
               </a>
               <a class="dropdown-item d-flex align-items-center" routerLink="/notification">
                 <i class="ci-bell opacity-60 me-2"></i>Notifications
@@ -79,7 +79,7 @@
 
         <a *ngIf="isLoggedIn"
           class="btn btn-sm btn-accent rounded-1 ms-lg-4 ms-3 create"
-          routerLink="/createnewitem"
+          routerLink="/createnewpost"
           >Create</a
         >
       </div>
