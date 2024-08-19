@@ -1,8 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace ClientWinForm.Models
 {
@@ -18,5 +15,6 @@ namespace ClientWinForm.Models
         public bool Status { get; set; }
         public Utilisateur Utilisateur { get; set; }
         public List<PostDetail> Postedetails { get; set; }
+        public List<Echange> Echanges { get; set; } // Nouvelle propriété pour les échanges
     }
 }

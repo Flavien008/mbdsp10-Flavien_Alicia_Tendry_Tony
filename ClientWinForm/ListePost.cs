@@ -93,6 +93,17 @@ namespace ClientWinForm
                     dataGridViewPosts.Columns.Add(btnDelete);
                 }
 
+                // Ajout de la colonne Voir Détails si elle n'existe pas déjà
+                if (!dataGridViewPosts.Columns.Contains("btnDetails"))
+                {
+                    DataGridViewButtonColumn btnDetails = new DataGridViewButtonColumn();
+                    btnDetails.HeaderText = "Voir Détails";
+                    btnDetails.Name = "btnDetails";
+                    btnDetails.Text = "Détails";
+                    btnDetails.UseColumnTextForButtonValue = true;
+                    dataGridViewPosts.Columns.Add(btnDetails);
+                }
+
                 if (!dataGridViewPosts.Columns.Contains("Utilisateur"))
                 {
                     DataGridViewTextBoxColumn userColumn = new DataGridViewTextBoxColumn();
@@ -139,38 +150,63 @@ namespace ClientWinForm
 
         private async void dataGridViewPosts_CellClick(object sender, DataGridViewCellEventArgs e)
         {
-            if (e.ColumnIndex == dataGridViewPosts.Columns["btnDelete"].Index && e.RowIndex >= 0)
+            if (e.RowIndex >= 0)
             {
-                // Assurez-vous que la cellule n'est pas nulle avant d'accéder à sa valeur
-                var cell = dataGridViewPosts.Rows[e.RowIndex].Cells["poste_id"];
-                var postId = cell?.Value?.ToString();
-
-                if (!string.IsNullOrEmpty(postId))
+                // Gestion du bouton "Supprimer"
+                if (e.ColumnIndex == dataGridViewPosts.Columns["btnDelete"].Index)
                 {
-                    // Demander une confirmation avant de supprimer
-                    var confirmResult = MessageBox.Show("Êtes-vous sûr de vouloir supprimer ce poste ?",
-                                                         "Confirmation de suppression",
-                                                         MessageBoxButtons.YesNo);
+                    var cell = dataGridViewPosts.Rows[e.RowIndex].Cells["poste_id"];
+                    var postId = cell?.Value?.ToString();
 
-                    if (confirmResult == DialogResult.Yes)
+                    if (!string.IsNullOrEmpty(postId))
                     {
-                        // Appeler l'API pour supprimer le poste
-                        var result = await _postService.DeletePostAsync(postId);
+                        var confirmResult = MessageBox.Show("Êtes-vous sûr de vouloir supprimer ce poste ?",
+                                                             "Confirmation de suppression",
+                                                             MessageBoxButtons.YesNo);
 
-                        if (result)
+                        if (confirmResult == DialogResult.Yes)
                         {
-                            MessageBox.Show("Poste supprimé avec succès.");
-                            LoadPosts(currentPage); // Recharger les posts après la suppression
+                            var result = await _postService.DeletePostAsync(postId);
+
+                            if (result)
+                            {
+                                MessageBox.Show("Poste supprimé avec succès.");
+                                LoadPosts(currentPage);
+                            }
+                            else
+                            {
+                                MessageBox.Show("Erreur lors de la suppression du poste.");
+                            }
+                        }
+                    }
+                    else
+                    {
+                        MessageBox.Show("Erreur : L'ID du poste est introuvable.");
+                    }
+                }
+
+                // Gestion du bouton "Voir Détails"
+                if (e.ColumnIndex == dataGridViewPosts.Columns["btnDetails"].Index)
+                {
+                    var cell = dataGridViewPosts.Rows[e.RowIndex].Cells["poste_id"];
+                    var postId = cell?.Value?.ToString();
+
+                    if (!string.IsNullOrEmpty(postId))
+                    {
+                        // Récupérer les détails du poste
+                        var postDetails = await _postService.GetPostByIdAsync(postId);
+
+                        if (postDetails != null)
+                        {
+                            // Afficher le formulaire de détails
+                            DetailPostForm detailForm = new DetailPostForm(postDetails, _authToken);
+                            detailForm.ShowDialog();
                         }
                         else
                         {
-                            MessageBox.Show("Erreur lors de la suppression du poste.");
+                            MessageBox.Show("Erreur lors de la récupération des détails du poste.");
                         }
                     }
-                }
-                else
-                {
-                    MessageBox.Show("Erreur : L'ID du poste est introuvable.");
                 }
             }
         }

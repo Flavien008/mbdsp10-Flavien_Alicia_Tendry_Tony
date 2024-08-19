@@ -1,8 +1,10 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Configuration;
 using System.Net.Http;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using ClientWinForm.Models;
 using Newtonsoft.Json.Linq;
 
 namespace ClientWinForm.Services
@@ -19,7 +21,6 @@ namespace ClientWinForm.Services
             _httpClient.DefaultRequestHeaders.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue("Bearer", token);
         }
 
-
         public async Task<JObject> GetPostsAsync(string dateDebut, string dateFin, string nomUtilisateur, string texte, string nomObjet, string categorieObjet, int status, string sortByDate, int page, int limit)
         {
             string baseUri = ConfigurationManager.AppSettings["BaseUri"];
@@ -35,6 +36,7 @@ namespace ClientWinForm.Services
 
             return null;
         }
+
         public async Task<bool> DeletePostAsync(string postId)
         {
             try
@@ -56,6 +58,58 @@ namespace ClientWinForm.Services
                 return false;
             }
         }
+
+        public async Task<List<Echange>> GetEchangesByPostIdAsync(int postId)
+        {
+            try
+            {
+                string baseUri = ConfigurationManager.AppSettings["BaseUri"];
+                string url = $"{baseUri}/echanges/post/{postId}";
+
+                HttpResponseMessage response = await _httpClient.GetAsync(url);
+
+                if (response.IsSuccessStatusCode)
+                {
+                    string content = await response.Content.ReadAsStringAsync();
+                    return JArray.Parse(content).ToObject<List<Echange>>();
+                }
+
+                return null;
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Erreur lors de la récupération des échanges: {ex.Message}");
+                return null;
+            }
+        }
+
+        public async Task<Post> GetPostByIdAsync(string postId)
+        {
+            try
+            {
+                string baseUri = ConfigurationManager.AppSettings["BaseUri"];
+                string url = $"{baseUri}/postes/{postId}";
+
+                HttpResponseMessage response = await _httpClient.GetAsync(url);
+
+                if (response.IsSuccessStatusCode)
+                {
+                    string content = await response.Content.ReadAsStringAsync();
+                    return JObject.Parse(content).ToObject<Post>();
+                }
+                else
+                {
+                    MessageBox.Show("Erreur lors de la récupération des détails du poste.");
+                    return null;
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Erreur lors de la récupération du poste: {ex.Message}");
+                return null;
+            }
+        }
+
 
     }
 }
