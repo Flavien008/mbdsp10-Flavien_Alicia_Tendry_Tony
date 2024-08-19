@@ -9,8 +9,8 @@ namespace ClientWinForm.Models
     public class PostDetail
     {
         public int PosteDetailsId { get; set; }
-        public int PostId { get; set; }
-        public int ItemId { get; set; }
+        public int post_id { get; set; }
+        public int objet_id { get; set; }
         public Objet Objet { get; set; }
     }
 }

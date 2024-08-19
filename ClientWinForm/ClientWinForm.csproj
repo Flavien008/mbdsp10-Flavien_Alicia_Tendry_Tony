@@ -79,6 +79,7 @@
     </Compile>
     <Compile Include="Models\Categorie.cs" />
     <Compile Include="Models\Echange.cs" />
+    <Compile Include="Models\EchangeViewModel.cs" />
     <Compile Include="Models\Objet.cs" />
     <Compile Include="Models\Post.cs" />
     <Compile Include="Models\PostDetail.cs" />
