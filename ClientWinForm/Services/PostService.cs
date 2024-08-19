@@ -35,5 +35,27 @@ namespace ClientWinForm.Services
 
             return null;
         }
+        private async Task<bool> DeletePostAsync(string postId)
+        {
+            try
+            {
+                string baseUri = ConfigurationManager.AppSettings["BaseUri"];
+                string url = $"{baseUri}/postes/{postId}";
+
+                using (HttpClient client = new HttpClient())
+                {
+                    client.DefaultRequestHeaders.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue("Bearer", _token);
+                    HttpResponseMessage response = await client.DeleteAsync(url);
+
+                    return response.IsSuccessStatusCode;
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Erreur: {ex.Message}");
+                return false;
+            }
+        }
+
     }
 }
