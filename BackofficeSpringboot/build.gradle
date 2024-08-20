@@ -42,3 +42,7 @@ tasks.withType(JavaCompile) {
 tasks.named('test') {
 	useJUnitPlatform()
 }
+
+bootJar {
+	archiveFileName = 'takalo.jar'
+}

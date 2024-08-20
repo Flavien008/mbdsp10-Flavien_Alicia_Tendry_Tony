@@ -3,6 +3,7 @@ package itu.mbds.tpt.security;
 
 
 import itu.mbds.tpt.security.service.CustomUserDetailsService;
+import itu.mbds.tpt.util.Constante;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -34,12 +35,12 @@ public class SecurityConfiguration {
                 .csrf(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests((authorize) -> authorize
                         .requestMatchers("/resources/**","/css/**", "/js/**", "/images/**", "/plugins/**","/login").permitAll()
-                        .requestMatchers("/").hasRole("admin")
-                        .requestMatchers("/categorie/**").hasRole("admin")
-                        .requestMatchers("/utilisateur/**").hasRole("admin")
-                        .requestMatchers("/post/**").hasRole("admin")
-                        .requestMatchers("/objet/**").hasRole("admin")
-                        .requestMatchers("/objet/**").hasRole("admin")
+                        .requestMatchers("/").hasRole(Constante.ROLE_ADMIN)
+                        .requestMatchers("/categorie/**").hasRole(Constante.ROLE_ADMIN)
+                        .requestMatchers("/utilisateur/**").hasRole(Constante.ROLE_ADMIN)
+                        .requestMatchers("/post/**").hasRole(Constante.ROLE_ADMIN)
+                        .requestMatchers("/objet/**").hasRole(Constante.ROLE_ADMIN)
+                        .requestMatchers("/objet/**").hasRole(Constante.ROLE_ADMIN)
                         .anyRequest().authenticated()
                 )
                 .formLogin((form) -> form
