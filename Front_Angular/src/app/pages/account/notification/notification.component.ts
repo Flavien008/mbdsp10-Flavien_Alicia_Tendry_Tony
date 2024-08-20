@@ -28,7 +28,7 @@ export class NotificationComponent implements OnInit {
   }
 
   fetchNotifications() {
-    this.notificationService.getNotifications(this.userId).subscribe(
+    this.notificationService.getNotifications().subscribe(
       (notifications) => {
         this.allnotification = notifications.map((notif: any) => ({
           ...notif,

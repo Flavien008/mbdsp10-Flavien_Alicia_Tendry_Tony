@@ -12,9 +12,17 @@ export class NotificationService {
 
   constructor(private http: HttpClient) { }
 
-  getNotifications(userId: string): Observable<any> {
+  getNotifications(): Observable<any> {
     const token = sessionStorage.getItem('authToken');
     const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
+    const currentUser = sessionStorage.getItem('currentUser'); 
+
+    let userId: number | null = null;
+    if (currentUser) {
+      const user = JSON.parse(currentUser); 
+      userId = user.id; 
+    }
+    console.log(userId)
     return this.http.get<any>(`${this.apiUrl}/${userId}`, { headers }).pipe(
       catchError((error) => {
         console.error('Error fetching notifications:', error);
