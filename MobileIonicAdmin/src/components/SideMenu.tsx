@@ -27,7 +27,7 @@ import './SideMenu.css';
 
 const SideMenu: React.FC = () => {
   const [visibleSubMenu, setVisibleSubMenu] = useState<string | null>(null);
-  const userInfo = JSON.parse(String(localStorage.getItem('userInfo')));
+  const userInfo = JSON.parse(String(localStorage.getItem('user')));
   const username = userInfo ? userInfo.username : 'Inconnu';
 
   const toggleSubMenu = (e: React.MouseEvent, menuTitle: string) => {
