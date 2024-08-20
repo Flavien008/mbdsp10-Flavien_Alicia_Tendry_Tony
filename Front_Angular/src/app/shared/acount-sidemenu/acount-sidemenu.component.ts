@@ -4,6 +4,8 @@ import { Component, OnInit } from '@angular/core';
 import { collections } from 'src/app/pages/account/my-collection/data';
 import { favorite } from 'src/app/pages/account/favorite/data';
 import { items } from 'src/app/pages/account/my-item/data';
+import { Router } from '@angular/router'; // Import Router
+import { AuthService } from 'src/app/auth.service'; 
 
 @Component({
   selector: 'app-acount-sidemenu',
@@ -19,11 +21,14 @@ export class AcountSidemenuComponent implements OnInit {
   collections: any;
   myitems: any;
 
-  constructor() {
+  constructor(
+    private authService: AuthService, // Inject AuthService
+    private router: Router // Inject Router
+  ) {
     // Fetch Data
-    this.favorites = favorite
-    this.collections = collections
-    this.myitems = items
+    this.favorites = favorite;
+    this.collections = collections;
+    this.myitems = items;
   }
 
   ngOnInit(): void {
@@ -35,6 +40,11 @@ export class AcountSidemenuComponent implements OnInit {
       });
       matchingMenuItem?.classList.add('active')
     }, 0);
+  }
+
+  logout(): void {
+    this.authService.logout(); // Appel à la méthode logout du AuthService
+    this.router.navigate(['/']); // Rediriger vers la page de connexion
   }
 
 }

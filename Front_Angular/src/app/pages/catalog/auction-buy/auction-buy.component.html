@@ -11,32 +11,17 @@
             <div class="row gy-4">
                 <!-- Product image -->
                 <div class="col-lg-6">
-                    <!-- <div class="position-relative rounded-3 overflow-hidden
-                        mb-lg-4 mb-2">
-                        <lib-ngx-image-zoom thumbImage="assets/img/nft/catalog/single.jpg" fullImage="assets/img/nft/catalog/single.jpg" [magnification]="1" [enableScrollZoom]="true" [lensWidth]="500" [lensHeight]="500">
-                        </lib-ngx-image-zoom>
-                    </div> -->
-                    <!-- <div class="pt-2 text-lg-start text-center">
-                        <button class="btn btn-secondary rounded-pill btn-icon
-                            me-sm-3 me-2" type="button" data-bs-toggle="tooltip" data-bs-placement="top" ngbTooltip="Add to Favorites">
-                            <i class="ci-heart"></i>
-                        </button>
-                        <button class="btn btn-secondary rounded-pill btn-icon
-                            me-sm-3 me-2" type="button" data-bs-toggle="tooltip" data-bs-placement="top" ngbTooltip="Share">
-                            <i class="ci-share-alt"></i>
-                        </button>
-                        <button class="btn btn-secondary rounded-pill btn-icon
-                            me-sm-3 me-2" type="button" data-bs-toggle="tooltip" data-bs-placement="top" ngbTooltip="Flag">
-                            <i class="ci-flag"></i>
-                        </button>
-                    </div> -->
                     <section class="container mb-5 pb-md-4">
-                        <div class="d-flex flex-sm-row flex-column align-items-sm-center
-                            justify-content-sm-between mb-sm-4 mb-3">
+                        <div class="d-flex flex-sm-row flex-column align-items-sm-center justify-content-sm-between mb-sm-4 mb-3">
                             <h2 class="h3 mb-sm-0">Les objets proposés ({{morecollection.length}})</h2>
                         </div>
                         <!-- Product carousel -->
-                        <ngx-slick-carousel>
+                        <div *ngIf="isLoadingObjects" class="text-center my-4">
+                            <div class="spinner-border" role="status">
+                                <span class="visually-hidden">Chargement...</span>
+                            </div>
+                        </div>
+                        <ngx-slick-carousel *ngIf="!isLoadingObjects">
                             <div ngxSlickItem *ngFor="let collect of morecollection; let i = index" class="swiper-slide mb-3">
                               <article class="card h-100 border-0 shadow">
                                 <div class="card-img-top position-relative overflow-hidden">
@@ -54,8 +39,6 @@
                               </article>
                             </div>
                           </ngx-slick-carousel>
-                          
-                        
                     </section>
                 </div>
                 <!-- Product details -->
@@ -63,15 +46,13 @@
                     <div class="ps-xl-5 ps-lg-3">
                         <!-- Meta -->
                         <h2 class="h3 mb-3">{{postDetails.titre}}</h2>
-                        <div class="d-flex align-items-center flex-wrap
-                            text-nowrap mb-sm-4 mb-3 fs-sm">
+                        <div class="d-flex align-items-center flex-wrap text-nowrap mb-sm-4 mb-3 fs-sm">
                             <div class="mb-2 me-sm-3 me-2 text-muted">
                                 Publie le
                                 {{postDetails.created_at}}
                             </div>
                         </div>
-                        <div class="row row-cols-sm-2 row-cols-1 gy-3 gx-4 mb-4
-                            pb-md-2">
+                        <div class="row row-cols-sm-2 row-cols-1 gy-3 gx-4 mb-4 pb-md-2">
                             <!-- Creator -->
                             <div class="col">
                                 <div class="card position-relative h-100">
@@ -79,81 +60,55 @@
                                         <h3 class="h6 mb-2 fs-sm text-muted">Proposeur</h3>
                                         <div class="d-flex align-items-center">
                                             <img class="rounded-circle me-2" src="assets/img/nft/catalog/avatars/01.png" width="32" alt="Avatar">
-                                            <a class="nav-link-style
-                                                stretched-link fs-sm" routerLink="/vendor">
+                                            <a class="nav-link-style stretched-link fs-sm" routerLink="/vendor">
                                                 &#64;{{postDetails.Utilisateur.username}}
                                             </a>
                                         </div>
                                     </div>
                                 </div>
                             </div>
-                            <!-- Collection -->
-                           
                         </div>
-                        <!-- Description -->
                         <p class="mb-4 pb-md-2 fs-sm">
                             {{postDetails.description}}
                         </p>
-                        <!-- Current price -->
-                        <!-- <div class="mb-4 pb-md-2">
-                            <h3 class="h6 mb-2 fs-sm text-muted">Current price</h3>
-                            <h2 class="h3 mb-1">2.80 ETH</h2>
-                            <span class="fs-sm text-muted">(≈ $ 795.48)</span>
-                        </div> -->
-                        <!-- Buy -->
-                        <div class="row row-cols-sm-2 row-cols-1 g-sm-4 g-3
-                            mb-4">
-                         
+                        <div class="row row-cols-sm-2 row-cols-1 g-sm-4 g-3 mb-4">
                             <div class="col">
-                                <a class="btn btn-lg btn-outline-accent d-block
-                                    w-100" href="javacript:void(0);">
+                                <a class="btn btn-lg btn-outline-accent d-block w-100" href="javascript:void(0);">
                                     Faire une offre
                                 </a>
                             </div>
                         </div>
-                        <!-- Product info -->
                         <div class="pt-3">
-                            <!-- Nav tabs -->
                             <div class="mb-4" style="overflow-x: auto;">
-                                <ul ngbNav #nav="ngbNav" class="nav nav-tabs
-                                    nav-fill flex-nowrap text-nowrap mb-1" role="tablist">
+                                <ul ngbNav #nav="ngbNav" class="nav nav-tabs nav-fill flex-nowrap text-nowrap mb-1" role="tablist">
                                     <li class="nav-item" [ngbNavItem]="1">
                                         <a ngbNavLink class="nav-link" data-bs-toggle="tab" role="tab">
                                             Details
                                         </a>
                                         <ng-template ngbNavContent>
-                                            <!-- Details -->
-                                            <div class="tab-pane fade show
-                                                active" id="details" role="tabpanel">
+                                            <div class="tab-pane fade show active" id="details" role="tabpanel">
                                                 <ul class="list-unstyled mb-0">
-                                                    <li >
-                                    
+                                                    <li>
                                                         <div>
                                                             <span>Localisation</span>
                                                             <div id="map" style="height: 400px;" *ngIf="!isLoading"></div>
-
                                                         </div>
                                                     </li>                       
                                                 </ul>
                                             </div>
                                         </ng-template>
                                     </li>
-                                 
-                                  
                                     <li class="nav-item" [ngbNavItem]="4">
                                         <a ngbNavLink class="nav-link" data-bs-toggle="tab" role="tab">
                                             Commentaires
                                         </a>
                                         <ng-template ngbNavContent>
                                             <div class="comment-section">
-                                                <!-- Afficher un indicateur de chargement lors du chargement, de l'ajout ou de la suppression des commentaires -->
                                                 <div *ngIf="isLoadingComments" class="text-center my-3">
                                                     <div class="spinner-border" role="status">
                                                         <span class="visually-hidden">Chargement...</span>
                                                     </div>
                                                 </div>
-                                    
-                                                <!-- Liste des commentaires -->
                                                 <div *ngIf="!isLoadingComments">
                                                     <div class="comment" *ngFor="let comment of comments">
                                                         <img src="assets/img/nft/vendor/avatar-square.jpg" alt="User Avatar" class="comment-avatar">
@@ -161,7 +116,6 @@
                                                             <div class="comment-header">
                                                                 <span class="comment-author">{{ comment.utilisateur.username }}</span>
                                                                 <span class="comment-time">{{ comment.created_at }}</span>
-                                                                <!-- Icône de suppression -->
                                                                 <button *ngIf="currentUser.id === comment.utilisateur._id || currentUser.id === postDetails.user_id"
                                                                         class="btn btn-link p-0 ms-2"
                                                                         (click)="deleteComment(comment._id, comment.auteur_id)">
@@ -172,12 +126,9 @@
                                                         </div>
                                                     </div>
                                                 </div>
-                                    
-                                                <!-- Input pour ajouter un commentaire -->
                                                 <div class="comment-input d-flex align-items-center mt-3">
                                                     <img src="assets/img/nft/vendor/avatar-square.jpg" alt="User Avatar" class="comment-avatar me-2">
                                                     <input type="text" class="form-control me-2" placeholder="Commenter en tant que {{ currentUser.name }}" [(ngModel)]="newComment">
-                                                    <!-- Icône d'envoi -->
                                                     <button class="btn btn-link p-0" (click)="submitComment()">
                                                         <i class="ci-send text-primary"></i>
                                                     </button>
@@ -185,13 +136,8 @@
                                             </div>
                                         </ng-template>
                                     </li>
-                                    
-                                      
-                                      
-                                      
                                 </ul>
                             </div>
-                            <!-- Tabs content -->
                             <div class="tab-content">
                                 <div [ngbNavOutlet]="nav"></div>
                             </div>
@@ -202,9 +148,4 @@
         </div>
     </div>
 </section>
-<!-- Recent products -->
-
-<!-- Bg shape -->
-
-
 <app-footer></app-footer>

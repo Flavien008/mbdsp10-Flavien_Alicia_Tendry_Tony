@@ -14,11 +14,12 @@ export class AuctionBuyComponent implements OnInit {
   morecollection: any[] = [];
   breadCrumbItems!: any;
   isLoading: boolean = true;
+  isLoadingObjects: boolean = true;  // Variable de contrôle pour les objets
+  isLoadingComments: boolean = false;
   comments: any[] = [];
   private map!: L.Map;
-  currentUser : any;
+  currentUser: any;
   newComment: string = '';
-  isLoadingComments: boolean = false;
 
   constructor(
     private postService: PostService,
@@ -41,9 +42,6 @@ export class AuctionBuyComponent implements OnInit {
       this.loadPostDetails(postId);
       this.loadComments(postId);
     }
-    if(!this.isLoading){
-      console.log(this.postDetails)
-    }
   }
 
   loadPostDetails(postId: string): void {
@@ -51,7 +49,6 @@ export class AuctionBuyComponent implements OnInit {
     this.postService.getPostById(postId).subscribe(
       response => {
         this.postDetails = response;
-        console.log(response.Postedetails)
         this.loadObjectsForPost(response.Postedetails);
         this.isLoading = false;
         this.initializeMap();
@@ -63,36 +60,33 @@ export class AuctionBuyComponent implements OnInit {
     );
   }
 
-  loadComments(postId: string): void {
-    this.isLoadingComments = true;
-    this.postService.getCommentsByPostId(postId).subscribe(
-      (response) => {
-        this.comments = response;
-        this.isLoadingComments = false;
-      },
-      (error) => {
-        console.error('Error loading comments:', error);
-        this.isLoadingComments = false;
-      }
-    );
-  }
-
   loadObjectsForPost(postDetails: any[]): void {
     const itemRequests = postDetails.map((detail: any) =>
       firstValueFrom(this.postService.getItemById(detail.Objet.item_id))
     );
-  
-    console.log(itemRequests); // Affiche des promesses
-  
-    this.isLoading = true;
+
+    this.isLoadingObjects = true;
     Promise.all(itemRequests).then((responses: any[]) => {
       this.morecollection = responses;
-      this.isLoading = false;
-      console.log(this.morecollection); // Affiche les réponses des objets
+      this.isLoadingObjects = false;
     }).catch(error => {
       console.error('Erreur lors du chargement des objets:', error);
-      this.isLoading = false;
+      this.isLoadingObjects = false;
     });
+  }
+
+  loadComments(postId: string): void {
+    this.isLoadingComments = true;
+    this.postService.getCommentsByPostId(postId).subscribe(
+      response => {
+        this.comments = response;
+        this.isLoadingComments = false;
+      },
+      error => {
+        console.error('Error loading comments:', error);
+        this.isLoadingComments = false;
+      }
+    );
   }
 
   initializeMap(): void {
@@ -114,12 +108,23 @@ export class AuctionBuyComponent implements OnInit {
           attribution: '© OpenStreetMap contributors'
         }).addTo(this.map);
 
-        L.marker([this.postDetails.latitude, this.postDetails.longitude]).addTo(this.map)
+        // Créer une icône personnalisée
+        const customIcon = L.icon({
+          iconUrl: 'assets/img/1673221.png',
+          iconSize: [38, 38], 
+          iconAnchor: [19, 38],
+          popupAnchor: [0, -38] 
+        });
+
+        // Ajouter le marqueur avec l'icône personnalisée
+        L.marker([this.postDetails.latitude, this.postDetails.longitude], { icon: customIcon })
+          .addTo(this.map)
           .bindPopup(this.postDetails.titre)
           .openPopup();
       }
     }, 0);
   }
+
 
   submitComment(): void {
     if (this.newComment.trim()) {
@@ -134,10 +139,7 @@ export class AuctionBuyComponent implements OnInit {
           console.log('Commentaire ajouté avec succès');
           this.comments.push(response);
           this.newComment = ''; // Réinitialiser le champ de saisie
-          const postId = this.route.snapshot.paramMap.get('id');
-          if (postId) {
-          this.loadComments(postId); 
-          }
+          this.loadComments(this.postDetails.poste_id);
         },
         error => {
           console.error('Erreur lors de l\'ajout du commentaire:', error);
@@ -145,26 +147,24 @@ export class AuctionBuyComponent implements OnInit {
       );
     }
   }
+
   deleteComment(commentId: string, auteurId: string): void {
-    // Vérifier si l'utilisateur est l'auteur du post ou du commentaire
     if (this.currentUser.id !== this.postDetails.user_id && this.currentUser.id !== auteurId) {
         console.error('Vous n\'avez pas l\'autorisation de supprimer ce commentaire');
         return;
     }
 
-    this.isLoadingComments = true; // Démarrer l'indicateur de chargement
+    this.isLoadingComments = true; 
     this.postService.deleteComment(commentId).subscribe(
         () => {
             console.log('Commentaire supprimé avec succès');
             this.comments = this.comments.filter(comment => comment._id !== commentId);
-            this.isLoadingComments = false; // Arrêter l'indicateur de chargement
+            this.isLoadingComments = false;
         },
         error => {
             console.error('Erreur lors de la suppression du commentaire:', error);
-            this.isLoadingComments = false; // Arrêter l'indicateur de chargement en cas d'erreur
+            this.isLoadingComments = false;
         }
     );
-}
-  
-
+  }
 }

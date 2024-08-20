@@ -44,6 +44,12 @@
                         <label class="form-label" for="details-latitude">Latitude</label>
                         <input class="form-control" id="details-latitude" type="text" formControlName="latitude" placeholder="Latitude" required>
                     </div>
+                    <div class="col-12 mt-3">
+                        <button type="button" class="btn btn-primary" (click)="getCurrentLocation()">Utiliser ma position actuelle</button>
+                    </div>
+                    <div class="col-12 mt-3">
+                        <div id="map" style="height: 400px;"></div>
+                    </div>
                 </div>
             </div>
 

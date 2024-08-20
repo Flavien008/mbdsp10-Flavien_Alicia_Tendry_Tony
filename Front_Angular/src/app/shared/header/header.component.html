@@ -17,20 +17,7 @@
         >
           <span class="navbar-toggler-icon" (click)="collapse.toggle()"></span>
         </button>
-        <a
-          class="navbar-tool d-none d-lg-flex"
-          href="javascript:void(0)"
-          data-bs-toggle="collapse"
-          data-bs-target="#searchBox"
-          role="button"
-          aria-expanded="false"
-          aria-controls="searchBox"
-        >
-          <span class="navbar-tool-tooltip">Search</span>
-          <div class="navbar-tool-icon-box" (click)="collapse.toggle()">
-            <i class="navbar-tool-icon ci-search"></i>
-          </div>
-        </a>
+        
         <a *ngIf="!isLoggedIn"
           class="navbar-tool ms-lg-2 account"
           href="javascript:void(0);"

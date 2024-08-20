@@ -153,4 +153,11 @@ export class HeaderComponent implements OnInit {
     }
     return false;
   }
+
+  logout() {
+    this.authService.logout();
+    this.isLoggedIn = false;
+    this.currentUser = null;
+    window.location.reload(); // Recharge la page après la déconnexion pour actualiser l'état
+  }
 }
