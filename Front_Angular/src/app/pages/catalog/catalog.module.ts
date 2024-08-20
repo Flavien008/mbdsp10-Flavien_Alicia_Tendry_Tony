@@ -26,6 +26,7 @@ import { CreatenewitemComponent } from './createnewitem/createnewitem.component'
 import { NgxDropzoneModule } from 'ngx-dropzone';
 import { UpdateItemComponent } from './uptadeitem/updateitem.component';
 import { PostCreateComponent } from './createnewpost/createnewpost.component';
+import { MakeOfferComponent } from './make-offer/make-offer.component';
 
 @NgModule({
   declarations: [
@@ -34,7 +35,8 @@ import { PostCreateComponent } from './createnewpost/createnewpost.component';
     VendorComponent,
     CreatenewitemComponent,
     UpdateItemComponent,
-    PostCreateComponent
+    PostCreateComponent,
+    MakeOfferComponent
   ],
   imports: [
     CommonModule,

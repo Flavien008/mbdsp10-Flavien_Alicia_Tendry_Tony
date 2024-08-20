@@ -26,13 +26,13 @@
                               <article class="card h-100 border-0 shadow">
                                 <div class="card-img-top position-relative overflow-hidden">
                                   <a class="d-block" routerLink="/auctionlive">
-                                    <img [src]="collect.images[0]?.img" alt="Product image"> <!-- Accès à la première image -->
+                                    <img [src]="collect.images[0]?.img" alt="Product image"> <
                                   </a>
                                 </div>
                                 <div class="card-body">
                                   <h3 class="product-title mb-2 fs-base">
                                     <a class="d-block text-truncate" routerLink="/auctionlive/{{collect.objet.item_id}}">
-                                      {{ collect.objet.name }} <!-- Affichage du nom de l'objet -->
+                                      {{ collect.objet.name }} 
                                     </a>
                                   </h3>
                                 </div>
@@ -73,11 +73,12 @@
                         </p>
                         <div class="row row-cols-sm-2 row-cols-1 g-sm-4 g-3 mb-4">
                             <div class="col">
-                                <a class="btn btn-lg btn-outline-accent d-block w-100" href="javascript:void(0);">
+                                <a class="btn btn-lg btn-outline-accent d-block w-100" [routerLink]="['/make-offer', postDetails.poste_id]">
                                     Faire une offre
                                 </a>
                             </div>
                         </div>
+                        
                         <div class="pt-3">
                             <div class="mb-4" style="overflow-x: auto;">
                                 <ul ngbNav #nav="ngbNav" class="nav nav-tabs nav-fill flex-nowrap text-nowrap mb-1" role="tablist">
