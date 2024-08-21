@@ -1,7 +1,3 @@
-Voici un exemple de README pour le dépôt Git du projet TAKALO :
-
----
-
 # TAKALO - Plateforme de Troc en Ligne
 
 Bienvenue sur le dépôt Git de **TAKALO**, une plateforme de troc d'objets entre particuliers. Ce projet a été réalisé dans le cadre du Projet Transversal MBDS - Promotion 10.
