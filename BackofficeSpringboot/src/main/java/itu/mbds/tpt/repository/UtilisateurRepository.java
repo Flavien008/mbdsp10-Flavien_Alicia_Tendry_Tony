@@ -28,4 +28,6 @@ public interface UtilisateurRepository extends JpaRepository<Utilisateur, Intege
     List<Utilisateur> findByBirthdayBetween(LocalDate dtnMin, LocalDate dtnMax);
 
     Utilisateur findByEmail(String email);
+
 }
+

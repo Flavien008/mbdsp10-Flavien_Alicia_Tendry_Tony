@@ -1,5 +1,6 @@
 package itu.mbds.tpt.service;
 
+import itu.mbds.tpt.dto.ChangePasswordDto;
 import itu.mbds.tpt.entity.Role;
 import itu.mbds.tpt.entity.Utilisateur;
 import itu.mbds.tpt.entity.stat.AgeGroup;
@@ -142,5 +143,22 @@ public class UtilisateurService {
     public List<AgeGroup> getAgeGroupStatistics() {
         return utilisateurRepository.findAgeGroupStatistics();
     }
+
+    public void changePassword(String email, ChangePasswordDto changePasswordDto) {
+        Utilisateur utilisateur = findUtilisateurByEmail(email);
+        if (!passwordConfiguration.passwordEncoder().matches(changePasswordDto.getAncien(), utilisateur.getPassword())) {
+            throw new IllegalArgumentException("L'ancien mot de passe est incorrect");
+        }
+
+        // Vérifier si le nouveau mot de passe et la confirmation correspondent
+        if (!changePasswordDto.getNouveau().equals(changePasswordDto.getConfirmationNouveau())) {
+            throw new IllegalArgumentException("Le nouveau mot de passe et la confirmation ne correspondent pas");
+        }
+
+        // Changer le mot de passe
+        utilisateur.setPassword(passwordConfiguration.passwordEncoder().encode(changePasswordDto.getNouveau()));
+        utilisateurRepository.save(utilisateur);
+    }
+
 
 }
