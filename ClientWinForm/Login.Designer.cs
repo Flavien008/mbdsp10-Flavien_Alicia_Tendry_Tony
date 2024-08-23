@@ -33,18 +33,31 @@
             this.labelEmail = new System.Windows.Forms.Label();
             this.labelPassword = new System.Windows.Forms.Label();
             this.buttonLogin = new System.Windows.Forms.Button();
+
+            // Ajout de PictureBox pour le logo
+            this.pictureBoxLogo = new System.Windows.Forms.PictureBox();
+
             this.SuspendLayout();
+
+            // 
+            // pictureBoxLogo
+            // 
+            this.pictureBoxLogo.Image = Properties.Resources.logo; // Assurez-vous que le logo est ajouté dans les ressources
+            this.pictureBoxLogo.SizeMode = System.Windows.Forms.PictureBoxSizeMode.AutoSize;
+            this.pictureBoxLogo.Location = new System.Drawing.Point((this.ClientSize.Width - this.pictureBoxLogo.Width) / 2, 20); // Centré horizontalement
+            this.Controls.Add(this.pictureBoxLogo);
+
             // 
             // textBoxEmail
             // 
-            this.textBoxEmail.Location = new System.Drawing.Point(157, 50);
+            this.textBoxEmail.Location = new System.Drawing.Point(157, 100); 
             this.textBoxEmail.Name = "textBoxEmail";
             this.textBoxEmail.Size = new System.Drawing.Size(200, 22);
             this.textBoxEmail.TabIndex = 0;
             // 
             // textBoxPassword
             // 
-            this.textBoxPassword.Location = new System.Drawing.Point(157, 100);
+            this.textBoxPassword.Location = new System.Drawing.Point(157, 150); 
             this.textBoxPassword.Name = "textBoxPassword";
             this.textBoxPassword.PasswordChar = '*';
             this.textBoxPassword.Size = new System.Drawing.Size(200, 22);
@@ -53,7 +66,7 @@
             // labelEmail
             // 
             this.labelEmail.AutoSize = true;
-            this.labelEmail.Location = new System.Drawing.Point(50, 50);
+            this.labelEmail.Location = new System.Drawing.Point(50, 103);
             this.labelEmail.Name = "labelEmail";
             this.labelEmail.Size = new System.Drawing.Size(70, 16);
             this.labelEmail.TabIndex = 2;
@@ -62,7 +75,7 @@
             // labelPassword
             // 
             this.labelPassword.AutoSize = true;
-            this.labelPassword.Location = new System.Drawing.Point(50, 100);
+            this.labelPassword.Location = new System.Drawing.Point(50, 153);
             this.labelPassword.Name = "labelPassword";
             this.labelPassword.Size = new System.Drawing.Size(67, 16);
             this.labelPassword.TabIndex = 3;
@@ -70,7 +83,7 @@
             // 
             // buttonLogin
             // 
-            this.buttonLogin.Location = new System.Drawing.Point(157, 156);
+            this.buttonLogin.Location = new System.Drawing.Point(157, 200);
             this.buttonLogin.Name = "buttonLogin";
             this.buttonLogin.Size = new System.Drawing.Size(200, 23);
             this.buttonLogin.TabIndex = 4;
@@ -88,6 +101,7 @@
             this.Controls.Add(this.labelEmail);
             this.Controls.Add(this.textBoxPassword);
             this.Controls.Add(this.textBoxEmail);
+            this.Controls.Add(this.pictureBoxLogo); // Ajout du logo
             this.Name = "Login";
             this.Text = "Login";
             this.ResumeLayout(false);
@@ -101,7 +115,9 @@
         private System.Windows.Forms.Label labelPassword;
         private System.Windows.Forms.Button buttonLogin;
 
+        // Déclaration de PictureBox pour l'image du logo
+        private System.Windows.Forms.PictureBox pictureBoxLogo;
+
         #endregion
     }
 }
-
