@@ -111,7 +111,10 @@ public class GestionObjetActivity extends AppCompatActivity {
                         String description = objectData.getString("description");
                         String categorie = objectData.getJSONObject("Categorie").getString("nom");
                         JSONArray imagesArray = objectData.getJSONArray("images");
-                        String imageBase64 = imagesArray.getJSONObject(imagesArray.length() - 1).getString("img");
+                        String imageBase64 = "";
+                        if (imagesArray != null && imagesArray.length() > 0) {
+                            imageBase64 = imagesArray.getJSONObject(imagesArray.length() - 1).getString("img");
+                        }
 
                         Objet objet = new Objet(itemId, name, categorie, description, imageBase64);
                         objetList.add(objet);

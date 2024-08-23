@@ -69,9 +69,6 @@ public class ExchangeService {
 
         requestQueue.add(request);
     }
-
-
-
     public void createExchange(JSONObject requestBody, final CreateExchangeCallback callback) {
         // Afficher le corps de la requête dans les logs
         Log.d("ExchangeService", "Request Body: " + requestBody.toString());
@@ -100,9 +97,6 @@ public class ExchangeService {
 
         requestQueue.add(request);
     }
-
-
-
     private Exchange parseExchange(JSONObject exchangeObject) throws JSONException {
         int id = exchangeObject.getInt("id");
         String proposerUsername = exchangeObject.getJSONObject("Proposer").getString("username");
@@ -120,14 +114,52 @@ public class ExchangeService {
 
         return new Exchange(id, proposerUsername, responderUsername, postTitle, status, objectNames);
     }
-
     public interface FetchExchangesCallback {
         void onSuccess(List<Exchange> exchanges);
         void onError(String message);
     }
-
     public interface CreateExchangeCallback {
         void onSuccess(JSONObject response);
         void onError(String message);
+    }
+
+    public void updateEchange(int id, String status, final UpdateEchangeCallback callback) {
+        String url = EXCHANGE_URL + "/" + id;
+
+        JSONObject requestBody = new JSONObject();
+        try {
+            requestBody.put("status", status);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+        JsonObjectRequest request = new JsonObjectRequest(Request.Method.PUT, url, requestBody,
+                new Response.Listener<JSONObject>() {
+                    @Override
+                    public void onResponse(JSONObject response) {
+                        callback.onSuccess(response);
+                    }
+                },
+                new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        callback.onError(error);
+                    }
+                }) {
+            @Override
+            public Map<String, String> getHeaders() throws AuthFailureError {
+                Map<String, String> headers = new HashMap<>();
+                headers.put("Authorization", "Bearer " + tokenManager.getToken());
+                headers.put("Content-Type", "application/json");
+                return headers;
+            }
+        };
+
+        requestQueue.add(request);
+    }
+
+    public interface UpdateEchangeCallback {
+        void onSuccess(JSONObject response);
+        void onError(VolleyError error);
     }
 }

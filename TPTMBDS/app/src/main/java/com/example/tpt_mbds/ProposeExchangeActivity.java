@@ -129,7 +129,7 @@ public class ProposeExchangeActivity extends AppCompatActivity {
                             checkBox.setText(name);
                             checkBox.setTag(id);  // Store the object ID in the tag
 
-// Change the color of the checkbox itself
+                            // Change the color of the checkbox itself
                             ColorStateList colorStateList = new ColorStateList(
                                     new int[][]{
                                             new int[]{-android.R.attr.state_checked}, // unchecked state

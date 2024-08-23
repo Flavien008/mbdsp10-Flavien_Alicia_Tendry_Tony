@@ -39,6 +39,26 @@ public class Exchange {
         return status;
     }
 
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    public void setProposerUsername(String proposerUsername) {
+        this.proposerUsername = proposerUsername;
+    }
+
+    public void setResponderUsername(String responderUsername) {
+        this.responderUsername = responderUsername;
+    }
+
+    public void setPostTitle(String postTitle) {
+        this.postTitle = postTitle;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
+    }
+
     public List<String> getObjectNames() {
         return objectNames;
     }

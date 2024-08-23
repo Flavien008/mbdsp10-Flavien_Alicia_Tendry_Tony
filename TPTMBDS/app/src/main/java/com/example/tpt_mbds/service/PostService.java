@@ -121,6 +121,24 @@ public class PostService {
         requestQueue.add(request);
     }
 
+    public void fetchUserPosts(int userId, int page, int limit, final FetchPostsCallback callback) {
+        String url = POST_URL + "/user/" + userId + "?userId="+userId+ "&page=" + page + "&limit=" + limit;
+
+        JsonObjectRequest request = new JsonObjectRequest(Request.Method.GET, url, null,
+                response -> callback.onSuccess(response),
+                error -> callback.onError(error)) {
+            @Override
+            public Map<String, String> getHeaders() throws AuthFailureError {
+                Map<String, String> headers = new HashMap<>();
+                headers.put("Authorization", "Bearer " + tokenManager.getToken());
+                headers.put("Content-Type", "application/json");
+                return headers;
+            }
+        };
+
+        requestQueue.add(request);
+    }
+
     public interface FetchPostsCallback {
         void onSuccess(JSONObject response);
         void onError(VolleyError error);
