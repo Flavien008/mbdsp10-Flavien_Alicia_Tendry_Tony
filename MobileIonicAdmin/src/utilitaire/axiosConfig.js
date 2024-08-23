@@ -2,7 +2,7 @@
 import axios from 'axios';
 
 const axiosInstance = axios.create({
-  baseURL: 'http://localhost:8010/api',
+  baseURL: 'https://mbdsp10-flavien-alicia-tendry-tony.onrender.com/api',
   headers: {
     'Content-Type': 'application/json',
   },
