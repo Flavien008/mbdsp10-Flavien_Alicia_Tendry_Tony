@@ -9,6 +9,7 @@ import { CreatenewitemComponent } from './createnewitem/createnewitem.component'
 import { UpdateItemComponent } from './uptadeitem/updateitem.component';
 import { PostCreateComponent } from './createnewpost/createnewpost.component';
 import { MakeOfferComponent } from './make-offer/make-offer.component';
+import { OfferListComponent } from './offer-list/offer-list.component';
 
 const routes: Routes = [
 
@@ -32,6 +33,9 @@ const routes: Routes = [
   },
   {
     path: 'updateitem/:id', component:  UpdateItemComponent
+  },
+  {
+    path: 'offer-list/:id', component:  OfferListComponent
   },
 ];
 

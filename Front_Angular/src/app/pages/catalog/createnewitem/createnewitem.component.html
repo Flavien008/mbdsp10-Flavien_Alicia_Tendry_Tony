@@ -31,7 +31,7 @@
                 <ngx-dropzone class="file-drop-area" (change)="onSelect($event)">
                     <ngx-dropzone-label>
                         <div class="file-drop-icon ci-cloud-upload"></div>
-                        <span class="file-drop-message">Drag and drop here to upload</span>
+                        <span class="file-drop-message">Drag and drop ici pour uploader</span>
                     </ngx-dropzone-label>
                     <ngx-dropzone-preview *ngFor="let f of files; trackBy: trackByFn" [removable]="true" (removed)="onRemove(f)">
                         <ngx-dropzone-label>{{ f.name }} ({{ f.type }})</ngx-dropzone-label>
@@ -47,20 +47,20 @@
                         <label class="form-label" for="details-title">Nom de l'objet<span class="ms-1 text-danger">*</span></label>
                         <input class="form-control" id="details-title" type="text" formControlName="title" placeholder="Nom de l'objet" required [ngClass]="{ 'is-invalid': submitted && form['title'].errors }">
                         <div class="invalid-feedback">SVP, entrez le nom.</div>
-                        <span class="form-text">Maximum 100 characters. No HTML or emoji allowed.</span>
+                        <span class="form-text">Maximum 100 caractères. No HTML or emoji allowed.</span>
                     </div>
                     <div class="col-sm-6">
                         <label class="form-label" for="details-category">Category</label>
                         <select class="form-select" id="details-category" formControlName="category">
-                            <option disabled selected>Choose category</option>
+                            <option disabled selected>Chpoisir la catégorie</option>
                             <option *ngFor="let category of categories" [value]="category.categorie_id">{{ category.nom }}</option>
                         </select>
                     </div>
                    
                     <div class="col-12">
                         <label class="form-label" for="details-description">Description</label>
-                        <textarea class="form-control" id="details-description" rows="4" placeholder="Enter a short description of your item" formControlName="description"></textarea>
-                        <span class="form-text">0 of 500 characters used.</span>
+                        <textarea class="form-control" id="details-description" rows="4" placeholder="Entrez une courte description de l'objet" formControlName="description"></textarea>
+                        <span class="form-text">0 à 500 caractères.</span>
                     </div>
                 </div>
             </div>
@@ -69,7 +69,7 @@
                 <div class="pt-2">
                     <button class="btn btn-lg btn-accent d-block w-100" type="submit" [disabled]="isSubmitting">
                         <span *ngIf="isSubmitting" class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
-                        <span *ngIf="!isSubmitting">Create item</span>
+                        <span *ngIf="!isSubmitting">Creer l'objet</span>
                     </button>
                 </div>
             </div>

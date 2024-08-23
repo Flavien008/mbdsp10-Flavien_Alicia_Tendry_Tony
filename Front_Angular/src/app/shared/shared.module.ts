@@ -15,6 +15,7 @@ import { MailfooterComponent } from './mailfooter/mailfooter.component';
 import { AccountBreadcrumbsComponent } from './account-breadcrumbs/account-breadcrumbs.component';
 import { AcountSidemenuComponent } from './acount-sidemenu/acount-sidemenu.component';
 import { SlickCarouselModule } from 'ngx-slick-carousel';
+import { RelativeTimePipe } from '../pipes/relative-time.pipe';
 
 
 
@@ -25,7 +26,8 @@ import { SlickCarouselModule } from 'ngx-slick-carousel';
     BreadcrumbsComponent,
     MailfooterComponent,
     AccountBreadcrumbsComponent,
-    AcountSidemenuComponent
+    AcountSidemenuComponent,
+    RelativeTimePipe
   ],
   imports: [
     CommonModule,
@@ -45,7 +47,8 @@ import { SlickCarouselModule } from 'ngx-slick-carousel';
     BreadcrumbsComponent,
     MailfooterComponent,
     AccountBreadcrumbsComponent,
-    AcountSidemenuComponent
+    AcountSidemenuComponent,
+    RelativeTimePipe
   ]
 })
 export class SharedModule { }

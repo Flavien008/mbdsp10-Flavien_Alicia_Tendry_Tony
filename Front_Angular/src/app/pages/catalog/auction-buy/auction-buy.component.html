@@ -26,7 +26,7 @@
                               <article class="card h-100 border-0 shadow">
                                 <div class="card-img-top position-relative overflow-hidden">
                                   <a class="d-block" routerLink="/auctionlive">
-                                    <img [src]="collect.images[0]?.img" alt="Product image"> <
+                                    <img [src]="collect.images[0]?.img" alt="Product image"> 
                                   </a>
                                 </div>
                                 <div class="card-body">
@@ -72,9 +72,17 @@
                             {{postDetails.description}}
                         </p>
                         <div class="row row-cols-sm-2 row-cols-1 g-sm-4 g-3 mb-4">
-                            <div class="col">
+                            <!-- Bouton "Faire une offre" -->
+                            <div class="col" *ngIf="currentUser.id !== postDetails.user_id">
                                 <a class="btn btn-lg btn-outline-accent d-block w-100" [routerLink]="['/make-offer', postDetails.poste_id]">
                                     Faire une offre
+
+                                </a>
+                            </div>
+                            <!-- Bouton "Liste des offres" -->
+                            <div class="col" *ngIf="currentUser.id == postDetails.user_id">
+                                <a class="btn btn-lg btn-outline-primary d-block w-100" [routerLink]="['/offer-list', postDetails.poste_id]">
+                                    Liste des offres
                                 </a>
                             </div>
                         </div>
@@ -116,7 +124,7 @@
                                                         <div class="comment-body">
                                                             <div class="comment-header">
                                                                 <span class="comment-author">{{ comment.utilisateur.username }}</span>
-                                                                <span class="comment-time">{{ comment.created_at }}</span>
+                                                                <span class="comment-time">{{ comment.created_at | relativeTime }}</span>
                                                                 <button *ngIf="currentUser.id === comment.utilisateur._id || currentUser.id === postDetails.user_id"
                                                                         class="btn btn-link p-0 ms-2"
                                                                         (click)="deleteComment(comment._id, comment.auteur_id)">
@@ -127,6 +135,7 @@
                                                         </div>
                                                     </div>
                                                 </div>
+                                                
                                                 <div class="comment-input d-flex align-items-center mt-3">
                                                     <img src="assets/img/nft/vendor/avatar-square.jpg" alt="User Avatar" class="comment-avatar me-2">
                                                     <input type="text" class="form-control me-2" placeholder="Commenter en tant que {{ currentUser.name }}" [(ngModel)]="newComment">

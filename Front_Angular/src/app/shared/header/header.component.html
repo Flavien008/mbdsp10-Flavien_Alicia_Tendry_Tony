@@ -24,7 +24,7 @@
           data-bs-toggle="modal"
           (click)="openModal(content)"
         >
-          <span class="navbar-tool-tooltip">Account</span>
+          <span class="navbar-tool-tooltip">Compte</span>
           <div class="navbar-tool-icon-box">
             <i class="navbar-tool-icon ci-user"></i>
           </div>
@@ -67,7 +67,7 @@
         <a *ngIf="isLoggedIn"
           class="btn btn-sm btn-accent rounded-1 ms-lg-4 ms-3 create"
           routerLink="/createnewpost"
-          >Create</a
+          >Creer une publication</a
         >
       </div>
       <div
@@ -150,23 +150,23 @@
               id="signin-tab"
             >
               <div class="mb-3">
-                <label class="form-label" for="si-email">Email address</label>
+                <label class="form-label" for="si-email">Nom d'utilisateur</label>
                 <input
                   class="form-control"
                   type="email"
                   id="si-email"
-                  placeholder="johndoe@example.com"
+                  placeholder="nom_utilisateur"
                   formControlName="email"
                   [ngClass]="{
                     'is-invalid': submitted && form['email'].errors
                   }"
                 />
                 <div *ngIf="submitted && form['email'].errors" class="invalid-feedback">
-                  <span *ngIf="form['email'].errors['required']">Please provide a valid email address.</span>
+                  <span *ngIf="form['email'].errors['required']">Veillez entrer un nom d'utilisateur valide.</span>
                 </div>
               </div>
               <div class="mb-3">
-                <label class="form-label" for="si-password">Password</label>
+                <label class="form-label" for="si-password">Mot de passe</label>
                 <div class="password-toggle">
                   <input
                     class="form-control"
@@ -178,7 +178,7 @@
                     }"
                   />
                   <div *ngIf="submitted && form['password'].errors" class="invalid-feedback">
-                    <span *ngIf="form['password'].errors['required']">Please provide a valid password.</span>
+                    <span *ngIf="form['password'].errors['required']">Veuillez entrer un mot de passe valide.</span>
                   </div>
                   <label
                     class="password-toggle-btn"
@@ -236,7 +236,7 @@
               id="signup-tab"
             >
               <div class="mb-3">
-                <label class="form-label" for="su-name">Full name</label>
+                <label class="form-label" for="su-name">Nom d'utilisateur</label>
                 <input
                   class="form-control"
                   type="text"
@@ -248,11 +248,11 @@
                   }"
                 />
                 <div *ngIf="signupsubmit && signupform['username'].errors" class="invalid-feedback">
-                  <span *ngIf="signupform['username'].errors['required']">Please provide your name.</span>
+                  <span *ngIf="signupform['username'].errors['required']">Veuillez entrer un nom d'utilisateur valide</span>
                 </div>
               </div>
               <div class="mb-3">
-                <label class="form-label" for="su-email">Email address</label>
+                <label class="form-label" for="su-email">Adresse mail</label>
                 <input
                   class="form-control"
                   type="email"
@@ -264,11 +264,11 @@
                   }"
                 />
                 <div *ngIf="signupsubmit && signupform['email'].errors" class="invalid-feedback">
-                  <span *ngIf="signupform['email'].errors['required']">Please provide a valid email address.</span>
+                  <span *ngIf="signupform['email'].errors['required']">Veillez entrer une adresse mail valide.</span>
                 </div>
               </div>
               <div class="mb-3">
-                <label class="form-label" for="su-dateNaissance">Date of Birth</label>
+                <label class="form-label" for="su-dateNaissance">Date de naissance</label>
                 <input
                   class="form-control"
                   type="date"
@@ -279,11 +279,11 @@
                   }"
                 />
                 <div *ngIf="signupsubmit && signupform['dateNaissance'].errors" class="invalid-feedback">
-                  <span *ngIf="signupform['dateNaissance'].errors['required']">Please provide your date of birth.</span>
+                  <span *ngIf="signupform['dateNaissance'].errors['required']">Veillez entrer votre date de naissance.</span>
                 </div>
               </div>
               <div class="mb-3">
-                <label class="form-label" for="su-password">Password</label>
+                <label class="form-label" for="su-password">Mot de passe</label>
                 <div class="password-toggle">
                   <input
                     class="form-control"
@@ -295,7 +295,7 @@
                     }"
                   />
                   <div *ngIf="signupsubmit && signupform['password'].errors" class="invalid-feedback">
-                    <span *ngIf="signupform['password'].errors['required']">Please provide a valid password.</span>
+                    <span *ngIf="signupform['password'].errors['required']">Veuille entrer un mot de passe valide.</span>
                   </div>
                   <label
                     class="password-toggle-btn"

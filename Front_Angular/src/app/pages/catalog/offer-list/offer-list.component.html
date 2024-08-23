@@ -1,0 +1,61 @@
+<app-header></app-header>
+<div class="page-title-overlap bg-accent pt-4">
+    <app-breadcrumbs title="Liste des offres"></app-breadcrumbs>
+</div>
+
+<section class="container pb-md-4">
+    <div class="bg-light shadow-lg rounded-3 px-4 py-lg-5 py-4 mb-5">
+        <div class="py-lg-3 py-2 px-lg-3">
+            <div class="row gy-4">
+                <div class="col-12">
+                    <h2 class="h3 mb-4 text-center">Offres pour la publication "{{ postDetails.titre }}"</h2>
+
+                    <div *ngIf="isLoading" class="text-center my-4">
+                        <div class="spinner-border text-primary" role="status">
+                            <span class="visually-hidden">Chargement...</span>
+                        </div>
+                    </div>
+
+                    <div *ngIf="!isLoading && offers.length === 0" class="text-center my-4">
+                        <img src="assets/img/no-offers.png" alt="Aucune offre" class="img-fluid mb-3" style="max-width: 150px;">
+                        <p class="text-muted">Aucune offre pour le moment. Soyez patient, cela pourrait changer bientôt !</p>
+                    </div>
+
+                    <div *ngIf="!isLoading && offers.length > 0">
+                        <div *ngFor="let offer of offers" class="card offer-card mb-4 shadow-sm border-0">
+                            <div class="card-header d-flex justify-content-between align-items-center bg-light">
+                                <div>
+                                    <h5 class="card-title mb-0 text-primary">Offre de {{ offer.Responder.username }}</h5>
+                                    <small class="text-muted">Statut: <span class="badge" [ngClass]="{'bg-success': offer.status === 'validé', 'bg-danger': offer.status === 'rejeté', 'bg-warning': offer.status === 'pending'}">{{ offer.status }}</span></small>
+                                </div>
+                                <div class="text-end">
+                                    <button *ngIf="offer.status === 'pending'" class="btn btn-outline-success btn-sm me-2" (click)="updateOfferStatus(offer.id, 'validé')">Valider</button>
+                                    <button *ngIf="offer.status === 'pending'" class="btn btn-outline-danger btn-sm" (click)="updateOfferStatus(offer.id, 'rejeté')">Rejeter</button>
+                                </div>
+                            </div>
+                            <div class="card-body">
+                                <p class="card-text">{{ offer.description }}</p>
+                                <div class="offered-items">
+                                    <h6><strong>Objet(s) proposé(s):</strong></h6>
+                                    <ul class="list-group">
+                                        <li *ngFor="let detail of offer.EchangeDetails" class="list-group-item">
+                                            <div class="d-flex justify-content-between align-items-center">
+                                                <div>
+                                                    <strong>{{ detail.Objet.name }}</strong>: {{ detail.Objet.description }}
+                                                </div>
+                                            </div>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                            <div class="card-footer bg-white text-muted d-flex justify-content-between align-items-center">
+                                <small>Proposée le {{ offer.created_at | date: 'longDate' }}</small>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<app-footer></app-footer>

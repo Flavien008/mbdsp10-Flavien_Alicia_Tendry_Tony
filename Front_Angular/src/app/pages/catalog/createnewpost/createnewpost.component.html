@@ -8,14 +8,14 @@
                 <ol class="breadcrumb breadcrumb-light flex-lg-nowrap justify-content-center justify-content-lg-start">
                     <li class="breadcrumb-item"><a class="text-nowrap" routerLink="/"><i class="ci-home"></i>Home</a>
                     </li>
-                    <li class="breadcrumb-item text-nowrap"><a routerLink="/">Exchange objects</a>
+                    <li class="breadcrumb-item text-nowrap"><a routerLink="/">Takalo</a>
                     </li>
-                    <li class="breadcrumb-item text-nowrap active" aria-current="page">Create New Post</li>
+                    <li class="breadcrumb-item text-nowrap active" aria-current="page">Creer poste</li>
                 </ol>
             </nav>
         </div>
         <div class="order-lg-1 pe-lg-4 text-center text-lg-start">
-            <h1 class="h3 text-light mb-0">Create New Post</h1>
+            <h1 class="h3 text-light mb-0">Creer une nouvelle poste</h1>
         </div>
     </div>
 </div>
@@ -28,9 +28,9 @@
                 <h2 class="h5 mb-3">Post Details</h2>
                 <div class="row gy-md-4 gy-3">
                     <div class="col-12">
-                        <label class="form-label" for="details-title">Post Title<span class="ms-1 text-danger">*</span></label>
-                        <input class="form-control" id="details-title" type="text" formControlName="titre" placeholder="Post Title" required>
-                        <div class="invalid-feedback">Please enter a title.</div>
+                        <label class="form-label" for="details-title">Titre du poste<span class="ms-1 text-danger">*</span></label>
+                        <input class="form-control" id="details-title" type="text" formControlName="titre" placeholder="Titre du poste" required>
+                        <div class="invalid-feedback">Veuille entrer un titre</div>
                     </div>
                     <div class="col-12">
                         <label class="form-label" for="details-description">Description</label>
@@ -55,7 +55,7 @@
 
             <!-- Select Items -->
             <div class="mb-md-5 mb-4 pb-md-0 pb-2">
-                <h2 class="h5 mb-3">Select Objects</h2>
+                <h2 class="h5 mb-3">Selectionne des objets</h2>
                 <div *ngIf="isLoadingItems" class="text-center my-4">
                     <div class="spinner-border" role="status">
                         <span class="visually-hidden">Loading...</span>
@@ -64,7 +64,7 @@
                 <div *ngIf="!isLoadingItems">
                     <div class="row gy-md-4 gy-3">
                         <div class="col-12">
-                            <label class="form-label">Available Objects</label>
+                            <label class="form-label">Objets disponibles</label>
                             <div class="row">
                                 <div class="col-12" *ngFor="let item of items">
                                     <div class="form-check">
@@ -75,12 +75,12 @@
                             </div>
                         </div>
                         <div class="col-12">
-                            <label class="form-label">Selected Objects</label>
+                            <label class="form-label">Objets séléctionnés</label>
                             <div class="row">
                                 <div class="col-12" *ngFor="let item of selectedItems">
                                     <div class="d-flex align-items-center mb-2">
                                         <span>{{ item.name }}</span>
-                                        <button type="button" class="btn btn-link ms-2 text-danger" (click)="onRemoveItem(item)">Remove</button>
+                                        <button type="button" class="btn btn-link ms-2 text-danger" (click)="onRemoveItem(item)">Enlever</button>
                                     </div>
                                 </div>
                             </div>
@@ -94,7 +94,7 @@
                 <div class="pt-2">
                     <button class="btn btn-lg btn-accent d-block w-100" type="submit" [disabled]="isSubmitting">
                         <span *ngIf="isSubmitting" class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
-                        <span *ngIf="!isSubmitting">Create Post</span>
+                        <span *ngIf="!isSubmitting">Creer le poste</span>
                     </button>
                 </div>
             </div>

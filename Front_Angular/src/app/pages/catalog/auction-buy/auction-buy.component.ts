@@ -14,7 +14,7 @@ export class AuctionBuyComponent implements OnInit {
   morecollection: any[] = [];
   breadCrumbItems!: any;
   isLoading: boolean = true;
-  isLoadingObjects: boolean = true;  // Variable de contrôle pour les objets
+  isLoadingObjects: boolean = true; 
   isLoadingComments: boolean = false;
   comments: any[] = [];
   private map!: L.Map;
@@ -29,6 +29,8 @@ export class AuctionBuyComponent implements OnInit {
   ngOnInit(): void {
     this.currentUser = JSON.parse(sessionStorage.getItem('currentUser') || '{}');
     document.documentElement.scrollTop = 0;
+
+    console.log(this.currentUser)
 
     this.breadCrumbItems = [
       { label: 'Home', link: '/' },
@@ -108,7 +110,6 @@ export class AuctionBuyComponent implements OnInit {
           attribution: '© OpenStreetMap contributors'
         }).addTo(this.map);
 
-        // Créer une icône personnalisée
         const customIcon = L.icon({
           iconUrl: 'assets/img/1673221.png',
           iconSize: [38, 38], 
@@ -116,7 +117,6 @@ export class AuctionBuyComponent implements OnInit {
           popupAnchor: [0, -38] 
         });
 
-        // Ajouter le marqueur avec l'icône personnalisée
         L.marker([this.postDetails.latitude, this.postDetails.longitude], { icon: customIcon })
           .addTo(this.map)
           .bindPopup(this.postDetails.titre)
@@ -124,7 +124,6 @@ export class AuctionBuyComponent implements OnInit {
       }
     }, 0);
   }
-
 
   submitComment(): void {
     if (this.newComment.trim()) {
@@ -138,7 +137,7 @@ export class AuctionBuyComponent implements OnInit {
         response => {
           console.log('Commentaire ajouté avec succès');
           this.comments.push(response);
-          this.newComment = ''; // Réinitialiser le champ de saisie
+          this.newComment = ''; 
           this.loadComments(this.postDetails.poste_id);
         },
         error => {

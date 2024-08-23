@@ -11,13 +11,13 @@
       <div class="col-lg-2 col-md-3 col-sm-5 col-12 order-md-1 order-sm-2 order-3">
         <div class="dropdown">
           <a class="btn btn-outline-secondary dropdown-toggle w-100" href="javascript:void(0);" data-bs-toggle="collapse" data-bs-target="#shop-filters" (click)="collapse.toggle()">
-            <i class="ci-filter me-2"></i>Filters
+            <i class="ci-filter me-2"></i>Filtres
           </a>
         </div>
       </div>
       <div class="col-md col-12 order-md-2 order-sm-1 order-1">
         <div class="input-group">
-          <input class="form-control pe-5 rounded" type="text" placeholder="Search..." [(ngModel)]="searchTerm" (ngModelChange)="onSearchTermChange()" />
+          <input class="form-control pe-5 rounded" type="text" placeholder="Recherche..." [(ngModel)]="searchTerm" (ngModelChange)="onSearchTermChange()" />
           <i class="ci-search position-absolute top-50 end-0 translate-middle-y zindex-5 me-3"></i>
         </div>
       </div>
@@ -25,8 +25,8 @@
         <div class="d-flex align-items-center flex-shrink-0">
           <label class="form-label mb-0 me-2 pe-1 fw-normal text-nowrap d-sm-block d-none">Sort by:</label>
           <select class="form-select" [(ngModel)]="sortByDate" (change)="onSortChange($event)">
-            <option value="DESC">Newest</option>
-            <option value="ASC">Oldest</option>
+            <option value="DESC">Plus récent</option>
+            <option value="ASC">Plus anciens</option>
           </select>
         </div>
       </div>
