@@ -36,35 +36,41 @@
 
                             </div><!--//col-->
                             <div class="col-auto">
-                                <h4 class="app-card-title">Profile</h4>
+                                <h4 class="app-card-title">Profil</h4>
                             </div><!--//col-->
                         </div><!--//row-->
                     </div><!--//app-card-header-->
                     <div class="app-card-body px-4 w-100">
                         <form method="post" th:object="${utilisateur}" th:action="@{/profil/edit}"
-                              class="settings-form">
+                              class="settings-form mb-4">
+                            <div th:if="${errorMessage}" class="alert alert-danger" role="alert">
+                                <span th:text="${errorMessage}"></span>
+                            </div>
                             <div class="mb-3">
-                                <label for="nom" class="form-label">Nom</label>
-                                <input type="text" th:field="*{username}" class="form-control" id="nom"
-                                       value="Lorem Ipsum Ltd." required="">
+                                <label for="username" class="form-label">Nom</label>
+                                <input type="text" th:field="*{username}" class="form-control" id="username"
+                                       required="">
                             </div>
                             <div class="mb-3">
                                 <label for="email" class="form-label">Email</label>
-                                <input type="text" th:field="*{email}" class="form-control" id="email"
-                                       value="Lorem Ipsum Ltd." required="">
+                                <input type="text" th:field="*{email}" class="form-control" id="email" required="">
                             </div>
                             <div class="mb-3">
                                 <label for="birthday" class="form-label">Date de naissance</label>
-                                <input type="text" th:field="*{birthday}" class="form-control" id="birthday"
-                                       value="Lorem Ipsum Ltd." required="">
+                                <input type="date" th:field="*{birthday}" class="form-control" id="birthday"
+                                        required="">
                             </div>
-                            <button type="submit" class="btn app-btn-primary">Enregistrer les modifications</button>
+                            <input type="hidden" th:field="*{id}" class="form-control" id="id"
+                            >
+                            <input type="hidden" th:field="*{roleId}" class="form-control" id="role"
+                                  >
+                            <div class="app-card-footer mt-auto">
+                                <button type="submit" class="btn app-btn-primary">Enregistrer les modifications</button>
+                            </div><!--//app-card-footer-->
+
                         </form>
                     </div><!--//app-card-body-->
-                    <div class="app-card-footer p-4 mt-auto">
-                        <a class="btn app-btn-secondary" th:href="@{/profil/edit/{id}(id=${utilisateur.id})}">Modifier
-                            profil</a>
-                    </div><!--//app-card-footer-->
+
 
                 </div><!--//app-card-->
             </div>
@@ -91,39 +97,35 @@
                     </div><!--//app-card-header-->
                     <div class="app-card-body px-4 w-100">
 
-                        <form method="post" th:object="${changePassword}" th:action="@{/profil/editPassword}" class="settings-form">
-                            <div th:if="${errorMessage}" class="alert alert-danger" role="alert">
-                                <span th:text="${errorMessage}"></span>
+                        <form method="post" th:object="${changePassword}" th:action="@{/profil/editPassword}" class="settings-form mb-4">
+                            <div th:if="${errorMessagePassword}" class="alert alert-danger" role="alert">
+                                <span th:text="${errorMessagePassword}"></span>
                             </div>
 
                             <div class="mb-3">
                                 <label for="setting-input-1" class="form-label">Ancien mot de passe</label>
                                 <input type="password" class="form-control" id="setting-input-1" name="ancien"
-                                       required=""
-                                       th:classappend="${#fields.hasErrors('ancien')} ? 'is-invalid' : ''">
-                                <div class="invalid-feedback" th:if="${#fields.hasErrors('ancien')}"
-                                     th:errors="*{ancien}"></div>
+                                       required="">
+
                             </div>
 
                             <div class="mb-3">
                                 <label for="setting-input-2" class="form-label">Nouveau mot de passe</label>
                                 <input type="password" class="form-control" id="setting-input-2" name="nouveau"
-                                       required=""
-                                       th:classappend="${#fields.hasErrors('nouveau')} ? 'is-invalid' : ''">
-                                <div class="invalid-feedback" th:if="${#fields.hasErrors('nouveau')}"
-                                     th:errors="*{nouveau}"></div>
+                                       required="">
+
                             </div>
 
                             <div class="mb-3">
                                 <label for="setting-input-3" class="form-label">Confirmation mot de passe</label>
                                 <input type="password" class="form-control" id="setting-input-3"
-                                       name="confirmationNouveau" required=""
-                                       th:classappend="${#fields.hasErrors('confirmationNouveau')} ? 'is-invalid' : ''">
-                                <div class="invalid-feedback" th:if="${#fields.hasErrors('confirmationNouveau')}"
-                                     th:errors="*{confirmationNouveau}"></div>
+                                       name="confirmationNouveau" required="">
+
                             </div>
 
-                            <button type="submit" class="btn app-btn-primary">Enregistrer les modifications</button>
+                            <div class="app-card-footer  mt-auto">
+                                <button type="submit" class="btn app-btn-primary">Enregistrer les modifications</button>
+                            </div>
                         </form>
 
 

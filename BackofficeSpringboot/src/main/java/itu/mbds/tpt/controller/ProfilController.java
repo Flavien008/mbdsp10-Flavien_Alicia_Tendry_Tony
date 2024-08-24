@@ -5,6 +5,7 @@ import itu.mbds.tpt.dto.UtilisateurDto;
 import itu.mbds.tpt.entity.Utilisateur;
 import itu.mbds.tpt.mapper.UtilisateurMapper;
 import itu.mbds.tpt.service.UtilisateurService;
+import jakarta.transaction.Transactional;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -64,21 +65,45 @@ public class ProfilController {
         return "include/" + pageActuel;
     }
 
+    @Transactional
+    @PostMapping("/edit")
+    public String edit(@AuthenticationPrincipal UserDetails userDetails,
+                               @Valid UtilisateurDto utilisateur,
+                               BindingResult bindingResult,
+                               RedirectAttributes redirectAttributes) {
+        if (bindingResult.hasErrors()) {
+            redirectAttributes.addFlashAttribute("errorMessage", bindingResult.getAllErrors().get(0).getDefaultMessage());
+            return "redirect:/profil/edit";
+        }
+
+        try {
+            utilisateurService.editUtilisateur(utilisateurMapper.toUtilisateur(utilisateur));
+        } catch (IllegalArgumentException e) {
+            redirectAttributes.addFlashAttribute("errorMessage", e.getMessage());
+            return "redirect:/profil/edit";
+        } catch (Exception e) {
+            redirectAttributes.addFlashAttribute("errorMessage", e.getMessage());
+            return "redirect:/profil/edit";
+        }
+
+        return "redirect:/profil/";
+    }
+
     @PostMapping("/editPassword")
     public String editPassword(@AuthenticationPrincipal UserDetails userDetails,
                                @Valid ChangePasswordDto changePasswordDto,
                                BindingResult bindingResult,
                                RedirectAttributes redirectAttributes) {
         if (bindingResult.hasErrors()) {
-            redirectAttributes.addFlashAttribute("errorMessage", "Il y a des erreurs dans le formulaire");
-            return "redirect:/profil/";
+            redirectAttributes.addFlashAttribute("errorMessagePassword", "Il y a des erreurs dans le formulaire");
+            return "redirect:/profil/edit";
         }
 
         try {
             utilisateurService.changePassword(userDetails.getUsername(), changePasswordDto);
         } catch (IllegalArgumentException e) {
-            redirectAttributes.addFlashAttribute("errorMessage", e.getMessage());
-            return "redirect:/profil/";
+            redirectAttributes.addFlashAttribute("errorMessagePassword", e.getMessage());
+            return "redirect:/profil/edit";
         }
 
         return "redirect:/logout";
