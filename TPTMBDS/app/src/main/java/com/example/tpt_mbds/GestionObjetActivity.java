@@ -14,6 +14,7 @@ import com.android.volley.VolleyError;
 import com.example.tpt_mbds.adapteur.ObjetAdapter;
 import com.example.tpt_mbds.model.Objet;
 import com.example.tpt_mbds.service.ObjetService;
+import com.example.tpt_mbds.util.LoadingDialog;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -32,6 +33,7 @@ public class GestionObjetActivity extends AppCompatActivity {
     private int currentPage = 1;
     private boolean isLoading = false;
     private boolean hasMoreData = true;
+    private LoadingDialog loadingDialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -67,6 +69,9 @@ public class GestionObjetActivity extends AppCompatActivity {
         // Initialize ObjetService
         objetService = new ObjetService(this);
 
+        // Initialize LoadingDialog
+        loadingDialog = new LoadingDialog(this);
+
         // Fetch and populate the first page
         fetchObjetList(currentPage);
 
@@ -92,6 +97,7 @@ public class GestionObjetActivity extends AppCompatActivity {
 
     private void fetchObjetList(int page) {
         isLoading = true;
+        loadingDialog.show();  // Show the loading dialog
         objetService.fetchObjets(page, 10, new ObjetService.FetchObjetsCallback() {
             @Override
             public void onSuccess(JSONObject response) {
@@ -104,7 +110,11 @@ public class GestionObjetActivity extends AppCompatActivity {
                         String name = objectData.getString("name");
                         String description = objectData.getString("description");
                         String categorie = objectData.getJSONObject("Categorie").getString("nom");
-                        String imageBase64 = objectData.getJSONArray("images").getJSONObject(0).getString("img");
+                        JSONArray imagesArray = objectData.getJSONArray("images");
+                        String imageBase64 = "";
+                        if (imagesArray != null && imagesArray.length() > 0) {
+                            imageBase64 = imagesArray.getJSONObject(imagesArray.length() - 1).getString("img");
+                        }
 
                         Objet objet = new Objet(itemId, name, categorie, description, imageBase64);
                         objetList.add(objet);
@@ -118,6 +128,7 @@ public class GestionObjetActivity extends AppCompatActivity {
                     }
 
                     isLoading = false;
+                    loadingDialog.dismiss();  // Dismiss the loading dialog
 
                     // Determine if there are more pages to load
                     hasMoreData = !response.getBoolean("hasNext");
@@ -126,6 +137,7 @@ public class GestionObjetActivity extends AppCompatActivity {
                     e.printStackTrace();
                     Toast.makeText(GestionObjetActivity.this, "Erreur lors du traitement des données", Toast.LENGTH_SHORT).show();
                     isLoading = false;
+                    loadingDialog.dismiss();  // Dismiss the loading dialog in case of error
                 }
             }
 
@@ -133,6 +145,7 @@ public class GestionObjetActivity extends AppCompatActivity {
             public void onError(VolleyError error) {
                 Toast.makeText(GestionObjetActivity.this, "Erreur lors de la récupération des objets", Toast.LENGTH_SHORT).show();
                 isLoading = false;
+                loadingDialog.dismiss();  // Dismiss the loading dialog in case of error
             }
         });
     }
