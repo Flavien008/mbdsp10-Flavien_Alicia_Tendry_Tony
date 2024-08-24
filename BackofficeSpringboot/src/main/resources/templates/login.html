@@ -18,9 +18,39 @@
     <!-- App CSS -->
     <link id="theme-style" rel="stylesheet"  th:href="@{/css/portal.css}" >
 
+    <style>
+        /* Styles pour centrer et positionner le loader */
+        #loader {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            z-index: 9999; /* Au-dessus de toutes les couches, sauf l'entête */
+            display: block;
+        }
+
+        #loader-background {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(255, 255, 255, 0.8);
+            z-index: 9998;
+            display: block;
+        }
+    </style>
 </head>
 
 <body class="app app-login p-0">
+<div id="loader-background"></div>
+<div id="loader">
+    <div class="spinner-border text-primary" role="status">
+        <span class="visually-hidden">Loading...</span>
+    </div>
+</div>
+
+
 <div class="row g-0 app-auth-wrapper">
     <div class="col-12 col-md-7 col-lg-6 auth-main-col text-center p-5">
         <div class="d-flex flex-column align-content-end">
@@ -75,7 +105,17 @@
     </div><!--//auth-background-col-->
 
 </div><!--//row-->
+<script>
+    document.addEventListener("DOMContentLoaded", function() {
+        document.getElementById("loader").style.display = "none";
+        document.getElementById("loader-background").style.display = "none";
 
+    });
+    window.onload = function() {
+        document.getElementById("loader").style.display = "none";
+        document.getElementById("loader-background").style.display = "none";
+    };
+</script>
 
 </body>
 </html>
