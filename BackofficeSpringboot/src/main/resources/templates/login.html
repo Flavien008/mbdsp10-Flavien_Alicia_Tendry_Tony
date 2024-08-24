@@ -107,13 +107,13 @@
 </div><!--//row-->
 <script>
     document.addEventListener("DOMContentLoaded", function() {
-        document.getElementById("loader").style.display = "none";
-        document.getElementById("loader-background").style.display = "none";
-
-    });
-    window.onload = function() {
         document.getElementById("loader").style.display = "block";
         document.getElementById("loader-background").style.display = "block";
+    });
+
+    window.onload = function() {
+        document.getElementById("loader").style.display = "none";
+        document.getElementById("loader-background").style.display = "none";
     };
 </script>
 
