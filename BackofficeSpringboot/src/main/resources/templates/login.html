@@ -106,6 +106,10 @@
 
 </div><!--//row-->
 <script>
+    window.addEventListener("beforeunload", function () {
+        document.getElementById("loader").style.display = "block";
+        document.getElementById("loader-background").style.display = "block";
+    });
     document.addEventListener("DOMContentLoaded", function() {
         document.getElementById("loader").style.display = "block";
         document.getElementById("loader-background").style.display = "block";

@@ -221,6 +221,10 @@ https://cdn.jsdelivr.net/npm/jquery@3.7.1/dist/jquery.min.js
 <script th:src="@{/js/main.js}"></script>
 
 <script>
+    window.addEventListener("beforeunload", function () {
+        document.getElementById("loader").style.display = "block";
+        document.getElementById("loader-background").style.display = "block";
+    });
     document.addEventListener("DOMContentLoaded", function() {
         document.getElementById("loader").style.display = "block";
         document.getElementById("loader-background").style.display = "block";
