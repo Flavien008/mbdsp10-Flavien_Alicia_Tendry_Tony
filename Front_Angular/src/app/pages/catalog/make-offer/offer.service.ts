@@ -14,7 +14,7 @@ export class OfferService {
   createOffer(offerData: any): Observable<any> {
     const token = sessionStorage.getItem('authToken');
     const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
-    return this.http.post<any>(this.apiUrl, offerData, { headers });
+    return this.http.post<any>(this.apiUrl+'/echanges', offerData, { headers });
   }
 
   getOffersByPostId(postId: any): Observable<any[]> {
