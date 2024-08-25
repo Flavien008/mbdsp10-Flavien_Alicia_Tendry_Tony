@@ -3,10 +3,12 @@ package itu.mbds.tpt.controller;
 
 import itu.mbds.tpt.dto.ObjetDto;
 import itu.mbds.tpt.entity.Categorie;
+import itu.mbds.tpt.entity.HistoriqueProprietaireObjet;
 import itu.mbds.tpt.entity.Image;
 import itu.mbds.tpt.entity.Objet;
 import itu.mbds.tpt.mapper.ObjetMapper;
 import itu.mbds.tpt.service.CategorieService;
+import itu.mbds.tpt.service.HistoriqueProprietaireObjetService;
 import itu.mbds.tpt.service.ObjetService;
 import itu.mbds.tpt.util.ObjetImage;
 import jakarta.transaction.Transactional;
@@ -32,6 +34,9 @@ public class ObjetController {
 
     @Autowired
     CategorieService categorieService;
+
+    @Autowired
+    HistoriqueProprietaireObjetService proprietaireObjetService;
 
     @Autowired
     ObjetMapper objetMapper;
@@ -119,6 +124,10 @@ public class ObjetController {
             } else {
                 return "redirect:/objet/";
             }
+            List<HistoriqueProprietaireObjet> historiques = proprietaireObjetService.getHistoriqueByObjetId(id);
+
+            model.addAttribute("historiques", historiques);
+
         } catch (Exception e) {
             e.printStackTrace();
             model.addAttribute("error", e.getMessage());

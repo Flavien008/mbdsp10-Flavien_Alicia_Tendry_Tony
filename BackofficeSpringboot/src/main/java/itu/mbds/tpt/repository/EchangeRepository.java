@@ -20,4 +20,6 @@ public interface EchangeRepository extends JpaRepository<Echange, Integer> {
     List<EchangeCount> countEchangesByMonthAndStatus(@Param("year") int year, @Param("status") String status);
 
     long countByStatus(String status);
+
+    List<Echange> findByPost_Id(int postId);
 }

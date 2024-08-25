@@ -1,4 +1,4 @@
-package com.example.demo.entity;
+package itu.mbds.tpt.entity;
 
 import itu.mbds.tpt.entity.Objet;
 import itu.mbds.tpt.entity.Utilisateur;
@@ -23,11 +23,11 @@ public class HistoriqueProprietaireObjet {
     private Objet objet;
 
     @ManyToOne
-    @JoinColumn(name = "\"ancien_proprietaire_id\"", referencedColumnName = "\"user_id\"")
+    @JoinColumn(name = "\"ancien_proprietaire_id\"")
     private Utilisateur ancienProprietaire;
 
     @ManyToOne
-    @JoinColumn(name = "\"nouveau_proprietaire_id\"", referencedColumnName = "\"user_id\"", foreignKey = @ForeignKey(name = "HistoriqueProprietaires_nouveau_proprietaire_id_fkey"))
+    @JoinColumn(name = "\"nouveau_proprietaire_id\"", foreignKey = @ForeignKey(name = "HistoriqueProprietaires_nouveau_proprietaire_id_fkey"))
     private Utilisateur nouveauProprietaire;
 
     @Column(name = "\"date_changement\"")
