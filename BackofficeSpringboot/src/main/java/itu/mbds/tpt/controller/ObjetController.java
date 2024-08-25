@@ -73,45 +73,7 @@ public class ObjetController {
         return "include/" + pageActuel;
     }
 
-    @GetMapping("/add")
-    public String showAddForm(Model model) {
-        try {
-            String pageActuel = "objet/add";
-            model.addAttribute("objet", new ObjetDto());
-            model.addAttribute("pageActuel", pageActuel);
-            List<Categorie> categories = categorieService.findAll();
-            model.addAttribute("categories", categories);
-            return "include/" + pageActuel;
-        } catch (Exception e) {
-            e.printStackTrace();
-            return "redirect:/objet/";
-        }
-    }
 
-    @PostMapping("/add")
-    public String addObjet(@Valid @ModelAttribute("objet") ObjetDto objetDto, BindingResult binding, Model model) {
-        String pageActuel = "objet/add";
-        if (binding.hasErrors()) {
-            model.addAttribute("pageActuel", pageActuel);
-            model.addAttribute("objet", objetDto);
-            model.addAttribute("error", binding.getFieldError().getDefaultMessage());
-            List<Categorie> categories = categorieService.findAll();
-            model.addAttribute("categories", categories);
-            return "include/" + pageActuel;
-        }
-        try {
-            objetService.save(objetMapper.toObjet(objetDto));
-        } catch (Exception e) {
-            e.printStackTrace();
-            model.addAttribute("pageActuel", pageActuel);
-            model.addAttribute("objet", objetDto);
-            model.addAttribute("error", e.getMessage());
-            List<Categorie> categories = categorieService.findAll();
-            model.addAttribute("categories", categories);
-            return "include/" + pageActuel;
-        }
-        return "redirect:/objet/";
-    }
 
     @GetMapping("/detail/{id}")
     public String showDetailForm(@PathVariable int id, Model model) {
