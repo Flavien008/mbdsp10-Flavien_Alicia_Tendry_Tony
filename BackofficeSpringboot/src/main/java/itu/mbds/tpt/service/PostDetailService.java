@@ -36,7 +36,13 @@ public class PostDetailService {
 
 
             Optional<Image> imageOpt = objetImageRepository.findByItemId(detail.getObjet().getId());
-            imageOpt.ifPresent(objetImage -> dto.setImage(objetImage.getImg()));
+            imageOpt.ifPresent(objetImage -> {
+                String imageBase64 = objetImage.getImg();
+                if (!imageBase64.startsWith("data:image")) {
+                    imageBase64 = "data:image/png;base64," + imageBase64;
+                }
+                dto.setImage(imageBase64);
+            });
 
             detailDtos.add(dto);
         }

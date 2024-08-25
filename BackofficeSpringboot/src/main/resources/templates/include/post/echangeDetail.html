@@ -42,7 +42,7 @@
                                 <div class="app-card app-card-doc shadow-sm  h-100">
                                     <div class="app-card-thumb-holder p-3">
                                         <div class="app-card-thumb">
-                                            <img class="thumb-image" th:src="${#strings.startsWith(details.image, 'data:image') ? details.image : 'data:image/png;base64,' + details.image}" alt="">
+                                            <img class="thumb-image" th:src="${details.image}" alt="">
                                         </div>
 
                                     </div>
