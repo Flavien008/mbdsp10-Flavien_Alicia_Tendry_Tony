@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { PostService } from './post.service';
 import * as L from 'leaflet';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-post-create',
@@ -22,9 +23,12 @@ export class PostCreateComponent implements OnInit {
     iconAnchor: [16, 32], 
     popupAnchor: [0, -32]  
   });
+  successMessage: string | null = null;  // Message de succès
+  errorMessage: string | null = null;    // Message d'erreur
 
   constructor(
     private fb: FormBuilder,
+    private router: Router,
     private postService: PostService
   ) {
     this.postForm = this.fb.group({
@@ -120,6 +124,9 @@ export class PostCreateComponent implements OnInit {
 
   createPost(): void {
     this.isSubmitting = true;
+    this.successMessage = null;  // Réinitialiser les messages
+    this.errorMessage = null;
+
     if (this.postForm.valid && this.selectedItems.length > 0) {
       const postData = {
         ...this.postForm.value,
@@ -131,12 +138,15 @@ export class PostCreateComponent implements OnInit {
       this.postService.createPost(postData).subscribe(
         response => {
           console.log('Publication créée avec succès', response);
+          this.successMessage = "Le poste a été créé avec succès.";
           this.isSubmitting = false;
           this.postForm.reset();
           this.selectedItems = [];
+          this.router.navigate(['/auctionbuy/'+response.poste.poste_id]);
         },
         error => {
           console.error('Erreur lors de la création de la publication:', error);
+          this.errorMessage = "Une erreur est survenue lors de la création du poste. Veuillez réessayer.";
           this.isSubmitting = false;
         }
       );

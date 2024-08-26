@@ -14,10 +14,12 @@ export class CreatenewitemComponent implements OnInit {
   selectedcategory: any;
   itemData!: UntypedFormGroup;
   submitted = false;
-  isSubmitting = false;  // Ajouter cette propriété
+  isSubmitting = false;
   categories: any[] = [];
   files: File[] = [];
   imageBase64Strings: string[] = [];
+  successMessage: string | null = null;  // Message de succès
+  errorMessage: string | null = null;    // Message d'erreur
 
   constructor(
     public formBuilder: UntypedFormBuilder,
@@ -71,6 +73,8 @@ export class CreatenewitemComponent implements OnInit {
 
   createitem() {
     this.submitted = true;
+    this.successMessage = null;  // Réinitialiser les messages
+    this.errorMessage = null;
 
     const currentUser = sessionStorage.getItem('currentUser'); 
     let userId: number | null = null;
@@ -80,7 +84,7 @@ export class CreatenewitemComponent implements OnInit {
     }
 
     if (this.itemData.valid) {
-      this.isSubmitting = true;  // Début du chargement
+      this.isSubmitting = true;
 
       const itemData = {
         user_id: userId,
@@ -93,14 +97,14 @@ export class CreatenewitemComponent implements OnInit {
       this.itemCreateService.createItem(itemData).subscribe(
         (response) => {
           console.log('Item created successfully', response);
-          this.router.navigate(['/success']);
+          this.successMessage = "L'objet a été créé avec succès.";
+          this.isSubmitting = false;
+          this.router.navigate(['/auctionlive/'+response.objet.item_id]);
         },
         (error) => {
           console.error('Error creating item', error);
-          this.isSubmitting = false;  // Arrête le chargement en cas d'erreur
-        },
-        () => {
-          this.isSubmitting = false;  // Arrête le chargement après la soumission
+          this.errorMessage = "Une erreur est survenue lors de la création de l'objet. Veuillez réessayer.";
+          this.isSubmitting = false;
         }
       );
     }

@@ -23,6 +23,14 @@
 <section class="container mb-5 pt-3 pb-md-5 pb-1">
     <div class="row gy-5">
         <form class="needs-validation col-md-8" (ngSubmit)="createitem()" [formGroup]="itemData" novalidate>
+            <!-- Messages -->
+            <div *ngIf="successMessage" class="alert alert-success">
+                {{ successMessage }}
+            </div>
+            <div *ngIf="errorMessage" class="alert alert-danger">
+                {{ errorMessage }}
+            </div>
+
             <!-- Upload file-->
             <div class="mb-md-5 mb-4 pb-md-0 pb-2">
                 <h2 class="h5 mb-2 pb-1">Photo de l'objet</h2>
@@ -37,7 +45,6 @@
                         <ngx-dropzone-label>{{ f.name }} ({{ f.type }})</ngx-dropzone-label>
                     </ngx-dropzone-preview>
                 </ngx-dropzone>
-
             </div>
             <!-- Details-->
             <div class="mb-md-5 mb-4 pb-md-0 pb-2">
@@ -52,7 +59,7 @@
                     <div class="col-sm-6">
                         <label class="form-label" for="details-category">Category</label>
                         <select class="form-select" id="details-category" formControlName="category">
-                            <option disabled selected>Chpoisir la catégorie</option>
+                            <option disabled selected>Choisir la catégorie</option>
                             <option *ngFor="let category of categories" [value]="category.categorie_id">{{ category.nom }}</option>
                         </select>
                     </div>
