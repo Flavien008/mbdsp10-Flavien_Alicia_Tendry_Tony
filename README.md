@@ -42,7 +42,7 @@ Ce dépôt contient les différents modules et composants du projet TAKALO, chac
    - **Description :** Ce dossier contient les schémas et scripts relatifs à la base de données utilisée par le projet TAKALO. Les schémas sont principalement destinés à une base Postgres. Vous y trouverez les structures de tables, les relations, et les migrations nécessaires à la configuration initiale de la base de données.
 
 ### 2. **BackofficeSpringboot**
-   - **Description :** Ce dossier regroupe les fichiers relatifs à l'implémentation du back office de TAKALO, développé en Spring Boot. Ce module gère les aspects administratifs de la plateforme, incluant la gestion des utilisateurs, la modération des échanges, et le suivi des transactions. Il inclut également les configurations de déploiement et de debug.
+   - **Description :** Ce dossier regroupe les fichiers relatifs à l'implémentation du back office de TAKALO, développé en Spring Boot. Ce module gère les aspects administratifs de la plateforme, incluant la gestion des utilisateurs, la modération des échanges, et le suivi des transactions. Identifiant pour se connecter: admin@admin.com/1234
 
 ### 3. **Front_Angular**
    - **Description :** Ce dossier contient le code source de l'interface utilisateur principale (front office) du site TAKALO, développé en Angular. Il inclut toutes les fonctionnalités accessibles par les utilisateurs finaux, telles que la création de profils, l'ajout d'objets, et la gestion des propositions d'échanges.
