@@ -1,5 +1,7 @@
 package com.example.tpt_mbds;
+
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageView;
@@ -12,43 +14,77 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-//        pour le profil
+
+        // Profile icon click listener
         ImageView profileIcon = findViewById(R.id.profile_icon);
         profileIcon.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                // Rediriger vers ProfileActivity
+                // Navigate to ProfileActivity
                 Intent intent = new Intent(MainActivity.this, ProfileActivity.class);
                 startActivity(intent);
             }
         });
-//        pour la notification
+
+        // Notification icon click listener
         ImageView notificationIcon = findViewById(R.id.notification_icon);
         notificationIcon.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                // Rediriger vers NotificationActivity
+                // Navigate to NotificationActivity
                 Intent intent = new Intent(MainActivity.this, NotificationActivity.class);
                 startActivity(intent);
             }
         });
-//        pour le post
+
+        // Post icon click listener
         ImageView postIcon = findViewById(R.id.post_icon);
         postIcon.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                // Rediriger vers PostActivity
+                // Navigate to PostActivity
                 Intent intent = new Intent(MainActivity.this, PostActivity.class);
                 startActivity(intent);
             }
         });
-        // Définir le gestionnaire de clic pour LinearLayoutle bouton "Gestion Objet"
+
+        // Gestion Objet button click listener
         ImageView gestionObjetButton = findViewById(R.id.gestion_objet_button);
         gestionObjetButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                // Rediriger vers l'activité de gestion des objets
+                // Navigate to GestionObjetActivity
                 Intent intent = new Intent(MainActivity.this, GestionObjetActivity.class);
+                startActivity(intent);
+            }
+        });
+
+        // Logout button click listener
+        LinearLayout logoutButton = findViewById(R.id.logout_button);
+        logoutButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // Clear stored user information
+                SharedPreferences sharedPreferences = getSharedPreferences("UserPrefs", MODE_PRIVATE);
+                SharedPreferences.Editor editor = sharedPreferences.edit();
+                editor.clear();
+                editor.apply();
+
+                // Navigate back to LoginActivity
+                Intent intent = new Intent(MainActivity.this, LoginActivity.class);
+                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK); // Clear activity stack
+                startActivity(intent);
+                finish(); // Close the MainActivity
+            }
+        });
+
+        // Dashboard button click listener
+        LinearLayout dashboardButton = findViewById(R.id.dashboard_button);
+        dashboardButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // Navigate to DashboardActivity
+                Intent intent = new Intent(MainActivity.this, DashboardActivity.class);
                 startActivity(intent);
             }
         });

@@ -7,5 +7,6 @@ router.get('/', posteController.getPostes);
 router.get('/:id', posteController.getPosteById);
 router.put('/:id', posteController.updatePoste);
 router.delete('/:id', posteController.deletePoste);
+router.get('/user/:userId', posteController.getByIdUtilisateur);
 
 module.exports = router;

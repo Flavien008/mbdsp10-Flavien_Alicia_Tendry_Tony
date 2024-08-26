@@ -13,20 +13,30 @@ import {
   IonMenuButton,
   IonToast
 } from '@ionic/react';
+import axiosInstance from '../../utilitaire/axiosConfig';
 import './SaisieCategorie.css';
 
 const SaisieCategorie: React.FC = () => {
   const [name, setName] = useState('');
-  const [description, setDescription] = useState('');
   const [showToast, setShowToast] = useState(false);
+  const [toastMessage, setToastMessage] = useState('');
 
-  const handleSubmit = () => {
-    // Logique pour soumettre le formulaire
-    const newCategory = { id: Date.now(), name, description };
-    console.log('Nouvelle catégorie:', newCategory);
-    setShowToast(true);
-    setName('');
-    setDescription('');
+  const handleSubmit = async () => {
+    try {
+      const response = await axiosInstance.post('/categories', { nom: name });
+      if (response.status === 201) {
+        setToastMessage('Catégorie ajoutée avec succès');
+        setShowToast(true);
+        setName('');
+      } else {
+        setToastMessage('Erreur lors de l\'ajout de la catégorie');
+        setShowToast(true);
+      }
+    } catch (error) {
+      console.error('Error creating category:', error);
+      setToastMessage('Erreur lors de l\'ajout de la catégorie');
+      setShowToast(true);
+    }
   };
 
   return (
@@ -54,7 +64,7 @@ const SaisieCategorie: React.FC = () => {
         <IonToast
           isOpen={showToast}
           onDidDismiss={() => setShowToast(false)}
-          message="Catégorie ajoutée avec succès"
+          message={toastMessage}
           duration={2000}
         />
       </IonContent>

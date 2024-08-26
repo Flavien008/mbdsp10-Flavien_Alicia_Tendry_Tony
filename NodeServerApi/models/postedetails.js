@@ -19,9 +19,6 @@ const Postedetails = sequelize.define('Postedetails', {
     timestamps: false
 });
 
-Postedetails.associate = (models) => {
-    Postedetails.belongsTo(models.Poste, { as: 'Poste', foreignKey: 'post_id' });
-    Postedetails.belongsTo(models.Objet, { as: 'Objet', foreignKey: 'item_id' });
-};
+
 
 module.exports = Postedetails;

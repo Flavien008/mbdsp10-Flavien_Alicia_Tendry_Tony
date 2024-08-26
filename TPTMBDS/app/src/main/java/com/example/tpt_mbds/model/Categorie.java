@@ -1,10 +1,16 @@
 package com.example.tpt_mbds.model;
 
 public class Categorie {
+    private int id;
     private String nom;
 
-    public Categorie(String nom) {
+    public Categorie(int id, String nom) {
+        this.id = id;
         this.nom = nom;
+    }
+
+    public int getId() {
+        return id;
     }
 
     public String getNom() {
@@ -13,6 +19,6 @@ public class Categorie {
 
     @Override
     public String toString() {
-        return nom;  // Cela est nécessaire pour afficher le nom dans le Spinner
+        return nom; // This will be displayed in the Spinner
     }
 }

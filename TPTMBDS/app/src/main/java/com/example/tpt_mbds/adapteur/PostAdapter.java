@@ -4,6 +4,9 @@ import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.util.Base64;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -46,6 +49,21 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.PostViewHolder
         holder.descriptionTextView.setText(post.getDescription());
         holder.locationTextView.setText(post.getLocation());
 
+        // Decode Base64 string to a Bitmap and set it to the ImageView
+        String base64Image = post.getImageBase64();
+        if (base64Image != null && !base64Image.isEmpty()) {
+            try {
+                byte[] decodedString = Base64.decode(base64Image.split(",")[1], Base64.DEFAULT);
+                Bitmap decodedByte = BitmapFactory.decodeByteArray(decodedString, 0, decodedString.length);
+                holder.postImage.setImageBitmap(decodedByte);
+            } catch (Exception e) {
+                e.printStackTrace();
+                holder.postImage.setImageResource(R.drawable.photo); // Fallback image in case of error
+            }
+        } else {
+            holder.postImage.setImageResource(R.drawable.photo); // Fallback image
+        }
+
         holder.editIcon.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -80,6 +98,7 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.PostViewHolder
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(context, PostDetailsActivity.class);
+                intent.putExtra("POST_ID", post.getPostId()); // Passer seulement l'ID du post
                 context.startActivity(intent);
             }
         });
@@ -97,9 +116,9 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.PostViewHolder
         TextView categoryTextView;
         TextView descriptionTextView;
         TextView locationTextView;
+        ImageView postImage;
         ImageView editIcon;
         ImageView deleteIcon;
-
         TextView viewDetailsButton;
 
         public PostViewHolder(@NonNull View itemView) {
@@ -109,6 +128,7 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.PostViewHolder
             categoryTextView = itemView.findViewById(R.id.category_text_view);
             descriptionTextView = itemView.findViewById(R.id.description_text_view);
             locationTextView = itemView.findViewById(R.id.location_text_view);
+            postImage = itemView.findViewById(R.id.post_image);
             editIcon = itemView.findViewById(R.id.edit_icon);
             deleteIcon = itemView.findViewById(R.id.delete_icon);
             viewDetailsButton = itemView.findViewById(R.id.view_details_button);
