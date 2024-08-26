@@ -1,0 +1,24 @@
+runtime: nodejs20
+env: standard
+
+# This is the entry point for the application.
+entrypoint: npm run start
+
+# App Engine automatically installs npm dependencies before running the application
+automatic_scaling:
+  target_cpu_utilization: 0.65
+  min_instances: 1
+  max_instances: 5
+
+# The handlers section configures how requests should be handled by the app.
+handlers:
+  - url: /.*  # Matches all URLs
+    script: auto
+
+# Optional: Specify environment variables
+env_variables:
+  NODE_ENV: 'production'
+  # Add any other environment variables your app requires here
+
+# Optional: Additional configuration for the app
+instance_class: F2  # Adjust the instance class based on your app's needs
