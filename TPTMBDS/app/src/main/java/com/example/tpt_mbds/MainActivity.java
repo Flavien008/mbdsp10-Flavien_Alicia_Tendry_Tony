@@ -77,5 +77,17 @@ public class MainActivity extends AppCompatActivity {
                 finish(); // Close the MainActivity
             }
         });
+
+        // Dashboard button click listener
+        LinearLayout dashboardButton = findViewById(R.id.dashboard_button);
+        dashboardButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // Navigate to DashboardActivity
+                Intent intent = new Intent(MainActivity.this, DashboardActivity.class);
+                startActivity(intent);
+            }
+        });
+
     }
 }

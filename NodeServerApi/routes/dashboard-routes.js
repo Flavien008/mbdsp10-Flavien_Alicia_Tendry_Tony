@@ -4,6 +4,7 @@ const dashboardController = require('../controllers/dashboard-controller');
 
 router.get('/userstats', dashboardController.getUserStatistics);
 router.get('/exchangestats', dashboardController.getExchangeStatistics);
+router.get('/exchangestatsbyUser', dashboardController.getExchangeStatisticsByUser);
 router.get('/categorydistribution', dashboardController.getCategoryDistribution);
 
 module.exports = router;

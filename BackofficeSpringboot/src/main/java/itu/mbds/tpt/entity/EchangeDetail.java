@@ -11,7 +11,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
-@Table(name = "echange_detail")
+@Table(name = "\"EchangeDetails\"")
 public class EchangeDetail {
 
     @Id
@@ -19,10 +19,10 @@ public class EchangeDetail {
     private int id;
 
     @ManyToOne
-    @JoinColumn(name = "echange_id", nullable = false)
+    @JoinColumn(name = "\"echange_id\"", nullable = false)
     private Echange echange;
 
     @ManyToOne
-    @JoinColumn(name = "objet_id", nullable = false)
+    @JoinColumn(name = "\"objet_id\"", nullable = false)
     private Objet objet;
 }

@@ -76,32 +76,68 @@ public class ObjetService {
         requestQueue.add(request);
     }
 
-    public void fetchObjets(int page, int limit, final FetchObjetsCallback callback) {
-        String url = OBJET_URL + "?page=" + page + "&limit=" + limit;
+//    pint page, int limit,ublic void fetchObjets( final FetchObjetsCallback callback) {
+//        String url = OBJET_URL + "?page=" + page + "&limit=" + limit;
+//
+//        JsonObjectRequest request = new JsonObjectRequest(Request.Method.GET, url, null,
+//                new Response.Listener<JSONObject>() {
+//                    @Override
+//                    public void onResponse(JSONObject response) {
+//                        callback.onSuccess(response);
+//                    }
+//                },
+//                new Response.ErrorListener() {
+//                    @Override
+//                    public void onErrorResponse(VolleyError error) {
+//                        callback.onError(error);
+//                    }
+//                }) {
+//            @Override
+//            public Map<String, String> getHeaders() throws AuthFailureError {
+//                Map<String, String> headers = new HashMap<>();
+//                headers.put("Authorization", "Bearer " + TokenManager.getInstance(context).getToken());
+//                return headers;
+//            }
+//        };
+//
+//        requestQueue.add(request);
+//    }
+public void fetchObjets(int page, int limit,final FetchObjetsCallback callback) {
+    // Récupérer l'ID de l'utilisateur actuel depuis le TokenManager
+    int userId = TokenManager.getInstance(context).getUserId();
 
-        JsonObjectRequest request = new JsonObjectRequest(Request.Method.GET, url, null,
-                new Response.Listener<JSONObject>() {
-                    @Override
-                    public void onResponse(JSONObject response) {
-                        callback.onSuccess(response);
-                    }
-                },
-                new Response.ErrorListener() {
-                    @Override
-                    public void onErrorResponse(VolleyError error) {
-                        callback.onError(error);
-                    }
-                }) {
-            @Override
-            public Map<String, String> getHeaders() throws AuthFailureError {
-                Map<String, String> headers = new HashMap<>();
-                headers.put("Authorization", "Bearer " + TokenManager.getInstance(context).getToken());
-                return headers;
-            }
-        };
+    // Construire l'URL pour l'API avec l'ID de l'utilisateur
+    String url = OBJET_URL + "/user/" + userId + "?page=" + page + "&limit=" + limit;
 
-        requestQueue.add(request);
-    }
+
+    // Faire la requête GET à l'API
+    JsonObjectRequest request = new JsonObjectRequest(Request.Method.GET, url, null,
+            new Response.Listener<JSONObject>() {
+                @Override
+                public void onResponse(JSONObject response) {
+                    // Appeler le callback de succès avec la réponse
+                    callback.onSuccess(response);
+                }
+            },
+            new Response.ErrorListener() {
+                @Override
+                public void onErrorResponse(VolleyError error) {
+                    // Appeler le callback d'erreur en cas de problème
+                    callback.onError(error);
+                }
+            }) {
+        @Override
+        public Map<String, String> getHeaders() throws AuthFailureError {
+            Map<String, String> headers = new HashMap<>();
+            // Ajouter l'en-tête d'autorisation avec le token de l'utilisateur
+            headers.put("Authorization", "Bearer " + TokenManager.getInstance(context).getToken());
+            return headers;
+        }
+    };
+
+    // Ajouter la requête à la file d'attente des requêtes
+    requestQueue.add(request);
+}
 
     public interface FetchObjetsCallback {
         void onSuccess(JSONObject response);
