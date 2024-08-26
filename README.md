@@ -100,7 +100,7 @@ Ce dépôt contient les différents modules et composants du projet TAKALO, chac
 
 ### Client lourd
 
-1. Téléchargez l'exécutable depuis le lien fourni ci-dessus.
+1. Téléchargez l'exécutable depuis le lien fourni ci-dessus, dans le dossier Application lourd.
 2. Assurez-vous que le service web est en cours d'exécution et accessible.
 3. Lancez l'application et connectez-vous avec vos identifiants TAKALO.
 
