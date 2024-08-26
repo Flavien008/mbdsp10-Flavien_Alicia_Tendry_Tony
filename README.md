@@ -2,6 +2,13 @@
 
 Bienvenue sur le dépôt Git de **TAKALO**, une plateforme de troc d'objets entre particuliers. Ce projet a été réalisé dans le cadre du Projet Transversal MBDS - Promotion 10.
 
+## Membre du groupe
+   - RAKOTOMAMONJY Nambinina Henintsoa Alicia 1351
+   - RAKOTOARISON Tojo Fandresena Flavien 1270
+   - RAKOTOARIVONY Tendry Hery ny Aina 1135
+   - RANDRIAMAMPIANINA Tony Fenoaina 1306
+
+
 ## Description du projet
 
 **TAKALO** est une plateforme en ligne permettant aux utilisateurs de proposer des échanges d'objets sans transaction financière. Les utilisateurs peuvent ajouter des objets qu'ils souhaitent échanger et naviguer parmi les objets proposés par d'autres utilisateurs pour trouver des échanges mutuellement avantageux.
