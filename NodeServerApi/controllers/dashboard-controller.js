@@ -125,6 +125,64 @@ exports.getExchangeStatistics = async (req, res) => {
   }
 };
 
+exports.getExchangeStatisticsByUser = async (req, res) => {
+  try {
+    const { userId, year } = req.query;
+
+    if (!userId) {
+      return res.status(400).json({ message: 'User ID is required' });
+    }
+
+    if (!year || isNaN(year)) {
+      return res.status(400).json({ message: 'Valid year is required' });
+    }
+
+    const months = [
+      'Janvier', 'Février', 'Mars', 'Avril', 'Mai', 'Juin',
+      'Juillet', 'Août', 'Septembre', 'Octobre', 'Novembre', 'Décembre'
+    ];
+
+    const exchangesData = await Echange.findAll({
+      attributes: [
+        [sequelize.fn('date_trunc', 'month', sequelize.col('created_at')), 'month'],
+        [sequelize.fn('COUNT', sequelize.col('id')), 'total'],
+        [sequelize.fn('COUNT', sequelize.literal("CASE WHEN status = 'validé' THEN 1 END")), 'accepted']
+      ],
+      where: {
+        proposer_id: userId, // or use responder_id depending on your use case
+        created_at: {
+          [Op.between]: [new Date(`${year}-01-01`), new Date(`${year}-12-31`)]
+        }
+      },
+      group: ['month'],
+      order: [[sequelize.fn('date_trunc', 'month', sequelize.col('created_at')), 'ASC']]
+    });
+
+    const formattedData = exchangesData.map(data => {
+      const monthIndex = new Date(data.dataValues.month).getMonth(); // Extract month index
+      return {
+        month: months[monthIndex],
+        total: data.dataValues.total,
+        accepted: data.dataValues.accepted,
+      };
+    });
+
+    // Add any missing months with 0 counts
+    const fullYearData = months.map((month, index) => {
+      const monthData = formattedData.find(data => months.indexOf(data.month) === index);
+      return monthData || { month, total: 0, accepted: 0 };
+    });
+
+    res.status(200).json(fullYearData);
+  } catch (error) {
+    res.status(500).json({ message: 'Error fetching exchange statistics', error });
+  }
+};
+
+
+
+
+
 
 
 exports.getCategoryDistribution = async (req, res) => {

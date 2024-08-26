@@ -1,5 +1,6 @@
 <!DOCTYPE html>
-<html lang="en" class="light-style layout-menu-fixed" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+<html lang="en" class="light-style layout-menu-fixed" xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
 
 <head>
     <title>Backoffice</title>
@@ -18,10 +19,41 @@
 
     <!-- App CSS -->
     <link id="theme-style" rel="stylesheet" th:href="@{/css/portal.css}">
+    <link id="app-style" rel="stylesheet" th:href="@{/css/app.css}">
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css"/>
+    <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/qrcodejs@1.0.0/qrcode.min.js"></script>
+    <style>
+        /* Styles pour centrer et positionner le loader */
+        #loader {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            z-index: 9999; /* Au-dessus de toutes les couches, sauf l'entête */
+            display: block;
+        }
 
+        #loader-background {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(255, 255, 255, 0.8);
+            z-index: 9998;
+            display: block;
+        }
+    </style>
 </head>
 
 <body class="app">
+<div id="loader-background"></div>
+<div id="loader">
+    <div class="spinner-border text-primary" role="status">
+        <span class="visually-hidden">Loading...</span>
+    </div>
+</div>
 <header class="app-header fixed-top">
     <div class="app-header-inner">
         <div class="container-fluid py-2">
@@ -46,7 +78,7 @@
                                role="button" aria-expanded="false"><img th:src="@{/images/user.png}"
                                                                         alt="user profile"></a>
                             <ul class="dropdown-menu" aria-labelledby="user-dropdown-toggle">
-                                <li><a class="dropdown-item" href="account.html">Profil</a></li>
+                                <li><a class="dropdown-item" th:href="@{/profil/}">Profil</a></li>
                                 <li>
                                     <hr class="dropdown-divider">
                                 </li>
@@ -69,7 +101,7 @@
             <a href="#" id="sidepanel-close" class="sidepanel-close d-xl-none">&times;</a>
             <div class="app-branding">
                 <a class="app-logo" href="index.html"><img class="logo-icon me-2" th:src="@{/images/app-logo.svg}"
-                                                           alt="logo"><span class="logo-text">PORTAL</span></a>
+                                                           alt="logo"><span class="logo-text">Backoffice</span></a>
 
             </div><!--//app-branding-->
 
@@ -86,7 +118,8 @@
                     </li><!--//nav-item-->
                     <li class="nav-item">
                         <!--//Bootstrap Icons: https://icons.getbootstrap.com/ -->
-                        <a th:class="${pageActuel.startsWith('categorie') ? 'nav-link active' : 'nav-link'}" th:href="@{/categorie/}">
+                        <a th:class="${pageActuel.startsWith('categorie') ? 'nav-link active' : 'nav-link'}"
+                           th:href="@{/categorie/}">
 								<span class="nav-icon">
 									<i class="fa fa-tag" aria-hidden="true"></i>
 								</span>
@@ -96,33 +129,33 @@
 
                     <li class="nav-item">
                         <!--//Bootstrap Icons: https://icons.getbootstrap.com/ -->
-                        <a th:class="${pageActuel.startsWith('utilisateur') ? 'nav-link active' : 'nav-link'}" th:href="@{/utilisateur/}">
+                        <a th:class="${pageActuel.startsWith('utilisateur') ? 'nav-link active' : 'nav-link'}"
+                           th:href="@{/utilisateur/}">
 								<span class="nav-icon">
 									<i class="fa fa-user" aria-hidden="true"></i>
 								</span>
                             <span class="nav-link-text">Utilisateur</span>
                         </a><!--//nav-link-->
-                    </li><!--//nav-item-->
+                    </li>
                     <li class="nav-item">
-                    <li class="nav-item">
-                        <!--//Bootstrap Icons: https://icons.getbootstrap.com/ -->
-                        <a th:class="${pageActuel.startsWith('post') ? 'nav-link active' : 'nav-link'}" th:href="@{/post/}">
-								<span class="nav-icon">
-									<i class="fa fa-paper-plane" aria-hidden="true"></i>
-								</span>
-                            <span class="nav-link-text">Post</span>
-                        </a><!--//nav-link-->
-                    </li><!--//nav-item-->
-                    <li class="nav-item">
-                    <li class="nav-item">
-                        <!--//Bootstrap Icons: https://icons.getbootstrap.com/ -->
-                        <a th:class="${pageActuel.startsWith('objet') ? 'nav-link active' : 'nav-link'}" th:href="@{/objet/}">
+                        <a th:class="${pageActuel.startsWith('objet') ? 'nav-link active' : 'nav-link'}"
+                           th:href="@{/objet/}">
 								<span class="nav-icon">
 									<i class="fa fa-cube" aria-hidden="true"></i>
 								</span>
                             <span class="nav-link-text">Objet</span>
-                        </a><!--//nav-link-->
-                    </li><!--//nav-item-->
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a th:class="${pageActuel.startsWith('post') ? 'nav-link active' : 'nav-link'}"
+                           th:href="@{/post/}">
+								<span class="nav-icon">
+									<i class="fa fa-paper-plane" aria-hidden="true"></i>
+								</span>
+                            <span class="nav-link-text">Post</span>
+                        </a>
+                    </li>
+
 
                 </ul><!--//app-menu-->
             </nav><!--//app-nav-->
@@ -131,22 +164,25 @@
                     <ul class="app-menu footer-menu list-unstyled">
 
                         <li class="nav-item">
-                            <!--//Bootstrap Icons: https://icons.getbootstrap.com/ -->
-                            <a class="nav-link"
-                               href="https://themes.3rdwavemedia.com/bootstrap-templates/admin-dashboard/portal-free-bootstrap-admin-dashboard-template-for-developers/">
-									<span class="nav-icon">
-										<i class="fa fa-sign-out" aria-hidden="true"></i>
-									</span>
-                                <span class="nav-link-text">Déconnexion</span>
-                            </a><!--//nav-link-->
-                        </li><!--//nav-item-->
-                    </ul><!--//footer-menu-->
-                </nav>
-            </div><!--//app-sidepanel-footer-->
 
-        </div><!--//sidepanel-inner-->
-    </div><!--//app-sidepanel-->
-</header><!--//app-header-->
+                            <form action="/logout" method="post">
+                                <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
+
+                                <button type="submit" class="nav-link">
+                                    <span class="nav-icon">
+                                            <i class="fa fa-sign-out" aria-hidden="true"></i>
+                                        </span>
+                                    <span class="nav-link-text">Déconnexion</span>
+                                </button>
+                            </form>
+                        </li>
+                    </ul>
+                </nav>
+            </div>
+
+        </div>
+    </div>
+</header>
 
 <div class="app-wrapper">
 
@@ -171,14 +207,37 @@
 <!-- Javascript -->
 <script th:src="@{/plugins/popper.min.js}"></script>
 <script th:src="@{/plugins/bootstrap/js/bootstrap.min.js}"></script>
+<script src="
+https://cdn.jsdelivr.net/npm/jquery@3.7.1/dist/jquery.min.js
+"></script>
 
 <!-- Charts JS -->
 <script th:src="@{/plugins/chart.js/chart.min.js}"></script>
-<script th:src="@{/js/charts-demo.js}"></script>
+<script th:inline="javascript" th:src="@{/js/charts-demo.js}"></script>
+
+<!-- Sweetalert2 JS -->
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
 <!-- Page Specific JS -->
 <script th:src="@{/js/app.js}"></script>
+<script th:src="@{/js/main.js}"></script>
 
+<script>
+    window.addEventListener("beforeunload", function () {
+        document.getElementById("loader").style.display = "block";
+        document.getElementById("loader-background").style.display = "block";
+    });
+    document.addEventListener("DOMContentLoaded", function() {
+        document.getElementById("loader").style.display = "block";
+        document.getElementById("loader-background").style.display = "block";
+    });
+
+    window.onload = function() {
+        document.getElementById("loader").style.display = "none";
+        document.getElementById("loader-background").style.display = "none";
+    };
+
+</script>
 
 </body>
 

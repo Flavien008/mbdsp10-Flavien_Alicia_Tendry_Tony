@@ -9,10 +9,11 @@ import lombok.*;
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
-@Table(name = "categorie")
+@Table(name = "\"Categories\"")
 public class Categorie {
 
     @Id
+    @Column(name = "\"categorie_id\"")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
     @Column(nullable = false)

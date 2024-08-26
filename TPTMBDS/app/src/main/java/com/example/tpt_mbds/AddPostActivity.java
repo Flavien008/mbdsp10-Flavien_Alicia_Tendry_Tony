@@ -125,7 +125,6 @@ public class AddPostActivity extends AppCompatActivity {
                     }
                 });
     }
-
     private void loadObjects() {
         ObjetService objetService = new ObjetService(this);
         objetService.fetchObjets(1, 100, new ObjetService.FetchObjetsCallback() {
@@ -143,7 +142,6 @@ public class AddPostActivity extends AppCompatActivity {
                         JSONObject objectData = dataArray.getJSONObject(i);
                         int itemId = objectData.getInt("item_id");
                         String name = objectData.getString("name");
-
                         objectNames.add(name);
                         objectIds.add(itemId);
                     }
@@ -177,7 +175,6 @@ public class AddPostActivity extends AppCompatActivity {
             }
         });
     }
-
     private void handlePostCreation() {
         // Récupérer les données du formulaire
         String title = titleEditText.getText().toString().trim();
@@ -206,7 +203,6 @@ public class AddPostActivity extends AppCompatActivity {
             Toast.makeText(this, "Veuillez sélectionner un objet", Toast.LENGTH_SHORT).show();
         }
     }
-
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);

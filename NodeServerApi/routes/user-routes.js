@@ -8,4 +8,6 @@ router.post('/login', userController.login);
 router.get('/usersbyrole',authenticateToken, userController.getUsersByRole);
 router.put('/:id',authenticateToken, userController.updateUser);
 router.delete('/:id',authenticateToken, userController.deleteUser);
+router.get('/user/:id',authenticateToken, userController.getUserById);
+
 module.exports = router;

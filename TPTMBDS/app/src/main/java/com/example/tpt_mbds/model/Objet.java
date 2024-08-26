@@ -15,6 +15,11 @@ public class Objet {
         this.imageBase64 = imageBase64;
     }
 
+    public Objet(String name, String categorie, String description) {
+        this.name = name;
+        this.categorie = categorie;
+        this.description = description;
+    }
     public String getName() {
         return name;
     }
@@ -29,5 +34,10 @@ public class Objet {
 
     public String getImageBase64() {
         return imageBase64;
+    }
+
+    @Override
+    public String toString() {
+        return name;
     }
 }

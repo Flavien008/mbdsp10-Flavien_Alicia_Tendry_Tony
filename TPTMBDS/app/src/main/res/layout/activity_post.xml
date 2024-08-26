@@ -1,4 +1,3 @@
-<?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -53,49 +52,27 @@
             android:layout_marginEnd="48dp"/>
     </androidx.appcompat.widget.Toolbar>
 
-    <LinearLayout
-        android:id="@+id/tab_buttons"
+    <!-- TabLayout pour les onglets -->
+    <com.google.android.material.tabs.TabLayout
+        android:id="@+id/tabLayout"
         android:layout_width="match_parent"
-        android:layout_height="64dp"
+        android:layout_height="wrap_content"
         android:layout_below="@id/toolbar"
         android:background="#2C2C4D"
-        android:gravity="center_horizontal"
-        android:orientation="horizontal"
-        android:padding="16dp">
+        android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar" />
 
-        <Button
-            android:id="@+id/all_posts_button"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:background="?android:attr/selectableItemBackground"
-            android:text="Tous les posts"
-            android:textColor="#FFFFFF" />
-
-        <Button
-            android:id="@+id/my_posts_button"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:background="?android:attr/selectableItemBackground"
-            android:text="Mes posts"
-            android:textColor="#FFFFFF" />
-
-    </LinearLayout>
-
-    <View
-        android:id="@+id/active_tab_indicator"
-        android:layout_width="wrap_content"
-        android:layout_height="2dp"
-        android:layout_below="@id/tab_buttons"
-        android:background="#FFFFFF" />
+    <!-- ViewPager pour les onglets -->
+    <androidx.viewpager.widget.ViewPager
+        android:id="@+id/viewPager"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@id/tabLayout" />
 
     <LinearLayout
         android:id="@+id/search_add_buttons"
         android:layout_width="112dp"
         android:layout_height="60dp"
-        android:layout_below="@id/active_tab_indicator"
-        android:layout_marginTop="131dp"
+        android:layout_alignParentBottom="true"
         android:gravity="center_horizontal"
         android:orientation="horizontal"
         android:padding="16dp">
@@ -117,16 +94,4 @@
             android:padding="8dp"
             android:src="@drawable/ic_add" />
     </LinearLayout>
-
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/recycler_view"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/search_add_buttons"
-        android:layout_alignParentEnd="true"
-        android:layout_marginTop="-8dp"
-        android:layout_marginEnd="0dp"
-        android:clipToPadding="false"
-        android:padding="16dp"
-        android:scrollbars="vertical" />
 </RelativeLayout>

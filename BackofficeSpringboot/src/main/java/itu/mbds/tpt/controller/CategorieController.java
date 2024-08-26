@@ -1,13 +1,16 @@
 package itu.mbds.tpt.controller;
 
+import itu.mbds.tpt.dto.CategorieDto;
 import itu.mbds.tpt.entity.Categorie;
+import itu.mbds.tpt.mapper.CategorieMapper;
 import itu.mbds.tpt.service.CategorieService;
+import jakarta.transaction.Transactional;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Optional;
@@ -16,75 +19,101 @@ import java.util.Optional;
 @RequestMapping("/categorie")
 public class CategorieController {
 
-//    @GetMapping("/")
-//    public ModelAndView categorie() {
-//        String pageActuel = "categorie/index";
-//        ModelAndView model = new ModelAndView("include/"+pageActuel);
-//        model.addObject("pageActuel", pageActuel);
-//        return model;
-//    }
-
     @Autowired
     private CategorieService categorieService;
+    @Autowired
+    private CategorieMapper categorieMapper;
 
     @GetMapping("/")
-    public String categorie(@RequestParam(defaultValue = "0") int page, @RequestParam(defaultValue = "5") int size, Model model) {
-        String pageActuel = "categorie/index";
-        Pageable pageable = PageRequest.of(page, size);
-        Page<Categorie> categoriePage = categorieService.findAll(pageable);
+    public String categorie(
+            Model model) {
+
+        int page = 0;
+        String sortBy = "id";
+        String nom = "";
+        Page<Categorie> categoriePage = categorieService.findAll(page, size, sortBy, nom);
+
         model.addAttribute("categories", categoriePage.getContent());
         model.addAttribute("totalPages", categoriePage.getTotalPages());
+        model.addAttribute("totalElements", categoriePage.getTotalElements());
+        model.addAttribute("page", page);
+        model.addAttribute("sortBy", sortBy);
+        model.addAttribute("size", size);
+        model.addAttribute("nom", nom);
         model.addAttribute("currentPage", page);
+        String pageActuel = "categorie/index";
         model.addAttribute("pageActuel", pageActuel);
-        return "include/"+pageActuel;
+        return "include/" + pageActuel;
     }
+
 
     @GetMapping("/search")
-    public String searchCategories(@RequestParam String nom, @RequestParam(defaultValue = "0") int page, @RequestParam(defaultValue = "5") int size, Model model) {
+    public String search(@RequestParam String nom,
+                         @RequestParam(defaultValue = "0") int page,
+                         @RequestParam(defaultValue = "20") int size,
+                         @RequestParam(defaultValue = "id") String sortBy,
+                         Model model) {
         String pageActuel = "categorie/index";
-        Pageable pageable = PageRequest.of(page, size);
-        Page<Categorie> categoriePage = categorieService.findByNom(nom, pageable);
+        Page<Categorie> categoriePage = categorieService.findAll(page, size, sortBy, nom);
         model.addAttribute("categories", categoriePage.getContent());
         model.addAttribute("totalPages", categoriePage.getTotalPages());
+        model.addAttribute("totalElements", categoriePage.getTotalElements());
+        model.addAttribute("page", page);
+        model.addAttribute("sortBy", sortBy);
+        model.addAttribute("size", size);
+        model.addAttribute("nom", nom);
         model.addAttribute("currentPage", page);
         model.addAttribute("pageActuel", pageActuel);
-        return "include/"+pageActuel;
-    }
-
-    @GetMapping("/add")
-    public String showAddForm(Model model) {
-        String pageActuel = "categorie/add";
-        model.addAttribute("categorie", new Categorie());
-        model.addAttribute("pageActuel", pageActuel);
-        return "include/"+pageActuel;
-    }
-
-    @PostMapping("/add")
-    public String addCategorie(@ModelAttribute Categorie categorie) {
-        categorieService.save(categorie);
-        return "redirect:/categories";
+        return "include/" + pageActuel;
     }
 
     @GetMapping("/edit/{id}")
     public String showEditForm(@PathVariable int id, Model model) {
-        Optional<Categorie> categorie = categorieService.findById(id);
-        if (categorie.isPresent()) {
-            model.addAttribute("categorie", categorie.get());
-            return "categories/edit";
-        } else {
-            return "redirect:/categories";
+        try {
+            Optional<Categorie> categorie = categorieService.findById(id);
+            if (categorie.isPresent()) {
+                String pageActuel = "categorie/edit";
+                model.addAttribute("categorie", categorieMapper.toCategorieDto(categorie.get()));
+                model.addAttribute("pageActuel", pageActuel);
+                return "include/" + pageActuel;
+            } else {
+                return "redirect:/categorie/";
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            return "redirect:/categorie/";
         }
+
     }
 
+    @Transactional
     @PostMapping("/edit")
-    public String editCategorie(@ModelAttribute Categorie categorie) {
-        categorieService.save(categorie);
-        return "redirect:/categories";
+    public String editCategorie(@Valid @ModelAttribute("categorie") CategorieDto categorieDto,BindingResult binding,Model model) {
+        String pageActuel = "categorie/edit";
+        if (binding.hasErrors()) {
+
+            model.addAttribute("pageActuel", pageActuel);
+            model.addAttribute("categorie", categorieDto);
+            model.addAttribute("error", binding.getFieldError().getDefaultMessage());
+            return "include/" + pageActuel;
+        }
+        try {
+            categorieService.editCategorie(categorieMapper.toCategorie(categorieDto));
+        } catch (Exception e) {
+            e.printStackTrace();
+            return "redirect:/categorie/";
+        }
+        return "redirect:/categorie/";
     }
 
     @GetMapping("/delete/{id}")
     public String deleteCategorie(@PathVariable int id) {
-        categorieService.deleteById(id);
-        return "redirect:/categories";
+        try {
+            categorieService.deleteById(id);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return "redirect:/categorie/";
+        }
+        return "redirect:/categorie/";
     }
 }

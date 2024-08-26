@@ -1,4 +1,3 @@
-<?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -6,235 +5,237 @@
     android:background="#1C1C3D"
     tools:context=".PostDetailsActivity">
 
-    <androidx.appcompat.widget.Toolbar
-        android:id="@+id/toolbar"
-        android:layout_width="match_parent"
-        android:layout_height="?attr/actionBarSize"
-        android:background="#2C2C4D"
-        android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
-        android:elevation="4dp">
-
-        <ImageView
-            android:id="@+id/back_arrow"
-            android:layout_width="35dp"
-            android:layout_height="35dp"
-            android:src="@drawable/ic_back_arrow"
-            android:contentDescription="Back"
-            android:layout_gravity="start"
-            android:clickable="true"
-            android:focusable="true"
-            android:padding="8dp" />
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:text="Fiche du Poste"
-            android:textColor="#FFFFFF"
-            android:textSize="20sp" />
-
-        <ImageView
-            android:id="@+id/home_icon"
-            android:layout_width="35dp"
-            android:layout_height="35dp"
-            android:src="@drawable/home"
-            android:contentDescription="Home"
-            android:layout_gravity="end"
-            android:padding="8dp" />
-    </androidx.appcompat.widget.Toolbar>
-
-    <ScrollView
+    <!-- Loading Layout -->
+    <RelativeLayout
+        android:id="@+id/loading_layout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_below="@id/toolbar"
-        android:padding="16dp">
+        android:gravity="center"
+        android:visibility="gone"> <!-- Hidden by default -->
 
-        <LinearLayout
-            android:layout_width="match_parent"
+        <ProgressBar
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:orientation="vertical">
+            android:indeterminate="true" />
+    </RelativeLayout>
 
-            <!-- Détails du poste -->
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Détails du poste"
-                android:textColor="#FFFFFF"
-                android:textSize="18sp"
-                android:layout_marginTop="16dp" />
+    <!-- Content Layout -->
+    <RelativeLayout
+        android:id="@+id/content_layout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <androidx.appcompat.widget.Toolbar
+            android:id="@+id/toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize"
+            android:background="#2C2C4D"
+            android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
+            android:elevation="4dp">
 
             <ImageView
-                android:layout_width="match_parent"
-                android:layout_height="200dp"
-                android:src="@drawable/photo"
-                android:scaleType="centerCrop"
-                android:contentDescription="Post Image"
-                android:layout_marginTop="8dp" />
+                android:id="@+id/back_arrow"
+                android:layout_width="35dp"
+                android:layout_height="35dp"
+                android:src="@drawable/ic_back_arrow"
+                android:contentDescription="Back"
+                android:layout_gravity="start"
+                android:clickable="true"
+                android:focusable="true"
+                android:padding="8dp" />
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Catégorie"
+                android:layout_gravity="center"
+                android:text="Fiche du Poste"
                 android:textColor="#FFFFFF"
-                android:textSize="16sp"
-                android:layout_marginTop="8dp" />
+                android:textSize="20sp" />
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed pellentesque sagittis turpis ut sodales."
-                android:textColor="#FFFFFF"
-                android:textSize="14sp"
-                android:layout_marginTop="4dp" />
+            <ImageView
+                android:id="@+id/home_icon"
+                android:layout_width="35dp"
+                android:layout_height="35dp"
+                android:src="@drawable/home"
+                android:contentDescription="Home"
+                android:layout_gravity="end"
+                android:padding="8dp" />
+        </androidx.appcompat.widget.Toolbar>
 
-            <!-- Commentaires -->
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Commentaires"
-                android:textColor="#FFFFFF"
-                android:textSize="18sp"
-                android:layout_marginTop="16dp" />
+        <ScrollView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_below="@id/toolbar"
+            android:padding="16dp">
 
-            <EditText
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:hint="Rechercher Commentaire"
-                android:padding="12dp"
-                android:textColor="#FFFFFF"
-                android:textColorHint="#CCCCCC"
-                android:background="@drawable/edit_text_background"
-                android:layout_marginTop="8dp" />
-
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/comment_recycler_view"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="8dp"
-                android:clipToPadding="false"
-                android:scrollbars="vertical" />
-
-            <!-- Placeholder pour les commentaires -->
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="vertical"
-                android:background="#2C2C4D"
-                android:padding="8dp"
-                android:layout_marginTop="8dp">
+                android:orientation="vertical">
 
+                <!-- Détails du poste -->
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Commentaire 1"
-                    android:textColor="#FFFFFF"
-                    android:textSize="14sp" />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Lorem ipsum dolor sit amet, consectetur adipiscing elit."
-                    android:textColor="#FFFFFF"
-                    android:textSize="12sp"
-                    android:layout_marginTop="4dp" />
-            </LinearLayout>
-
-            <!-- Autres placeholders de commentaires -->
-
-            <!-- Section Lieu avec la WebView pour Leaflet -->
-            <TextView
-                android:id="@+id/lieu_section_id"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Lieu"
-                android:textColor="#FFFFFF"
-                android:textSize="18sp"
-                android:layout_marginTop="16dp" />
-
-            <WebView
-                android:id="@+id/map_webview"
-                android:layout_width="match_parent"
-                android:layout_height="200dp" />
-
-            <!-- Autres sections ici -->
-
-            <!-- Échange -->
-<!--            <TextView-->
-<!--                android:layout_width="wrap_content"-->
-<!--                android:layout_height="wrap_content"-->
-<!--                android:text="Échange"-->
-<!--                android:textColor="#FFFFFF"-->
-<!--                android:textSize="18sp"-->
-<!--                android:layout_marginTop="16dp" />-->
-
-<!--            <Spinner-->
-<!--                android:layout_width="match_parent"-->
-<!--                android:layout_height="wrap_content"-->
-<!--                android:layout_marginTop="8dp"-->
-<!--                android:background="@drawable/edit_text_background"-->
-<!--                android:padding="12dp"-->
-<!--                android:textColor="#FFFFFF"-->
-<!--                android:textColorHint="#CCCCCC" />-->
-
-<!--            <EditText-->
-<!--                android:layout_width="match_parent"-->
-<!--                android:layout_height="wrap_content"-->
-<!--                android:hint="Rechercher Échange"-->
-<!--                android:padding="12dp"-->
-<!--                android:textColor="#FFFFFF"-->
-<!--                android:textColorHint="#CCCCCC"-->
-<!--                android:background="@drawable/edit_text_background"-->
-<!--                android:layout_marginTop="8dp" />-->
-            <!-- Bouton Proposer Echange -->
-            <Button
-                android:id="@+id/proposer_echange_button"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="16dp"
-                android:background="@drawable/button_background"
-                android:text="Proposer échange"
-                android:textColor="#FFFFFF"
-                android:drawableRight="@drawable/echange"
-                android:visibility="gone" /> <!-- Hide by default -->
-            <!-- Placeholder pour les échanges -->
-            <LinearLayout
-                android:id="@+id/echange_layout"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="vertical"
-                android:background="#2C2C4D"
-                android:padding="8dp"
-                android:layout_marginTop="8dp">
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Echange"
+                    android:text="Détails du poste"
                     android:textColor="#FFFFFF"
                     android:textSize="18sp"
                     android:layout_marginTop="16dp" />
 
+                <ImageView
+                    android:id="@+id/post_image"
+                    android:layout_width="match_parent"
+                    android:layout_height="200dp"
+                    android:scaleType="centerCrop"
+                    android:contentDescription="Post Image"
+                    android:layout_marginTop="8dp" />
+
+                <TextView
+                    android:id="@+id/category_text_view"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Catégorie"
+                    android:textColor="#FFFFFF"
+                    android:textSize="16sp"
+                    android:layout_marginTop="8dp" />
+
+                <TextView
+                    android:id="@+id/description_text_view"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed pellentesque sagittis turpis ut sodales."
+                    android:textColor="#FFFFFF"
+                    android:textSize="14sp"
+                    android:layout_marginTop="4dp" />
+
+                <!-- Formulaire de commentaire -->
                 <EditText
+                    android:id="@+id/comment_input"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:hint="Rechercher Echange"
+                    android:hint="Ajouter un commentaire"
                     android:padding="12dp"
                     android:textColor="#FFFFFF"
                     android:textColorHint="#CCCCCC"
                     android:background="@drawable/edit_text_background"
                     android:layout_marginTop="8dp" />
 
+                <Button
+                    android:id="@+id/add_comment_button"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Ajouter"
+                    android:layout_gravity="end"
+                    android:layout_marginTop="8dp"
+                    android:background="@drawable/button_background"
+                    android:textColor="#FFFFFF" />
+
+                <!-- Commentaires -->
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Commentaires"
+                    android:textColor="#FFFFFF"
+                    android:textSize="18sp"
+                    android:layout_marginTop="16dp" />
+
                 <androidx.recyclerview.widget.RecyclerView
-                    android:id="@+id/exchange_recycler_view"
+                    android:id="@+id/comment_recycler_view"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="8dp"
                     android:clipToPadding="false"
                     android:scrollbars="vertical" />
 
-            </LinearLayout>
+                <!-- Placeholder pour les commentaires -->
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:background="#2C2C4D"
+                    android:padding="8dp"
+                    android:layout_marginTop="8dp">
 
-            <!-- Autres placeholders d'échange -->
-        </LinearLayout>
-    </ScrollView>
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Commentaire 1"
+                        android:textColor="#FFFFFF"
+                        android:textSize="14sp" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Lorem ipsum dolor sit amet, consectetur adipiscing elit."
+                        android:textColor="#FFFFFF"
+                        android:textSize="12sp"
+                        android:layout_marginTop="4dp" />
+                </LinearLayout>
+
+                <!-- Section Lieu avec la WebView pour Leaflet -->
+                <TextView
+                    android:id="@+id/lieu_section_id"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Lieu"
+                    android:textColor="#FFFFFF"
+                    android:textSize="18sp"
+                    android:layout_marginTop="16dp" />
+
+                <WebView
+                    android:id="@+id/map_webview"
+                    android:layout_width="match_parent"
+                    android:layout_height="200dp" />
+
+                <!-- Échange Section -->
+                <Button
+                    android:id="@+id/proposer_echange_button"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="16dp"
+                    android:background="@drawable/button_background"
+                    android:text="Proposer échange"
+                    android:textColor="#FFFFFF"
+                    android:drawableRight="@drawable/echange"
+                    android:visibility="gone" /> <!-- Hide by default -->
+
+                <LinearLayout
+                    android:id="@+id/echange_layout"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:background="#2C2C4D"
+                    android:padding="8dp"
+                    android:layout_marginTop="8dp">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Echange"
+                        android:textColor="#FFFFFF"
+                        android:textSize="18sp"
+                        android:layout_marginTop="16dp" />
+
+                    <EditText
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:hint="Rechercher Echange"
+                        android:padding="12dp"
+                        android:textColor="#FFFFFF"
+                        android:textColorHint="#CCCCCC"
+                        android:background="@drawable/edit_text_background"
+                        android:layout_marginTop="8dp" />
+
+                    <androidx.recyclerview.widget.RecyclerView
+                        android:id="@+id/exchange_recycler_view"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="8dp"
+                        android:clipToPadding="false"
+                        android:scrollbars="vertical" />
+                </LinearLayout>
+
+            </LinearLayout>
+        </ScrollView>
+    </RelativeLayout>
 </RelativeLayout>

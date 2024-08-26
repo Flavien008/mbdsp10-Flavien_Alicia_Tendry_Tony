@@ -1,25 +1,37 @@
 package itu.mbds.tpt.entity;
 
-import org.springframework.data.annotation.Id;
-import org.springframework.data.mongodb.core.mapping.Document;
+import itu.mbds.tpt.entity.Objet;
+import itu.mbds.tpt.entity.Utilisateur;
+import jakarta.persistence.*;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import lombok.AllArgsConstructor;
 
 import java.time.LocalDateTime;
 
-@Document(collection = "historique_proprietaire_objet")
 @Data
 @NoArgsConstructor
-@AllArgsConstructor
+@Entity
+@Table(name = "\"HistoriqueProprietaires\"")
 public class HistoriqueProprietaireObjet {
 
     @Id
-    private String id;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private int id;
 
-    private int itemId;
-    private int userId;
-    private LocalDateTime startDate;
-    private LocalDateTime endDate;
+    @ManyToOne
+    @JoinColumn(name = "\"objet_id\"", referencedColumnName = "\"item_id\"")
+    private Objet objet;
+
+    @ManyToOne
+    @JoinColumn(name = "\"ancien_proprietaire_id\"")
+    private Utilisateur ancienProprietaire;
+
+    @ManyToOne
+    @JoinColumn(name = "\"nouveau_proprietaire_id\"", foreignKey = @ForeignKey(name = "HistoriqueProprietaires_nouveau_proprietaire_id_fkey"))
+    private Utilisateur nouveauProprietaire;
+
+    @Column(name = "\"date_changement\"")
+    private LocalDateTime dateChangement;
+
+
 }
-

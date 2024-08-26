@@ -7,5 +7,6 @@ router.get('/', objetController.getObjets);
 router.get('/:id', objetController.getObjetById);
 router.put('/:id', objetController.updateObjet);
 router.delete('/:id', objetController.deleteObjet);
+router.get('/user/:user_id', objetController.getObjetsByUserId);
 
 module.exports = router;

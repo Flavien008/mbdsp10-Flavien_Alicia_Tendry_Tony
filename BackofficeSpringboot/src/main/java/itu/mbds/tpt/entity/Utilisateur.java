@@ -13,28 +13,45 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
-@Table(name = "utilisateur")
+@Table(name = "\"Utilisateurs\"")
 public class Utilisateur {
 
     @Id
+    @Column(name = "\"user_id\"")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
-    @Column(name = "username",nullable = false)
+    @Column(name = "\"username\"", nullable = false)
     private String username;
-    @Column(name = "password",nullable = false)
+
+    @Column(name = "\"password\"", nullable = false)
     private String password;
-    @Column(name = "email",nullable = false, unique = true)
+
+    @Column(name = "\"email\"", nullable = false, unique = true)
     private String email;
-    @Column(name = "birthday")
-    @Temporal(TemporalType.DATE)
+
+    @Column(name = "\"dateNaissance\"")
     private LocalDate birthday;
-    @Column(name = "create_at")
-    @Temporal(TemporalType.TIMESTAMP)
+
+    @Column(name = "\"created_at\"")
     private LocalDateTime createAt = LocalDateTime.now();
 
+    @Column(name = "\"updated_at\"", nullable = false)
+    private LocalDateTime updatedAt;
+
     @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "role_id")
+    @JoinColumn(name = "\"role_id\"")
     private Role role;
+
+    @PrePersist
+    protected void onCreate() {
+        createAt = LocalDateTime.now();
+        updatedAt = LocalDateTime.now();
+    }
+
+    @PreUpdate
+    protected void onUpdate() {
+        updatedAt = LocalDateTime.now();
+    }
 
 }
