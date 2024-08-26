@@ -2,7 +2,7 @@
 import axios from 'axios';
 
 const axiosInstance = axios.create({
-  baseURL: 'http://192.168.88.25:8010/api',
+  baseURL: 'https://modular-analog-431619-t6.oa.r.appspot.com/api',
   headers: {
     'Content-Type': 'application/json',
   },
