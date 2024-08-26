@@ -1,3 +1,4 @@
+<?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -42,8 +43,7 @@
             android:padding="8dp" />
     </androidx.appcompat.widget.Toolbar>
 
-    <androidx.core.widget.NestedScrollView
-        android:id="@+id/nested_scroll_view"
+    <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_below="@id/toolbar"
@@ -65,11 +65,12 @@
                 android:textColorHint="#CCCCCC"
                 android:layout_marginTop="16dp" />
 
-            <LinearLayout
-                android:id="@+id/objects_container"
+            <Spinner
+                android:id="@+id/object_spinner"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="vertical"
+                android:background="@drawable/edit_text_background"
+                android:padding="12dp"
                 android:layout_marginTop="16dp" />
 
             <Button
@@ -88,12 +89,5 @@
                 android:textColor="#FFFFFF"
                 android:textSize="14sp" />
         </LinearLayout>
-    </androidx.core.widget.NestedScrollView>
-
-    <ProgressBar
-        android:id="@+id/progressBar"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_centerInParent="true"
-        android:visibility="gone"/>
+    </ScrollView>
 </RelativeLayout>

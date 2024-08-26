@@ -11,20 +11,19 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
-@Table(name = "\"Postedetails\"")
+@Table(name = "post_detail")
 public class PostDetail {
 
     @Id
-    @Column(name = "\"poste_details_id\"")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
     @ManyToOne
-    @JoinColumn(name = "\"post_id\"", nullable = false)
+    @JoinColumn(name = "post_id", nullable = false)
     private Post post;
 
     @ManyToOne
-    @JoinColumn(name = "\"item_id\"", nullable = false)
+    @JoinColumn(name = "objet_id", nullable = false)
     private Objet objet;
 
 }

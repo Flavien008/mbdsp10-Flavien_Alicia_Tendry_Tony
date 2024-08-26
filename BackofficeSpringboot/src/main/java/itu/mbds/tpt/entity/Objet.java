@@ -13,45 +13,33 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
-@Table(name = "\"Objets\"")
+@Table(name = "objet")
 public class Objet {
 
     @Id
-    @Column(name = "\"item_id\"")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
-    @Column(name = "\"name\"", nullable = false)
+    @Column(name = "nom", nullable = false)
     private String nom;
 
-    @Column(name = "\"description\"")
+    @Column(name = "description")
     private String description;
 
 
-    @Column(name = "\"created_at\"", nullable = false, updatable = false)
+    @Column(name = "created_at", nullable = false, updatable = false)
     @Temporal(TemporalType.TIMESTAMP)
     private LocalDateTime createdAt;
 
-    @Column(name = "\"updated_at\"", nullable = false)
+    @Column(name = "updated_at", nullable = false)
     @Temporal(TemporalType.TIMESTAMP)
     private LocalDateTime updatedAt;
 
     @ManyToOne
-    @JoinColumn(name = "\"user_id\"", nullable = false)
+    @JoinColumn(name = "user_id", nullable = false)
     private Utilisateur utilisateur;
 
     @ManyToOne
-    @JoinColumn(name = "\"categorie_id\"", nullable = false)
+    @JoinColumn(name = "categorie_id", nullable = false)
     private Categorie categorie;
-
-    @PrePersist
-    protected void onCreate() {
-        createdAt = LocalDateTime.now();
-        updatedAt = LocalDateTime.now();
-    }
-
-    @PreUpdate
-    protected void onUpdate() {
-        updatedAt = LocalDateTime.now();
-    }
 }

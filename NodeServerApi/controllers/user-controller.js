@@ -110,8 +110,6 @@ exports.updateUser = async (req, res) => {
     }
 };
 
-
-
 // Fonction pour supprimer un utilisateur
 exports.deleteUser = async (req, res) => {
     const { id } = req.params;
@@ -130,28 +128,3 @@ exports.deleteUser = async (req, res) => {
         res.status(500).json({ message: 'Error deleting user', error });
     }
 };
-
-
-exports.getUserById = async (req, res) => {
-    try {
-        const { id } = req.params;
-
-        if (!id) {
-            return res.status(400).json({ message: 'User ID is required' });
-        }
-
-        const user = await Utilisateur.findOne({
-            where: { user_id: id }  // Use 'user_id' as per your database schema
-        });
-
-        if (!user) {
-            return res.status(404).json({ message: 'User not found' });
-        }
-
-        res.status(200).json(user);
-    } catch (error) {
-        res.status(500).json({ message: 'Error fetching user', error });
-    }
-};
-
-

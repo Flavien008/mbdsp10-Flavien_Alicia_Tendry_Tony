@@ -3,7 +3,6 @@ package itu.mbds.tpt.security;
 
 
 import itu.mbds.tpt.security.service.CustomUserDetailsService;
-import itu.mbds.tpt.util.Constante;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -14,6 +13,8 @@ import org.springframework.security.authentication.dao.DaoAuthenticationProvider
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import static org.springframework.security.config.Customizer.withDefaults;
 
@@ -25,8 +26,10 @@ public class SecurityConfiguration {
     @Autowired
     CustomUserDetailsService userDetailsService;
 
-    @Autowired
-    PasswordConfiguration passwordConfiguration;
+    @Bean
+    public PasswordEncoder passwordEncoder() {
+        return new BCryptPasswordEncoder();
+    }
 
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
@@ -35,12 +38,6 @@ public class SecurityConfiguration {
                 .csrf(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests((authorize) -> authorize
                         .requestMatchers("/resources/**","/css/**", "/js/**", "/images/**", "/plugins/**","/login").permitAll()
-                        .requestMatchers("/").hasRole(Constante.ROLE_ADMIN)
-                        .requestMatchers("/categorie/**").hasRole(Constante.ROLE_ADMIN)
-                        .requestMatchers("/utilisateur/**").hasRole(Constante.ROLE_ADMIN)
-                        .requestMatchers("/post/**").hasRole(Constante.ROLE_ADMIN)
-                        .requestMatchers("/objet/**").hasRole(Constante.ROLE_ADMIN)
-                        .requestMatchers("/objet/**").hasRole(Constante.ROLE_ADMIN)
                         .anyRequest().authenticated()
                 )
                 .formLogin((form) -> form
@@ -50,9 +47,6 @@ public class SecurityConfiguration {
                         .permitAll()
                 )
                 .logout(withDefaults())
-                .exceptionHandling((exceptions) -> exceptions
-                        .accessDeniedPage("/login?errorAccess=true")
-                )
                 .httpBasic(withDefaults());
         // @formatter:on
         return http.build();
@@ -62,7 +56,7 @@ public class SecurityConfiguration {
     public AuthenticationManager authenticationManager() {
         DaoAuthenticationProvider authenticationProvider = new DaoAuthenticationProvider();
         authenticationProvider.setUserDetailsService(userDetailsService);
-        authenticationProvider.setPasswordEncoder(passwordConfiguration.passwordEncoder());
+        authenticationProvider.setPasswordEncoder(passwordEncoder());
         return new ProviderManager(authenticationProvider);
     }
 

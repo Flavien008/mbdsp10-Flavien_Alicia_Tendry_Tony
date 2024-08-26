@@ -22,7 +22,7 @@ import {
   peopleOutline,
   logOutOutline
 } from 'ionicons/icons';
-import img from './../logo/logo blanc.png';
+import img from './../logo/logo.png';
 import './SideMenu.css';
 
 const SideMenu: React.FC = () => {

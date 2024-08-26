@@ -1,146 +1,16 @@
 <!DOCTYPE html>
 
-<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
       layout:decorate="~{fragments/layout}">
-
 <body>
 <div layout:fragment="content">
     <div class="container-xl">
-        <div class="d-flex flex-row justify-content-between ">
-            <h1 class="app-page-title">Utilisateur</h1>
-            <div><a th:href="@{/utilisateur/add}" class="btn btn-primary"><i class="fa fa-plus"></i> Nouveau</a></div>
-        </div>
 
-        <form id="filterForm" th:action="@{/utilisateur/}" method="get">
-            <input type="hidden" name="page" class="form-control form-control-sm" id="page" th:value="${page}">
-            <input type="hidden" name="size" class="form-control form-control-sm" id="size" th:value="${size}">
-            <div class="d-flex flex-row flex-wrap gap-2">
-                <div class="mb-3 row">
-                    <label for="inputName" class="col-sm-2 col-form-label">Nom</label>
-                    <div class="col-sm-10">
-                        <input type="text" name="nom" class="form-control form-control-sm" id="inputName" th:value="${nom}">
-                    </div>
-                </div>
-                <div class="mb-3 row">
-                    <label for="inputName" class="col-sm-2 col-form-label">Email</label>
-                    <div class="col-sm-10">
-                        <input type="text" name="email" class="form-control form-control-sm" id="inputEmail" th:value="${email}">
-                    </div>
-                </div>
-
-                <div class="mb-3 row ">
-                    <label for="inputName" class="col-sm-auto col-form-label">Date de naissance</label>
-                    <div class="col-sm-7 d-flex flex-row">
-                        <input type="date" placeholder="Date début" name="dtnMin" class="form-control form-control-sm" id="inputDtnMin" th:value="${dtnMin}" />
-                        <input type="date" placeholder="Date fin" name="dtnMax" class="form-control form-control-sm" id="inputDtnMax" th:value="${dtnMax}" />
-                    </div>
-                </div>
-                <div class="mb-3 row">
-                    <label for="inputRole" class="col-sm-3 col-form-label">Rôle</label>
-                    <div class="col-sm-9">
-                        <select name="role" id="inputRole" class="form-select" aria-label="Choisir un rôle" >
-                            <option value="" >Tous</option>
-                            <option th:each="r : ${roles}"
-                                    th:value="${r.id}"
-                                    th:text="${r.nom}"
-                                    th:selected="${r.id} == ${role}">
-                            </option>
-                        </select>
-                    </div>
-                </div>
-
-                <div class="mb-3 ">
-                    <button type="submit" class="btn btn-outline-primary"><i class="fa fa-search"></i></button>
-                </div>
-
-            </div>
-            <hr/>
-            <div class="d-flex flex-row justify-content-between align-items-baseline">
-                <div class="col-md-3 mb-3 row">
-                    <label for="sortBy" class="col-sm-4 col-form-label">Trié par</label>
-                    <div class="col-sm-8 mt-1">
-                        <select id="sortBy" name="sortBy" class="form-select form-select-sm" aria-label=".form-select-sm example">
-                            <option th:selected="${sortBy == 'id'}" value="id">Id</option>
-                            <option th:selected="${sortBy == 'username'}" value="username">Nom</option>
-                            <option th:selected="${sortBy == 'email'}" value="email">Email</option>
-                            <option th:selected="${sortBy == 'birthday'}" value="nom">Date de naissance</option>
-                        </select>
-                    </div>
-                </div>
-                <div><p class="text-center" th:text="${totalElements} + ' résultat(s)'" ></p></div>
-                <div>
-                    <nav aria-label="Page navigation example">
-                        <div th:if="${totalPages > 0}">
-                            <ul class="pagination pagination-sm justify-content-end">
-                                <li class="page-item" th:classappend="${page == 0} ? 'disabled'">
-                                    <button class="page-link btn btn-outline-primary" th:onclick="'submitPagination(' + ${page - 1} + ');'">
-                                        <i class="fa fa-arrow-left"></i>
-                                    </button>
-                                </li>
-
-                                <li class="page-item" th:each="i : ${#numbers.sequence(0, totalPages - 1)}" th:classappend="${i == page} ? 'active'">
-                                    <button class="page-link btn btn-outline-primary" th:onclick="'submitPagination(' + ${i} + ');'" th:text="${i + 1}"></button>
-                                </li>
-
-                                <li class="page-item" th:classappend="${page == totalPages - 1} ? 'disabled'">
-                                    <button class="page-link btn btn-outline-primary" th:onclick="'submitPagination(' + ${page + 1} + ');'">
-                                        <i class="fa fa-arrow-right"></i>
-                                    </button>
-                                </li>
-                            </ul>
-
-                        </div>
-
-                        <div th:if="${totalPages == 0}">
-                            <p class="text-center">Aucune donnée disponible.</p>
-                        </div>
-                    </nav>
-                </div>
-            </div>
-        </form>
-
-        <div class="tab-content" id="orders-table-tab-content">
-            <div class="tab-pane fade show active" id="orders-all" role="tabpanel" aria-labelledby="orders-all-tab">
-                <div class="app-card app-card-orders-table shadow-sm mb-5">
-                    <div class="app-card-body">
-                        <div class="table-responsive">
-                            <table class="table app-table-hover mb-0">
-                                <thead>
-                                <tr>
-                                    <th class="cell">Id</th>
-                                    <th class="cell">Nom</th>
-                                    <th class="cell">Email</th>
-                                    <th class="cell">Date de naissance</th>
-                                    <th class="cell">Rôle</th>
-                                    <th class="cell">Date de création</th>
-                                    <th class="cell"></th>
-                                </tr>
-                                </thead>
-                                <tbody>
-                                <tr th:each="utilisateur : ${utilisateurs}">
-                                    <td class="cell" th:text="${utilisateur.id}">Id</td>
-                                    <td class="cell" th:text="${utilisateur.username}">Nom</td>
-                                    <td class="cell" th:text="${utilisateur.email}">Email</td>
-                                    <td class="cell" th:text="${utilisateur.birthday}">Date de naissance</td>
-                                    <td class="cell" th:text="${utilisateur.role.nom}">Rôle</td>
-                                    <td class="cell" th:text="${utilisateur.createAt}">Date de création</td>
-                                    <td class="cell">
-                                        <a class="btn btn-outline-primary" th:href="@{/utilisateur/detail/{id}(id=${utilisateur.id})}" ><i class="fa fa-eye"></i></a>
-                                        <a class="btn btn-outline-warning" th:href="@{/utilisateur/edit/{id}(id=${utilisateur.id})}" ><i class="fa fa-edit"></i></a>
-                                        <a class="btn btn-outline-danger" onclick="confirmDelete(this,'/utilisateur/delete/')"
-                                           th:attr="data-id=${utilisateur.id}" ><i class="fa fa-trash"></i></a>
-                                    </td>
-                                </tr>
-                                </tbody>
-                            </table>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
+        <h1 class="app-page-title">Utilisateur</h1>
     </div>
-</div>
+    <div>
 
 </body>
-
 </html>

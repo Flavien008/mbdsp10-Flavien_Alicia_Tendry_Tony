@@ -6,7 +6,7 @@ import { Formik, Form, Field } from 'formik';
 import * as Yup from 'yup';
 import axiosInstance from '../../utilitaire/axiosConfig';
 import './Login.css';
-import img from '../../logo/logobleu.png';
+import img from '../../logo/logo.png';
 
 const loginSchema = Yup.object().shape({
     username: Yup.string().required("Veuillez entrer votre nom d'utilisateur"),

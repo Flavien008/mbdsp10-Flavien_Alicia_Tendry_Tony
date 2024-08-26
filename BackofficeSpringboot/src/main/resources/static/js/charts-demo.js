@@ -110,18 +110,40 @@ var lineChartConfig = {
 
 
 //Bar Chart Demo
-var echangesLabels = window.echangesByMonthAndStatusLabels;
-var echangesData = window.echangesByMonthAndStatusData;
 
 var barChartConfig = {
     type: 'bar',
     data: {
-        labels: echangesLabels,
+        labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul'],
         datasets: [{
-            label: 'Échange',
-            backgroundColor:"#052659",
-            hoverBackgroundColor: "#C1E8FF",
-            data: echangesData
+            label: 'Combined Dataset',
+            backgroundColor: [
+                "#5483B3",
+                "#052659",
+                "#5483B3",
+                "#052659",
+                "#5483B3",
+                "#052659",
+                "#5483B3"
+            ],
+            hoverBackgroundColor: [
+                "#C1E8FF",
+                "#C1E8FF",
+                "#C1E8FF",
+                "#C1E8FF",
+                "#C1E8FF",
+                "#C1E8FF",
+                "#C1E8FF"
+            ],
+            data: [
+                randomDataPoint(),
+                randomDataPoint(),
+                randomDataPoint(),
+                randomDataPoint(),
+                randomDataPoint(),
+                randomDataPoint(),
+                randomDataPoint()
+            ]
         }]
     },
     options: {
@@ -144,7 +166,7 @@ var barChartConfig = {
             titleFontColor: window.chartColors.text,
             callbacks: {
                 label: function (tooltipItem, data) {
-                    return tooltipItem.value ;
+                    return tooltipItem.value + '%';
                 }
             }
         },
@@ -165,7 +187,7 @@ var barChartConfig = {
                 ticks: {
                     beginAtZero: true,
                     userCallback: function (value, index, values) {
-                        return value ;
+                        return value + '%';
                     }
                 }
             }]
@@ -325,19 +347,23 @@ var pieChartConfig = {
 };
 
 
-// Doughnut Chart Demo - categorie
+// Doughnut Chart Demo
 
-var categoriesData = window.categoriesDataJson;
 
-var categories = Object.keys(categoriesData);
-var counts = Object.values(categoriesData);
-console.log(categories)
-console.log(counts)
 var doughnutChartConfig = {
 	type: 'doughnut',
 	data: {
 		datasets: [{
-			data: counts,
+			data: [
+				randomDataPoint(),
+				randomDataPoint(),
+				randomDataPoint(),
+				randomDataPoint(),
+				randomDataPoint(),
+				randomDataPoint(),
+				randomDataPoint(),
+				randomDataPoint(),
+			],
 			backgroundColor: [
 				window.chartColors.green,
 				window.chartColors.blue,
@@ -350,7 +376,16 @@ var doughnutChartConfig = {
 			],
 			label: 'Dataset 1'
 		}],
-		labels: categories
+		labels: [
+			'Meuble',
+			'Loisir',
+			'Jouet',
+			'Electronique',
+			'Cuisine',
+			'Outils',
+			'Produit Ménager',
+			'Fournitures scolaires',
+		]
 	},
 	options: {
 		responsive: true,

@@ -1,30 +1,14 @@
 package com.example.tpt_mbds.model;
 
 public class Comment {
-
-    private String id;
     private String author;
-    private String description;
-
-    private String createdAt;
+    private String text;
 
     public Comment(String author, String text) {
         this.author = author;
-        this.description = text;
+        this.text = text;
     }
 
-    public Comment(String id, String author, String description, String createdAt) {
-        this.id = id;
-        this.author = author;
-        this.description = description;
-        this.createdAt = createdAt;
-    }
-
-    public Comment(String id, String author, String description) {
-        this.id = id;
-        this.description = description;
-        this.author = author;
-    }
     public String getAuthor() {
         return author;
     }
@@ -33,11 +17,11 @@ public class Comment {
         this.author = author;
     }
 
-    public String getDescription() {
-        return description;
+    public String getText() {
+        return text;
     }
 
-    public void setDescription(String text) {
-        this.description = text;
+    public void setText(String text) {
+        this.text = text;
     }
 }

@@ -30,8 +30,8 @@ public class NotificationAdapter extends RecyclerView.Adapter<NotificationAdapte
     @Override
     public void onBindViewHolder(@NonNull NotificationViewHolder holder, int position) {
         Notif notification = notificationList.get(position);
-        holder.titleTextView.setText(notification.getMessage());
-//        holder.messageTextView.setText(notification.getMessage());
+        holder.titleTextView.setText(notification.getTitle());
+        holder.messageTextView.setText(notification.getMessage());
     }
 
     @Override
@@ -42,14 +42,14 @@ public class NotificationAdapter extends RecyclerView.Adapter<NotificationAdapte
     class NotificationViewHolder extends RecyclerView.ViewHolder {
 
         TextView titleTextView;
-//        TextView messageTextView;
+        TextView messageTextView;
         TextView viewButton;
 
         public NotificationViewHolder(@NonNull View itemView) {
             super(itemView);
             titleTextView = itemView.findViewById(R.id.title_text_view);
-//            messageTextView = itemView.findViewById(R.id.message_text_view);
-//            viewButton = itemView.findViewById(R.id.view_button);
+            messageTextView = itemView.findViewById(R.id.message_text_view);
+            viewButton = itemView.findViewById(R.id.view_button);
         }
     }
 }

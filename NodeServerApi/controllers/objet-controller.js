@@ -32,6 +32,59 @@ exports.createObjet = async (req, res) => {
     }
 };
 
+// exports.getObjets = async (req, res) => {
+//     const { page = 1, limit = 10, nomUtilisateur, categorie, nomObjet, description } = req.query;
+
+//     const filters = {};
+
+//     if (nomUtilisateur) {
+//         filters['$Utilisateur.username$'] = { [Op.iLike]: `%${nomUtilisateur}%` };
+//     }
+//     if (categorie) {
+//         filters.categorie_id = categorie;
+//     }
+//     if (nomObjet) {
+//         filters.name = { [Op.iLike]: `%${nomObjet}%` };
+//     }
+//     if (description) {
+//         filters.description = { [Op.iLike]: `%${description}%` };
+//     }
+
+//     try {
+//         const objets = await Objet.findAndCountAll({
+//             where: filters,
+//             include: [
+//                 {
+//                     model: Utilisateur,
+//                     attributes: ['username'],
+//                     as: 'Utilisateur'
+//                 },
+//                 {
+//                     model: Categorie,
+//                     attributes: ['nom'],
+//                     as: 'Categorie'
+//                 }
+//             ],
+//             limit: parseInt(limit),
+//             offset: (parseInt(page) - 1) * parseInt(limit)
+//         });
+
+//         const totalPages = Math.ceil(objets.count / limit);
+//         const hasNext = parseInt(page) < totalPages;
+//         const hasPrev = parseInt(page) > 1;
+
+//         res.json({
+//             total: objets.count,
+//             page: parseInt(page),
+//             totalPages,
+//             hasNext,
+//             hasPrev,
+//             data: objets.rows
+//         });
+//     } catch (error) {
+//         res.status(500).json({ message: 'Error fetching objects', error });
+//     }
+// };
 exports.getObjets = async (req, res) => {
     const { page = 1, limit = 10, nomUtilisateur, categorie, nomObjet, description } = req.query;
 
@@ -72,10 +125,11 @@ exports.getObjets = async (req, res) => {
         // Fetch images for each object
         const objetsWithImages = await Promise.all(objets.rows.map(async (objet) => {
             try {
+                // const images = await Image.findAll({ where: { item_id: objet.id } });
                 const images = await Image.find({ item_id: objet.item_id });
                 return { ...objet.toJSON(), images };
             } catch (error) {
-                console.error('Error fetching images for object:', objet.item_id, error);
+                console.error('Error fetching images for object:', objet.id, error);
                 return { ...objet.toJSON(), images: [] }; // Return object without images if an error occurs
             }
         }));
@@ -98,12 +152,12 @@ exports.getObjets = async (req, res) => {
     }
 };
 
-exports.getObjetsByUserId = async (req, res) => {
-    const { user_id } = req.params;  // Extracting user_id from params
-    const { page = 1, limit = 10, categorie, nomObjet, description } = req.query;
+exports.getObjetsByUser = async (req, res) => {
+    const { userId } = req.params; // Récupérer l'ID de l'utilisateur depuis les paramètres de la requête
+    const { page = 1, limit = 10, categorie, nomObjet, description } = req.query; // Récupérer les filtres et la pagination des paramètres de la requête
 
     const filters = {
-        user_id // Ensure user_id is included in the filters
+        user_id: userId // Filtrer par l'ID de l'utilisateur
     };
 
     if (categorie) {
@@ -163,6 +217,8 @@ exports.getObjetsByUserId = async (req, res) => {
         res.status(500).json({ message: 'Error fetching objects', error });
     }
 };
+
+
 
 exports.getObjetById = async (req, res) => {
     const { id } = req.params;

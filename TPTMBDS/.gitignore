@@ -120,8 +120,3 @@ outputs/connected_android_test_additional_output_files/
 *.orig
 *.rej
 *~
-
-TPTMBDS\Could
-TPTMBDS\gradlew
-TPTMBDS\No
-TPTMBDS\Run
