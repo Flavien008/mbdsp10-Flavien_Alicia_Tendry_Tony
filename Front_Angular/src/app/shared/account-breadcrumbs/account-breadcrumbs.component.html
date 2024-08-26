@@ -1,12 +1,12 @@
 <!-- Page Title -->
 <div class="container d-flex flex-wrap flex-sm-nowrap justify-content-center justify-content-sm-between align-items-center mb-2 pt-2">
     <div class="d-flex align-items-center">
-        <div class="img-thumbnail rounded-circle position-relative flex-shrink-0" style="width: 6.375rem;"><img class="rounded-circle" src="assets/img/nft/vendor/avatar.png" alt="@foxnet_creator" id="user_profile">
+        <div class="img-thumbnail rounded-circle position-relative flex-shrink-0" style="width: 6.375rem;">
+            <img class="rounded-circle" src="assets/img/nft/vendor/avatar.png" alt="@{{ currentUser?.username }}" id="user_profile">
         </div>
         <div class="ps-3">
-            <h3 class="h5 mb-2 text-light">&#64;tendry_arivony</h3><span class="d-block text-light fs-sm opacity-60">A rejoint le
-                Juillet 2021</span>
+            <h3 class="h5 mb-2 text-light">&#64;{{ currentUser?.username }}</h3>
+            <span class="d-block text-light fs-sm opacity-60"></span>
         </div>
     </div>
-   
 </div>
