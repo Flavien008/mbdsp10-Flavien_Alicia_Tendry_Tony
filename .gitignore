@@ -61,7 +61,6 @@ packages/
 *.g.cs
 *.AssemblyAttributes.cs
 *.dll
-*.exe
 *.pdb
 *.cache
 *.ilk
