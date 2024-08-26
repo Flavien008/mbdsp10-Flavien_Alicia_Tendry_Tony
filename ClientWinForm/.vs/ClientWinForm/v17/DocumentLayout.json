@@ -3,88 +3,96 @@
   "WorkspaceRootPath": "C:\\Users\\B\u00F4ndy\\Desktop\\mbdsp10-Flavien_Alicia_Tendry_Tony\\ClientWinForm\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{27B77BC5-25C2-4991-9D17-0C4E2336E708}|ClientWinForm.csproj|C:\\Users\\B\u00F4ndy\\Desktop\\mbdsp10-Flavien_Alicia_Tendry_Tony\\ClientWinForm\\detailpostform.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "AbsoluteMoniker": "D:0:0:{27B77BC5-25C2-4991-9D17-0C4E2336E708}|ClientWinForm.csproj|c:\\users\\b\u00F4ndy\\desktop\\mbdsp10-flavien_alicia_tendry_tony\\clientwinform\\app.config||{FA3CD31E-987B-443A-9B81-186104E8DAC1}",
+      "RelativeMoniker": "D:0:0:{27B77BC5-25C2-4991-9D17-0C4E2336E708}|ClientWinForm.csproj|solutionrelative:app.config||{FA3CD31E-987B-443A-9B81-186104E8DAC1}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{27B77BC5-25C2-4991-9D17-0C4E2336E708}|ClientWinForm.csproj|c:\\users\\b\u00F4ndy\\desktop\\mbdsp10-flavien_alicia_tendry_tony\\clientwinform\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{27B77BC5-25C2-4991-9D17-0C4E2336E708}|ClientWinForm.csproj|solutionrelative:program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{27B77BC5-25C2-4991-9D17-0C4E2336E708}|ClientWinForm.csproj|c:\\users\\b\u00F4ndy\\desktop\\mbdsp10-flavien_alicia_tendry_tony\\clientwinform\\detailpostform.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{27B77BC5-25C2-4991-9D17-0C4E2336E708}|ClientWinForm.csproj|solutionrelative:detailpostform.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{27B77BC5-25C2-4991-9D17-0C4E2336E708}|ClientWinForm.csproj|C:\\Users\\B\u00F4ndy\\Desktop\\mbdsp10-Flavien_Alicia_Tendry_Tony\\ClientWinForm\\Models\\EchangeViewModel.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{27B77BC5-25C2-4991-9D17-0C4E2336E708}|ClientWinForm.csproj|solutionrelative:Models\\EchangeViewModel.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{27B77BC5-25C2-4991-9D17-0C4E2336E708}|ClientWinForm.csproj|C:\\Users\\B\u00F4ndy\\Desktop\\mbdsp10-Flavien_Alicia_Tendry_Tony\\ClientWinForm\\Services\\PostService.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{27B77BC5-25C2-4991-9D17-0C4E2336E708}|ClientWinForm.csproj|solutionrelative:Services\\PostService.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{27B77BC5-25C2-4991-9D17-0C4E2336E708}|ClientWinForm.csproj|C:\\Users\\B\u00F4ndy\\Desktop\\mbdsp10-Flavien_Alicia_Tendry_Tony\\ClientWinForm\\Models\\PostDetail.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{27B77BC5-25C2-4991-9D17-0C4E2336E708}|ClientWinForm.csproj|solutionrelative:Models\\PostDetail.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{27B77BC5-25C2-4991-9D17-0C4E2336E708}|ClientWinForm.csproj|C:\\Users\\B\u00F4ndy\\Desktop\\mbdsp10-Flavien_Alicia_Tendry_Tony\\ClientWinForm\\Models\\Objet.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{27B77BC5-25C2-4991-9D17-0C4E2336E708}|ClientWinForm.csproj|solutionrelative:Models\\Objet.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{27B77BC5-25C2-4991-9D17-0C4E2336E708}|ClientWinForm.csproj|C:\\Users\\B\u00F4ndy\\Desktop\\mbdsp10-Flavien_Alicia_Tendry_Tony\\ClientWinForm\\Models\\Echange.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{27B77BC5-25C2-4991-9D17-0C4E2336E708}|ClientWinForm.csproj|solutionrelative:Models\\Echange.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{27B77BC5-25C2-4991-9D17-0C4E2336E708}|ClientWinForm.csproj|C:\\Users\\B\u00F4ndy\\Desktop\\mbdsp10-Flavien_Alicia_Tendry_Tony\\ClientWinForm\\Models\\Utilisateur.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{27B77BC5-25C2-4991-9D17-0C4E2336E708}|ClientWinForm.csproj|solutionrelative:Models\\Utilisateur.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{27B77BC5-25C2-4991-9D17-0C4E2336E708}|ClientWinForm.csproj|C:\\Users\\B\u00F4ndy\\Desktop\\mbdsp10-Flavien_Alicia_Tendry_Tony\\ClientWinForm\\DetailPostForm.Designer.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{27B77BC5-25C2-4991-9D17-0C4E2336E708}|ClientWinForm.csproj|solutionrelative:DetailPostForm.Designer.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{27B77BC5-25C2-4991-9D17-0C4E2336E708}|ClientWinForm.csproj|C:\\Users\\B\u00F4ndy\\Desktop\\mbdsp10-Flavien_Alicia_Tendry_Tony\\ClientWinForm\\ListePost.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{27B77BC5-25C2-4991-9D17-0C4E2336E708}|ClientWinForm.csproj|solutionrelative:ListePost.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{27B77BC5-25C2-4991-9D17-0C4E2336E708}|ClientWinForm.csproj|C:\\Users\\B\u00F4ndy\\Desktop\\mbdsp10-Flavien_Alicia_Tendry_Tony\\ClientWinForm\\Models\\Post.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{27B77BC5-25C2-4991-9D17-0C4E2336E708}|ClientWinForm.csproj|solutionrelative:Models\\Post.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{27B77BC5-25C2-4991-9D17-0C4E2336E708}|ClientWinForm.csproj|C:\\Users\\B\u00F4ndy\\Desktop\\mbdsp10-Flavien_Alicia_Tendry_Tony\\ClientWinForm\\ListePost.Designer.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{27B77BC5-25C2-4991-9D17-0C4E2336E708}|ClientWinForm.csproj|solutionrelative:ListePost.Designer.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{27B77BC5-25C2-4991-9D17-0C4E2336E708}|ClientWinForm.csproj|C:\\Users\\B\u00F4ndy\\Desktop\\mbdsp10-Flavien_Alicia_Tendry_Tony\\ClientWinForm\\Models\\Categorie.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{27B77BC5-25C2-4991-9D17-0C4E2336E708}|ClientWinForm.csproj|solutionrelative:Models\\Categorie.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{27B77BC5-25C2-4991-9D17-0C4E2336E708}|ClientWinForm.csproj|C:\\Users\\B\u00F4ndy\\Desktop\\mbdsp10-Flavien_Alicia_Tendry_Tony\\ClientWinForm\\MainForm.Designer.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{27B77BC5-25C2-4991-9D17-0C4E2336E708}|ClientWinForm.csproj|solutionrelative:MainForm.Designer.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{27B77BC5-25C2-4991-9D17-0C4E2336E708}|ClientWinForm.csproj|C:\\Users\\B\u00F4ndy\\Desktop\\mbdsp10-Flavien_Alicia_Tendry_Tony\\ClientWinForm\\Login.Designer.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{27B77BC5-25C2-4991-9D17-0C4E2336E708}|ClientWinForm.csproj|solutionrelative:Login.Designer.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{27B77BC5-25C2-4991-9D17-0C4E2336E708}|ClientWinForm.csproj|C:\\Users\\B\u00F4ndy\\Desktop\\mbdsp10-Flavien_Alicia_Tendry_Tony\\ClientWinForm\\detailpostform.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form",
       "RelativeMoniker": "D:0:0:{27B77BC5-25C2-4991-9D17-0C4E2336E708}|ClientWinForm.csproj|solutionrelative:detailpostform.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{27B77BC5-25C2-4991-9D17-0C4E2336E708}|ClientWinForm.csproj|C:\\Users\\B\u00F4ndy\\Desktop\\mbdsp10-Flavien_Alicia_Tendry_Tony\\ClientWinForm\\services\\postservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{27B77BC5-25C2-4991-9D17-0C4E2336E708}|ClientWinForm.csproj|solutionrelative:services\\postservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{27B77BC5-25C2-4991-9D17-0C4E2336E708}|ClientWinForm.csproj|C:\\Users\\B\u00F4ndy\\Desktop\\mbdsp10-Flavien_Alicia_Tendry_Tony\\ClientWinForm\\models\\echange.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{27B77BC5-25C2-4991-9D17-0C4E2336E708}|ClientWinForm.csproj|solutionrelative:models\\echange.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{27B77BC5-25C2-4991-9D17-0C4E2336E708}|ClientWinForm.csproj|c:\\users\\b\u00F4ndy\\desktop\\mbdsp10-flavien_alicia_tendry_tony\\clientwinform\\models\\echangeviewmodel.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{27B77BC5-25C2-4991-9D17-0C4E2336E708}|ClientWinForm.csproj|solutionrelative:models\\echangeviewmodel.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{27B77BC5-25C2-4991-9D17-0C4E2336E708}|ClientWinForm.csproj|C:\\Users\\B\u00F4ndy\\Desktop\\mbdsp10-Flavien_Alicia_Tendry_Tony\\ClientWinForm\\models\\utilisateur.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{27B77BC5-25C2-4991-9D17-0C4E2336E708}|ClientWinForm.csproj|solutionrelative:models\\utilisateur.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{27B77BC5-25C2-4991-9D17-0C4E2336E708}|ClientWinForm.csproj|C:\\Users\\B\u00F4ndy\\Desktop\\mbdsp10-Flavien_Alicia_Tendry_Tony\\ClientWinForm\\detailpostform.designer.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{27B77BC5-25C2-4991-9D17-0C4E2336E708}|ClientWinForm.csproj|solutionrelative:detailpostform.designer.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
       "AbsoluteMoniker": "D:0:0:{27B77BC5-25C2-4991-9D17-0C4E2336E708}|ClientWinForm.csproj|C:\\Users\\B\u00F4ndy\\Desktop\\mbdsp10-Flavien_Alicia_Tendry_Tony\\ClientWinForm\\listepost.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form",
       "RelativeMoniker": "D:0:0:{27B77BC5-25C2-4991-9D17-0C4E2336E708}|ClientWinForm.csproj|solutionrelative:listepost.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{27B77BC5-25C2-4991-9D17-0C4E2336E708}|ClientWinForm.csproj|C:\\Users\\B\u00F4ndy\\Desktop\\mbdsp10-Flavien_Alicia_Tendry_Tony\\ClientWinForm\\models\\postdetail.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{27B77BC5-25C2-4991-9D17-0C4E2336E708}|ClientWinForm.csproj|solutionrelative:models\\postdetail.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{27B77BC5-25C2-4991-9D17-0C4E2336E708}|ClientWinForm.csproj|C:\\Users\\B\u00F4ndy\\Desktop\\mbdsp10-Flavien_Alicia_Tendry_Tony\\ClientWinForm\\models\\objet.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{27B77BC5-25C2-4991-9D17-0C4E2336E708}|ClientWinForm.csproj|solutionrelative:models\\objet.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{27B77BC5-25C2-4991-9D17-0C4E2336E708}|ClientWinForm.csproj|C:\\Users\\B\u00F4ndy\\Desktop\\mbdsp10-Flavien_Alicia_Tendry_Tony\\ClientWinForm\\listepost.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{27B77BC5-25C2-4991-9D17-0C4E2336E708}|ClientWinForm.csproj|solutionrelative:listepost.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{27B77BC5-25C2-4991-9D17-0C4E2336E708}|ClientWinForm.csproj|C:\\Users\\B\u00F4ndy\\Desktop\\mbdsp10-Flavien_Alicia_Tendry_Tony\\ClientWinForm\\models\\post.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{27B77BC5-25C2-4991-9D17-0C4E2336E708}|ClientWinForm.csproj|solutionrelative:models\\post.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{27B77BC5-25C2-4991-9D17-0C4E2336E708}|ClientWinForm.csproj|C:\\Users\\B\u00F4ndy\\Desktop\\mbdsp10-Flavien_Alicia_Tendry_Tony\\ClientWinForm\\listepost.designer.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{27B77BC5-25C2-4991-9D17-0C4E2336E708}|ClientWinForm.csproj|solutionrelative:listepost.designer.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{27B77BC5-25C2-4991-9D17-0C4E2336E708}|ClientWinForm.csproj|C:\\Users\\B\u00F4ndy\\Desktop\\mbdsp10-Flavien_Alicia_Tendry_Tony\\ClientWinForm\\login.resx||{FF4D6ACA-9352-4A5F-821E-F4D6EBDCAB11}",
       "RelativeMoniker": "D:0:0:{27B77BC5-25C2-4991-9D17-0C4E2336E708}|ClientWinForm.csproj|solutionrelative:login.resx||{FF4D6ACA-9352-4A5F-821E-F4D6EBDCAB11}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{27B77BC5-25C2-4991-9D17-0C4E2336E708}|ClientWinForm.csproj|C:\\Users\\B\u00F4ndy\\Desktop\\mbdsp10-Flavien_Alicia_Tendry_Tony\\ClientWinForm\\models\\categorie.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{27B77BC5-25C2-4991-9D17-0C4E2336E708}|ClientWinForm.csproj|solutionrelative:models\\categorie.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{27B77BC5-25C2-4991-9D17-0C4E2336E708}|ClientWinForm.csproj|C:\\Users\\B\u00F4ndy\\Desktop\\mbdsp10-Flavien_Alicia_Tendry_Tony\\ClientWinForm\\listepost.resx||{FF4D6ACA-9352-4A5F-821E-F4D6EBDCAB11}",
-      "RelativeMoniker": "D:0:0:{27B77BC5-25C2-4991-9D17-0C4E2336E708}|ClientWinForm.csproj|solutionrelative:listepost.resx||{FF4D6ACA-9352-4A5F-821E-F4D6EBDCAB11}"
+      "AbsoluteMoniker": "D:0:0:{27B77BC5-25C2-4991-9D17-0C4E2336E708}|ClientWinForm.csproj|C:\\Users\\B\u00F4ndy\\Desktop\\mbdsp10-Flavien_Alicia_Tendry_Tony\\ClientWinForm\\mainform.resx||{FF4D6ACA-9352-4A5F-821E-F4D6EBDCAB11}",
+      "RelativeMoniker": "D:0:0:{27B77BC5-25C2-4991-9D17-0C4E2336E708}|ClientWinForm.csproj|solutionrelative:mainform.resx||{FF4D6ACA-9352-4A5F-821E-F4D6EBDCAB11}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{27B77BC5-25C2-4991-9D17-0C4E2336E708}|ClientWinForm.csproj|C:\\Users\\B\u00F4ndy\\Desktop\\mbdsp10-Flavien_Alicia_Tendry_Tony\\ClientWinForm\\mainform.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form",
       "RelativeMoniker": "D:0:0:{27B77BC5-25C2-4991-9D17-0C4E2336E708}|ClientWinForm.csproj|solutionrelative:mainform.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{27B77BC5-25C2-4991-9D17-0C4E2336E708}|ClientWinForm.csproj|C:\\Users\\B\u00F4ndy\\Desktop\\mbdsp10-Flavien_Alicia_Tendry_Tony\\ClientWinForm\\mainform.resx||{FF4D6ACA-9352-4A5F-821E-F4D6EBDCAB11}",
-      "RelativeMoniker": "D:0:0:{27B77BC5-25C2-4991-9D17-0C4E2336E708}|ClientWinForm.csproj|solutionrelative:mainform.resx||{FF4D6ACA-9352-4A5F-821E-F4D6EBDCAB11}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{27B77BC5-25C2-4991-9D17-0C4E2336E708}|ClientWinForm.csproj|C:\\Users\\B\u00F4ndy\\Desktop\\mbdsp10-Flavien_Alicia_Tendry_Tony\\ClientWinForm\\mainform.designer.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{27B77BC5-25C2-4991-9D17-0C4E2336E708}|ClientWinForm.csproj|solutionrelative:mainform.designer.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
       "AbsoluteMoniker": "D:0:0:{27B77BC5-25C2-4991-9D17-0C4E2336E708}|ClientWinForm.csproj|C:\\Users\\B\u00F4ndy\\Desktop\\mbdsp10-Flavien_Alicia_Tendry_Tony\\ClientWinForm\\login.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form",
       "RelativeMoniker": "D:0:0:{27B77BC5-25C2-4991-9D17-0C4E2336E708}|ClientWinForm.csproj|solutionrelative:login.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{27B77BC5-25C2-4991-9D17-0C4E2336E708}|ClientWinForm.csproj|C:\\Users\\B\u00F4ndy\\Desktop\\mbdsp10-Flavien_Alicia_Tendry_Tony\\ClientWinForm\\login.designer.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{27B77BC5-25C2-4991-9D17-0C4E2336E708}|ClientWinForm.csproj|solutionrelative:login.designer.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{27B77BC5-25C2-4991-9D17-0C4E2336E708}|ClientWinForm.csproj|C:\\Users\\B\u00F4ndy\\Desktop\\mbdsp10-Flavien_Alicia_Tendry_Tony\\ClientWinForm\\listepost.resx||{FF4D6ACA-9352-4A5F-821E-F4D6EBDCAB11}",
+      "RelativeMoniker": "D:0:0:{27B77BC5-25C2-4991-9D17-0C4E2336E708}|ClientWinForm.csproj|solutionrelative:listepost.resx||{FF4D6ACA-9352-4A5F-821E-F4D6EBDCAB11}"
     }
   ],
   "DocumentGroupContainers": [
@@ -94,7 +102,7 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 6,
+          "SelectedChildIndex": 1,
           "Children": [
             {
               "$type": "Bookmark",
@@ -102,7 +110,46 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 4,
+              "DocumentIndex": 0,
+              "Title": "App.config",
+              "DocumentMoniker": "C:\\Users\\B\u00F4ndy\\Desktop\\mbdsp10-Flavien_Alicia_Tendry_Tony\\ClientWinForm\\App.config",
+              "RelativeDocumentMoniker": "App.config",
+              "ToolTip": "C:\\Users\\B\u00F4ndy\\Desktop\\mbdsp10-Flavien_Alicia_Tendry_Tony\\ClientWinForm\\App.config",
+              "RelativeToolTip": "App.config",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAYAAAAxAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000601|",
+              "WhenOpened": "2024-08-25T17:52:13.783Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "Program.cs",
+              "DocumentMoniker": "C:\\Users\\B\u00F4ndy\\Desktop\\mbdsp10-Flavien_Alicia_Tendry_Tony\\ClientWinForm\\Program.cs",
+              "RelativeDocumentMoniker": "Program.cs",
+              "ToolTip": "C:\\Users\\B\u00F4ndy\\Desktop\\mbdsp10-Flavien_Alicia_Tendry_Tony\\ClientWinForm\\Program.cs",
+              "RelativeToolTip": "Program.cs",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-08-25T17:52:03.938Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "DetailPostForm.cs",
+              "DocumentMoniker": "C:\\Users\\B\u00F4ndy\\Desktop\\mbdsp10-Flavien_Alicia_Tendry_Tony\\ClientWinForm\\DetailPostForm.cs",
+              "RelativeDocumentMoniker": "DetailPostForm.cs",
+              "ToolTip": "C:\\Users\\B\u00F4ndy\\Desktop\\mbdsp10-Flavien_Alicia_Tendry_Tony\\ClientWinForm\\DetailPostForm.cs",
+              "RelativeToolTip": "DetailPostForm.cs",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-08-19T08:42:49.54Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 3,
               "Title": "EchangeViewModel.cs",
               "DocumentMoniker": "C:\\Users\\B\u00F4ndy\\Desktop\\mbdsp10-Flavien_Alicia_Tendry_Tony\\ClientWinForm\\Models\\EchangeViewModel.cs",
               "RelativeDocumentMoniker": "Models\\EchangeViewModel.cs",
@@ -110,12 +157,11 @@
               "RelativeToolTip": "Models\\EchangeViewModel.cs",
               "ViewState": "AQIAAAAAAAAAAAAAAAAAAAoAAAAAAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-08-19T11:39:55.203Z",
-              "EditorCaption": ""
+              "WhenOpened": "2024-08-19T11:39:55.203Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 2,
+              "DocumentIndex": 4,
               "Title": "PostService.cs",
               "DocumentMoniker": "C:\\Users\\B\u00F4ndy\\Desktop\\mbdsp10-Flavien_Alicia_Tendry_Tony\\ClientWinForm\\Services\\PostService.cs",
               "RelativeDocumentMoniker": "Services\\PostService.cs",
@@ -123,12 +169,11 @@
               "RelativeToolTip": "Services\\PostService.cs",
               "ViewState": "AQIAAEMAAAAAAAAAAAAYwIAAAAARAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-08-19T06:26:24.434Z",
-              "EditorCaption": ""
+              "WhenOpened": "2024-08-19T06:26:24.434Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 8,
+              "DocumentIndex": 5,
               "Title": "PostDetail.cs",
               "DocumentMoniker": "C:\\Users\\B\u00F4ndy\\Desktop\\mbdsp10-Flavien_Alicia_Tendry_Tony\\ClientWinForm\\Models\\PostDetail.cs",
               "RelativeDocumentMoniker": "Models\\PostDetail.cs",
@@ -140,7 +185,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 9,
+              "DocumentIndex": 6,
               "Title": "Objet.cs",
               "DocumentMoniker": "C:\\Users\\B\u00F4ndy\\Desktop\\mbdsp10-Flavien_Alicia_Tendry_Tony\\ClientWinForm\\Models\\Objet.cs",
               "RelativeDocumentMoniker": "Models\\Objet.cs",
@@ -152,7 +197,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 3,
+              "DocumentIndex": 7,
               "Title": "Echange.cs",
               "DocumentMoniker": "C:\\Users\\B\u00F4ndy\\Desktop\\mbdsp10-Flavien_Alicia_Tendry_Tony\\ClientWinForm\\Models\\Echange.cs",
               "RelativeDocumentMoniker": "Models\\Echange.cs",
@@ -160,37 +205,11 @@
               "RelativeToolTip": "Models\\Echange.cs",
               "ViewState": "AQIAAAYAAAAAAAAAAAAAAA8AAAAxAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-08-19T08:38:31.452Z",
-              "EditorCaption": ""
+              "WhenOpened": "2024-08-19T08:38:31.452Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 0,
-              "Title": "DetailPostForm.cs",
-              "DocumentMoniker": "C:\\Users\\B\u00F4ndy\\Desktop\\mbdsp10-Flavien_Alicia_Tendry_Tony\\ClientWinForm\\DetailPostForm.cs",
-              "RelativeDocumentMoniker": "DetailPostForm.cs",
-              "ToolTip": "C:\\Users\\B\u00F4ndy\\Desktop\\mbdsp10-Flavien_Alicia_Tendry_Tony\\ClientWinForm\\DetailPostForm.cs",
-              "RelativeToolTip": "DetailPostForm.cs",
-              "ViewState": "AQIAAAAAAAAAAAAAAAAAACEAAAAJAAAA",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-08-19T08:42:49.54Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 1,
-              "Title": "DetailPostForm.cs [Design]",
-              "DocumentMoniker": "C:\\Users\\B\u00F4ndy\\Desktop\\mbdsp10-Flavien_Alicia_Tendry_Tony\\ClientWinForm\\DetailPostForm.cs",
-              "RelativeDocumentMoniker": "DetailPostForm.cs",
-              "ToolTip": "C:\\Users\\B\u00F4ndy\\Desktop\\mbdsp10-Flavien_Alicia_Tendry_Tony\\ClientWinForm\\DetailPostForm.cs [Design]",
-              "RelativeToolTip": "DetailPostForm.cs [Design]",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-08-19T08:42:18.977Z",
-              "EditorCaption": " [Design]"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 5,
+              "DocumentIndex": 8,
               "Title": "Utilisateur.cs",
               "DocumentMoniker": "C:\\Users\\B\u00F4ndy\\Desktop\\mbdsp10-Flavien_Alicia_Tendry_Tony\\ClientWinForm\\Models\\Utilisateur.cs",
               "RelativeDocumentMoniker": "Models\\Utilisateur.cs",
@@ -202,18 +221,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 7,
-              "Title": "ListePost.cs [Design]",
-              "DocumentMoniker": "C:\\Users\\B\u00F4ndy\\Desktop\\mbdsp10-Flavien_Alicia_Tendry_Tony\\ClientWinForm\\ListePost.cs",
-              "RelativeDocumentMoniker": "ListePost.cs",
-              "ToolTip": "C:\\Users\\B\u00F4ndy\\Desktop\\mbdsp10-Flavien_Alicia_Tendry_Tony\\ClientWinForm\\ListePost.cs [Design]",
-              "RelativeToolTip": "ListePost.cs [Design]",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-08-19T06:20:56.593Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 6,
+              "DocumentIndex": 9,
               "Title": "DetailPostForm.Designer.cs",
               "DocumentMoniker": "C:\\Users\\B\u00F4ndy\\Desktop\\mbdsp10-Flavien_Alicia_Tendry_Tony\\ClientWinForm\\DetailPostForm.Designer.cs",
               "RelativeDocumentMoniker": "DetailPostForm.Designer.cs",
@@ -262,7 +270,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 14,
+              "DocumentIndex": 13,
               "Title": "Categorie.cs",
               "DocumentMoniker": "C:\\Users\\B\u00F4ndy\\Desktop\\mbdsp10-Flavien_Alicia_Tendry_Tony\\ClientWinForm\\Models\\Categorie.cs",
               "RelativeDocumentMoniker": "Models\\Categorie.cs",
@@ -274,29 +282,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 13,
-              "Title": "Login.resx",
-              "DocumentMoniker": "C:\\Users\\B\u00F4ndy\\Desktop\\mbdsp10-Flavien_Alicia_Tendry_Tony\\ClientWinForm\\Login.resx",
-              "RelativeDocumentMoniker": "Login.resx",
-              "ToolTip": "C:\\Users\\B\u00F4ndy\\Desktop\\mbdsp10-Flavien_Alicia_Tendry_Tony\\ClientWinForm\\Login.resx",
-              "RelativeToolTip": "Login.resx",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001005|",
-              "WhenOpened": "2024-08-19T06:20:11.849Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 17,
-              "Title": "MainForm.resx",
-              "DocumentMoniker": "C:\\Users\\B\u00F4ndy\\Desktop\\mbdsp10-Flavien_Alicia_Tendry_Tony\\ClientWinForm\\MainForm.resx",
-              "RelativeDocumentMoniker": "MainForm.resx",
-              "ToolTip": "C:\\Users\\B\u00F4ndy\\Desktop\\mbdsp10-Flavien_Alicia_Tendry_Tony\\ClientWinForm\\MainForm.resx",
-              "RelativeToolTip": "MainForm.resx",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001005|",
-              "WhenOpened": "2024-08-19T06:21:21.215Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 18,
+              "DocumentIndex": 14,
               "Title": "MainForm.Designer.cs",
               "DocumentMoniker": "C:\\Users\\B\u00F4ndy\\Desktop\\mbdsp10-Flavien_Alicia_Tendry_Tony\\ClientWinForm\\MainForm.Designer.cs",
               "RelativeDocumentMoniker": "MainForm.Designer.cs",
@@ -308,7 +294,65 @@
             },
             {
               "$type": "Document",
+              "DocumentIndex": 15,
+              "Title": "Login.Designer.cs",
+              "DocumentMoniker": "C:\\Users\\B\u00F4ndy\\Desktop\\mbdsp10-Flavien_Alicia_Tendry_Tony\\ClientWinForm\\Login.Designer.cs",
+              "RelativeDocumentMoniker": "Login.Designer.cs",
+              "ToolTip": "C:\\Users\\B\u00F4ndy\\Desktop\\mbdsp10-Flavien_Alicia_Tendry_Tony\\ClientWinForm\\Login.Designer.cs",
+              "RelativeToolTip": "Login.Designer.cs",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-08-19T06:20:15.302Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
               "DocumentIndex": 16,
+              "Title": "DetailPostForm.cs [Design]",
+              "DocumentMoniker": "C:\\Users\\B\u00F4ndy\\Desktop\\mbdsp10-Flavien_Alicia_Tendry_Tony\\ClientWinForm\\DetailPostForm.cs",
+              "RelativeDocumentMoniker": "DetailPostForm.cs",
+              "ToolTip": "C:\\Users\\B\u00F4ndy\\Desktop\\mbdsp10-Flavien_Alicia_Tendry_Tony\\ClientWinForm\\DetailPostForm.cs [Design]",
+              "RelativeToolTip": "DetailPostForm.cs [Design]",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-08-19T08:42:18.977Z",
+              "EditorCaption": " [Design]"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 17,
+              "Title": "ListePost.cs [Design]",
+              "DocumentMoniker": "C:\\Users\\B\u00F4ndy\\Desktop\\mbdsp10-Flavien_Alicia_Tendry_Tony\\ClientWinForm\\ListePost.cs",
+              "RelativeDocumentMoniker": "ListePost.cs",
+              "ToolTip": "C:\\Users\\B\u00F4ndy\\Desktop\\mbdsp10-Flavien_Alicia_Tendry_Tony\\ClientWinForm\\ListePost.cs [Design]",
+              "RelativeToolTip": "ListePost.cs [Design]",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-08-19T06:20:56.593Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 18,
+              "Title": "Login.resx",
+              "DocumentMoniker": "C:\\Users\\B\u00F4ndy\\Desktop\\mbdsp10-Flavien_Alicia_Tendry_Tony\\ClientWinForm\\Login.resx",
+              "RelativeDocumentMoniker": "Login.resx",
+              "ToolTip": "C:\\Users\\B\u00F4ndy\\Desktop\\mbdsp10-Flavien_Alicia_Tendry_Tony\\ClientWinForm\\Login.resx",
+              "RelativeToolTip": "Login.resx",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001005|",
+              "WhenOpened": "2024-08-19T06:20:11.849Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 19,
+              "Title": "MainForm.resx",
+              "DocumentMoniker": "C:\\Users\\B\u00F4ndy\\Desktop\\mbdsp10-Flavien_Alicia_Tendry_Tony\\ClientWinForm\\MainForm.resx",
+              "RelativeDocumentMoniker": "MainForm.resx",
+              "ToolTip": "C:\\Users\\B\u00F4ndy\\Desktop\\mbdsp10-Flavien_Alicia_Tendry_Tony\\ClientWinForm\\MainForm.resx",
+              "RelativeToolTip": "MainForm.resx",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001005|",
+              "WhenOpened": "2024-08-19T06:21:21.215Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 20,
               "Title": "MainForm.cs [Design]",
               "DocumentMoniker": "C:\\Users\\B\u00F4ndy\\Desktop\\mbdsp10-Flavien_Alicia_Tendry_Tony\\ClientWinForm\\MainForm.cs",
               "RelativeDocumentMoniker": "MainForm.cs",
@@ -319,18 +363,19 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 19,
+              "DocumentIndex": 21,
               "Title": "Login.cs [Design]",
               "DocumentMoniker": "C:\\Users\\B\u00F4ndy\\Desktop\\mbdsp10-Flavien_Alicia_Tendry_Tony\\ClientWinForm\\Login.cs",
               "RelativeDocumentMoniker": "Login.cs",
               "ToolTip": "C:\\Users\\B\u00F4ndy\\Desktop\\mbdsp10-Flavien_Alicia_Tendry_Tony\\ClientWinForm\\Login.cs [Design]",
               "RelativeToolTip": "Login.cs [Design]",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-08-19T06:20:34.876Z"
+              "WhenOpened": "2024-08-19T06:20:34.876Z",
+              "EditorCaption": " [Design]"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 15,
+              "DocumentIndex": 22,
               "Title": "ListePost.resx",
               "DocumentMoniker": "C:\\Users\\B\u00F4ndy\\Desktop\\mbdsp10-Flavien_Alicia_Tendry_Tony\\ClientWinForm\\ListePost.resx",
               "RelativeDocumentMoniker": "ListePost.resx",
@@ -338,18 +383,6 @@
               "RelativeToolTip": "ListePost.resx",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001005|",
               "WhenOpened": "2024-08-19T06:19:50.425Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 20,
-              "Title": "Login.Designer.cs",
-              "DocumentMoniker": "C:\\Users\\B\u00F4ndy\\Desktop\\mbdsp10-Flavien_Alicia_Tendry_Tony\\ClientWinForm\\Login.Designer.cs",
-              "RelativeDocumentMoniker": "Login.Designer.cs",
-              "ToolTip": "C:\\Users\\B\u00F4ndy\\Desktop\\mbdsp10-Flavien_Alicia_Tendry_Tony\\ClientWinForm\\Login.Designer.cs",
-              "RelativeToolTip": "Login.Designer.cs",
-              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-08-19T06:20:15.302Z"
             }
           ]
         }

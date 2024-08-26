@@ -9,39 +9,22 @@
         <img src="assets/img/logo-icon.png" width="74" alt="Exchange Object" />
       </a>
       <div class="navbar-toolbar d-flex align-items-center order-lg-3">
-        <button
-          class="navbar-toggler"
-          type="button"
-          data-bs-toggle="collapse"
-          data-bs-target="#navbarCollapse"
-        >
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse">
           <span class="navbar-toggler-icon" (click)="collapse.toggle()"></span>
         </button>
-        
-        <a *ngIf="!isLoggedIn"
-          class="navbar-tool ms-lg-2 account"
-          href="javascript:void(0);"
-          data-bs-toggle="modal"
-          (click)="openModal(content)"
-        >
+
+        <a *ngIf="!isLoggedIn" class="navbar-tool ms-lg-2 account" href="javascript:void(0);" data-bs-toggle="modal"
+          (click)="openModal(content)">
           <span class="navbar-tool-tooltip">Compte</span>
           <div class="navbar-tool-icon-box">
             <i class="navbar-tool-icon ci-user"></i>
           </div>
         </a>
         <div *ngIf="isLoggedIn" ngbDropdown class="navbar-tool dropdown ms-lg-3 ms-2 user">
-          <a
-            class="navbar-tool-icon-box d-inline-block w-auto h-auto dropdown-toggle mt-n1"
-            routerLink="/setting"
-            ngbDropdownToggle
-          >
-            <img
-              class="rounded-circle"
-              src="assets/img/nft/vendor/avatar-sm.png"
-              width="36"
-              alt="User"
-              id="user_profile"
-            />
+          <a class="navbar-tool-icon-box d-inline-block w-auto h-auto dropdown-toggle mt-n1" routerLink="/setting"
+            ngbDropdownToggle>
+            <img class="rounded-circle" src="assets/img/nft/vendor/avatar-sm.png" width="36" alt="User"
+              id="user_profile" />
           </a>
           <div ngbDropdownMenu class="dropdown-menu dropdown-menu-end">
             <div style="min-width: 14rem">
@@ -51,11 +34,11 @@
               </a>
               <a class="dropdown-item d-flex align-items-center" routerLink="/myitem">
                 <i class="ci-image opacity-60 me-2"></i>Mes objets
-          
+
               </a>
               <a class="dropdown-item d-flex align-items-center" routerLink="/mycollection">
                 <i class="ci-view-list opacity-60 me-2"></i>Mes publications
-             
+
               </a>
               <a class="dropdown-item d-flex align-items-center" routerLink="/notification">
                 <i class="ci-bell opacity-60 me-2"></i>Notifications
@@ -64,29 +47,16 @@
           </div>
         </div>
 
-        <a *ngIf="isLoggedIn"
-          class="btn btn-sm btn-accent rounded-1 ms-lg-4 ms-3 create"
-          routerLink="/createnewpost"
-          >Creer une publication</a
-        >
+        <a *ngIf="isLoggedIn" class="btn btn-sm btn-accent rounded-1 ms-lg-4 ms-3 create"
+          routerLink="/createnewpost">Creer une publication</a>
       </div>
-      <div
-        #collapse="ngbCollapse"
-        [(ngbCollapse)]="isCollapsed"
-        class="collapse navbar-collapse me-auto order-lg-2"
-        id="navbarCollapse"
-      >
+      <div #collapse="ngbCollapse" [(ngbCollapse)]="isCollapsed" class="collapse navbar-collapse me-auto order-lg-2"
+        id="navbarCollapse">
         <!-- Search (mobile) -->
         <div class="d-lg-none py-3">
           <div class="input-group">
-            <i
-              class="ci-search position-absolute top-50 start-0 translate-middle-y ms-3"
-            ></i>
-            <input
-              class="form-control rounded-start"
-              type="text"
-              placeholder="What do you need?"
-            />
+            <i class="ci-search position-absolute top-50 start-0 translate-middle-y ms-3"></i>
+            <input class="form-control rounded-start" type="text" placeholder="What do you need?" />
           </div>
         </div>
         <!-- Primary menu -->
@@ -100,22 +70,11 @@
       </div>
     </div>
     <!-- Search collapse -->
-    <div
-      #collapse="ngbCollapse"
-      [(ngbCollapse)]="isCollapsed"
-      class="search-box collapse"
-      id="searchBox"
-    >
+    <div #collapse="ngbCollapse" [(ngbCollapse)]="isCollapsed" class="search-box collapse" id="searchBox">
       <div class="container py-2">
         <div class="input-group">
-          <i
-            class="ci-search position-absolute top-50 start-0 translate-middle-y ms-3"
-          ></i>
-          <input
-            class="form-control rounded-start"
-            type="text"
-            placeholder="What do you need?"
-          />
+          <i class="ci-search position-absolute top-50 start-0 translate-middle-y ms-3"></i>
+          <input class="form-control rounded-start" type="text" placeholder="What do you need?" />
         </div>
       </div>
     </div>
@@ -125,210 +84,135 @@
 <ng-template #content role="document" let-modal>
   <div class="modal-content">
     <div class="modal-header bg-secondary">
-      <ul
-        ngbNav
-        #nav="ngbNav"
-        [activeId]="1"
-        class="nav nav-tabs card-header-tabs"
-        role="tablist"
-      >
+      <ul ngbNav #nav="ngbNav" [activeId]="1" class="nav nav-tabs card-header-tabs" role="tablist">
         <li class="nav-item" [ngbNavItem]="1">
-          <a
-            ngbNavLink
-            class="nav-link fw-medium"
-            href="javascript:void(0);"
-            data-bs-toggle="tab"
-            role="tab"
-            aria-selected="true"
-            ><i class="ci-unlocked me-2 mt-n1"></i>Sign in</a
-          >
+          <a ngbNavLink class="nav-link fw-medium" href="javascript:void(0);" data-bs-toggle="tab" role="tab"
+            aria-selected="true"><i class="ci-unlocked me-2 mt-n1"></i>Sign in</a>
           <ng-template ngbNavContent>
-            <form
-              (ngSubmit)="signin()"
-              [formGroup]="formData"
-              class="needs-validation tab-pane fade show"
-              id="signin-tab"
-            >
+            <form (ngSubmit)="signin()" [formGroup]="formData" class="needs-validation tab-pane fade show"
+              id="signin-tab">
               <div class="mb-3">
                 <label class="form-label" for="si-email">Nom d'utilisateur</label>
-                <input
-                  class="form-control"
-                  type="email"
-                  id="si-email"
-                  placeholder="nom_utilisateur"
-                  formControlName="email"
-                  [ngClass]="{
-                    'is-invalid': submitted && form['email'].errors
-                  }"
-                />
+                <input class="form-control" type="email" id="si-email" placeholder="nom_utilisateur"
+                  formControlName="email" [ngClass]="{
+        'is-invalid': submitted && form['email'].errors
+      }" />
                 <div *ngIf="submitted && form['email'].errors" class="invalid-feedback">
-                  <span *ngIf="form['email'].errors['required']">Veillez entrer un nom d'utilisateur valide.</span>
+                  <span *ngIf="form['email'].errors['required']">Veuillez entrer un nom d'utilisateur valide.</span>
                 </div>
               </div>
               <div class="mb-3">
                 <label class="form-label" for="si-password">Mot de passe</label>
                 <div class="password-toggle">
-                  <input
-                    class="form-control"
-                    [type]="fieldTextType ? 'text' : 'password'"
-                    id="si-password"
-                    formControlName="password"
-                    [ngClass]="{
-                      'is-invalid': submitted && form['password'].errors
-                    }"
-                  />
+                  <input class="form-control" [type]="fieldTextType ? 'text' : 'password'" id="si-password"
+                    formControlName="password" [ngClass]="{
+          'is-invalid': submitted && form['password'].errors
+        }" />
                   <div *ngIf="submitted && form['password'].errors" class="invalid-feedback">
                     <span *ngIf="form['password'].errors['required']">Veuillez entrer un mot de passe valide.</span>
                   </div>
-                  <label
-                    class="password-toggle-btn"
-                    aria-label="Show/hide password"
-                  >
-                    <input class="password-toggle-check" type="checkbox" /><span
-                      class="password-toggle-indicator"
+                  <label class="password-toggle-btn" aria-label="Show/hide password">
+                    <input class="password-toggle-check" type="checkbox" /><span class="password-toggle-indicator"
                       [ngClass]="
-                        fieldTextType
-                          ? 'mdi-eye-off-outline'
-                          : 'mdi-eye-off-outline'
-                      "
-                      (click)="toggleFieldTextType()"
-                    ></span>
+            fieldTextType
+              ? 'mdi-eye-off-outline'
+              : 'mdi-eye-off-outline'
+          " (click)="toggleFieldTextType()"></span>
                   </label>
                 </div>
               </div>
               <div class="mb-3 d-flex flex-wrap justify-content-between">
                 <div class="form-check mb-2">
-                  <input
-                    class="form-check-input"
-                    type="checkbox"
-                    id="si-remember"
-                  />
+                  <input class="form-check-input" type="checkbox" id="si-remember" />
                   <label class="form-check-label" for="si-remember">Remember me</label>
                 </div>
                 <a class="fs-sm" href="javascript:void(0);">Forgot password?</a>
               </div>
-              <button
-                class="btn btn-primary btn-shadow d-block w-100"
-                type="submit"
-              >
-                Sign in
+
+              <!-- Afficher le message d'erreur -->
+              <div *ngIf="errorMessage" class="alert alert-danger">
+                {{ errorMessage }}
+              </div>
+
+              <button class="btn btn-primary btn-shadow d-block w-100" type="submit" [disabled]="isLoading">
+                <span *ngIf="isLoading" class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+                <span *ngIf="!isLoading">Sign in</span>
               </button>
+              
             </form>
+
           </ng-template>
         </li>
         <li class="nav-item" [ngbNavItem]="2">
-          <a
-            ngbNavLink
-            class="nav-link fw-medium"
-            href="javascript:void(0);"
-            data-bs-toggle="tab"
-            role="tab"
-            aria-selected="false"
-            ><i class="ci-user me-2 mt-n1"></i>Sign up</a
-          >
+          <a ngbNavLink class="nav-link fw-medium" href="javascript:void(0);" data-bs-toggle="tab" role="tab"
+            aria-selected="false"><i class="ci-user me-2 mt-n1"></i>Sign up</a>
           <ng-template ngbNavContent>
-            <form
-              (ngSubmit)="signup()"
-              [formGroup]="signupformData"
-              class="needs-validation tab-pane fade show"
-              autocomplete="off"
-              novalidate
-              id="signup-tab"
-            >
+            <form (ngSubmit)="signup()" [formGroup]="signupformData" class="needs-validation tab-pane fade show"
+              autocomplete="off" novalidate id="signup-tab">
               <div class="mb-3">
                 <label class="form-label" for="su-name">Nom d'utilisateur</label>
-                <input
-                  class="form-control"
-                  type="text"
-                  id="su-name"
-                  placeholder="John Doe"
-                  formControlName="username"
+                <input class="form-control" type="text" id="su-name" placeholder="John Doe" formControlName="username"
                   [ngClass]="{
                     'is-invalid': signupsubmit && signupform['username'].errors
-                  }"
-                />
+                  }" />
                 <div *ngIf="signupsubmit && signupform['username'].errors" class="invalid-feedback">
-                  <span *ngIf="signupform['username'].errors['required']">Veuillez entrer un nom d'utilisateur valide</span>
+                  <span *ngIf="signupform['username'].errors['required']">Veuillez entrer un nom d'utilisateur
+                    valide</span>
                 </div>
               </div>
               <div class="mb-3">
                 <label class="form-label" for="su-email">Adresse mail</label>
-                <input
-                  class="form-control"
-                  type="email"
-                  id="su-email"
-                  placeholder="johndoe@example.com"
-                  formControlName="email"
-                  [ngClass]="{
+                <input class="form-control" type="email" id="su-email" placeholder="johndoe@example.com"
+                  formControlName="email" [ngClass]="{
                     'is-invalid': signupsubmit && signupform['email'].errors
-                  }"
-                />
+                  }" />
                 <div *ngIf="signupsubmit && signupform['email'].errors" class="invalid-feedback">
                   <span *ngIf="signupform['email'].errors['required']">Veillez entrer une adresse mail valide.</span>
                 </div>
               </div>
               <div class="mb-3">
                 <label class="form-label" for="su-dateNaissance">Date de naissance</label>
-                <input
-                  class="form-control"
-                  type="date"
-                  id="su-dateNaissance"
-                  formControlName="dateNaissance"
-                  [ngClass]="{
+                <input class="form-control" type="date" id="su-dateNaissance" formControlName="dateNaissance" [ngClass]="{
                     'is-invalid': signupsubmit && signupform['dateNaissance'].errors
-                  }"
-                />
+                  }" />
                 <div *ngIf="signupsubmit && signupform['dateNaissance'].errors" class="invalid-feedback">
-                  <span *ngIf="signupform['dateNaissance'].errors['required']">Veillez entrer votre date de naissance.</span>
+                  <span *ngIf="signupform['dateNaissance'].errors['required']">Veillez entrer votre date de
+                    naissance.</span>
                 </div>
               </div>
               <div class="mb-3">
                 <label class="form-label" for="su-password">Mot de passe</label>
                 <div class="password-toggle">
-                  <input
-                    class="form-control"
-                    [type]="signupPassfield ? 'text' : 'password'"
-                    id="su-password"
-                    formControlName="password"
-                    [ngClass]="{
+                  <input class="form-control" [type]="signupPassfield ? 'text' : 'password'" id="su-password"
+                    formControlName="password" [ngClass]="{
                       'is-invalid': signupsubmit && signupform['password'].errors
-                    }"
-                  />
+                    }" />
                   <div *ngIf="signupsubmit && signupform['password'].errors" class="invalid-feedback">
-                    <span *ngIf="signupform['password'].errors['required']">Veuille entrer un mot de passe valide.</span>
+                    <span *ngIf="signupform['password'].errors['required']">Veuille entrer un mot de passe
+                      valide.</span>
                   </div>
-                  <label
-                    class="password-toggle-btn"
-                    aria-label="Show/hide password"
-                  >
-                    <input class="password-toggle-check" type="checkbox" /><span
-                      class="password-toggle-indicator"
+                  <label class="password-toggle-btn" aria-label="Show/hide password">
+                    <input class="password-toggle-check" type="checkbox" /><span class="password-toggle-indicator"
                       [ngClass]="{
                         'mdi-eye-off-outline': !signupPassfield,
                         'mdi-eye-outline': signupPassfield
-                      }"
-                      (click)="togglesignupPassfield()"
-                    ></span>
+                      }" (click)="togglesignupPassfield()"></span>
                   </label>
                 </div>
               </div>
-              <button
-                class="btn btn-primary btn-shadow d-block w-100"
-                type="submit"
-              >
-                Sign up
-              </button>
+              <div *ngIf="errorMessage" class="alert alert-danger">
+                {{ errorMessage }}
+              </div>              
+              <button class="btn btn-primary btn-shadow d-block w-100" type="submit" [disabled]="isLoading">
+                <span *ngIf="isLoading" class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+                <span *ngIf="!isLoading">Sign up</span>
+              </button>              
             </form>
           </ng-template>
         </li>
       </ul>
-      <button
-        class="btn-close"
-        type="button"
-        data-bs-dismiss="modal"
-        aria-label="Close"
-        (click)="modal.close('close click')"
-      ></button>
+      <button class="btn-close" type="button" data-bs-dismiss="modal" aria-label="Close"
+        (click)="modal.close('close click')"></button>
     </div>
     <div class="modal-body tab-content py-4">
       <div [ngbNavOutlet]="nav"></div>
@@ -339,54 +223,25 @@
 <!-- Toolbar for handheld devices (NFT Marketplace)-->
 <div class="handheld-toolbar">
   <div class="d-table table-layout-fixed w-100">
-    <a
-      class="d-none handheld-toolbar-item"
-      href="#vendor-sidebar"
-      data-bs-toggle="offcanvas"
-    >
-      <span class="handheld-toolbar-icon"><i class="ci-sign-in"></i></span
-      ><span class="handheld-toolbar-label">Sidebar</span></a
-    >
-    <a
-      *ngIf="!isLoggedIn"
-      class="d-table-cell handheld-toolbar-item"
-      href="javascript:void(0);"
-      data-bs-toggle="modal"
-      (click)="openModal(content)"
-    >
+    <a class="d-none handheld-toolbar-item" href="#vendor-sidebar" data-bs-toggle="offcanvas">
+      <span class="handheld-toolbar-icon"><i class="ci-sign-in"></i></span><span
+        class="handheld-toolbar-label">Sidebar</span></a>
+    <a *ngIf="!isLoggedIn" class="d-table-cell handheld-toolbar-item" href="javascript:void(0);" data-bs-toggle="modal"
+      (click)="openModal(content)">
       <span class="handheld-toolbar-icon">
         <i class="ci-user"></i>
       </span>
       <span class="handheld-toolbar-label">Account</span>
     </a>
-    <a
-      class="d-table-cell handheld-toolbar-item"
-      href="javascript:void(0)"
-      data-bs-toggle="collapse"
-      data-bs-target="#navbarCollapse"
-      onclick="window.scrollTo(0, 0)"
-      (click)="collapse.toggle()"
-    >
+    <a class="d-table-cell handheld-toolbar-item" href="javascript:void(0)" data-bs-toggle="collapse"
+      data-bs-target="#navbarCollapse" onclick="window.scrollTo(0, 0)" (click)="collapse.toggle()">
       <span class="handheld-toolbar-icon">
         <i class="ci-menu"></i>
       </span>
       <span class="handheld-toolbar-label">Menu</span>
     </a>
-    <a
-      *ngIf="isLoggedIn"
-      class="d-table-cell handheld-toolbar-item connectwallet"
-      routerLink="/connectwallet"
-    >
-      <span class="handheld-toolbar-icon">
-        <i class="ci-wallet"></i>
-      </span>
-      <span class="handheld-toolbar-label text-nowrap">Connect wallet</span>
-    </a>
-    <a
-      *ngIf="isLoggedIn"
-      class="d-table-cell handheld-toolbar-item craeteitem"
-      routerLink="/createnewitem"
-    >
+
+    <a *ngIf="isLoggedIn" class="d-table-cell handheld-toolbar-item craeteitem" routerLink="/createnewitem">
       <span class="handheld-toolbar-icon">
         <i class="ci-add"></i>
       </span>

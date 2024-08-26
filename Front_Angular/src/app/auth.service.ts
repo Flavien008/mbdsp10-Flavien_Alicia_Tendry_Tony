@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { Observable } from 'rxjs';
-import { tap } from 'rxjs/operators';
+import { Observable, throwError } from 'rxjs';
+import { tap, catchError } from 'rxjs/operators';
 import { environment } from '../environments/environment';
 
 @Injectable({
@@ -18,8 +18,12 @@ export class AuthService {
       tap(response => {
         if (response && response.token) {
           sessionStorage.setItem('authToken', response.token);
-          sessionStorage.setItem('currentUser', JSON.stringify(response.user)); // Store user details
+          sessionStorage.setItem('currentUser', JSON.stringify(response.user));
         }
+      }),
+      catchError(error => {
+        console.error('Login error:', error);
+        return throwError(error);
       })
     );
   }
@@ -30,14 +34,18 @@ export class AuthService {
       username,
       email,
       dateNaissance,
-      role_id: 2, // Fixed role_id
+      role_id: 2, 
       password
     }).pipe(
       tap(response => {
         if (response && response.token) {
           sessionStorage.setItem('authToken', response.token);
-          sessionStorage.setItem('currentUser', JSON.stringify(response.user)); 
+          sessionStorage.setItem('currentUser', JSON.stringify(response.user));
         }
+      }),
+      catchError(error => {
+        console.error('Signup error:', error);
+        return throwError(error);
       })
     );
   }

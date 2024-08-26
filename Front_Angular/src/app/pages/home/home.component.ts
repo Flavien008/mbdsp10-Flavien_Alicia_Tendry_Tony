@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { HomeService } from './home.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'home',
@@ -15,24 +16,36 @@ export class HomeComponent implements OnInit {
   selectedCategory: string = '';  
   isLoading: boolean = true;
   searchTerm: string = '';  
-  sortByDate: string = 'DESC'; // Par défaut, trier par date de manière décroissante
+  sortByDate: string = 'DESC'; 
   page: number = 1;         
   pageSize: number = 10;    
   total: number = 0;        
+  isAuthenticated: boolean = false;  // Pour vérifier si l'utilisateur est connecté
 
-  constructor(public service: HomeService) {}
+  constructor(public service: HomeService, private router: Router) {}
 
   ngOnInit(): void {
-    this.fetchCategories();
-    this.fetchPosts();
-    
+    this.checkAuthentication(); 
+    console.log(this.isAuthenticated) // Vérifiez si l'utilisateur est authentifié
+
+    if (this.isAuthenticated) {
+      console.log("ato")
+      this.fetchCategories();
+      this.fetchPosts();
+    }else this.isLoading = false;
+
     document.documentElement.scrollTop = 0;
 
     this.breadCrumbItems = [
       { label: 'Home', link: '' },
-      { label: 'NFT Marketplace', link: '/' },
-      { label: 'All NFTs', active: true, link: 'All NFTs' }
+      { label: 'Marketplace', link: '/' },
+      { label: 'All Posts', active: true, link: 'All Posts' }
     ];
+  }
+
+  checkAuthentication(): void {
+    const token = sessionStorage.getItem('authToken');
+    this.isAuthenticated = !!token;  // Si le token existe, l'utilisateur est authentifié
   }
 
   fetchCategories(): void {

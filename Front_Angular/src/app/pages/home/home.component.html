@@ -104,6 +104,14 @@
       <span class="visually-hidden">Loading...</span>
     </div>
   </div>
+  <div *ngIf="!isAuthenticated">
+    <div class="container pb-5 mb-2 mb-md-4">
+      <div class="alert alert-warning" role="alert">
+        <h4 class="alert-heading">Vous n'êtes pas connecté !</h4>
+        <p>Veuillez vous connecter pour accéder à cette page.</p>
+      </div>
+    </div>
+  </div>
   <hr class="mt-4 mb-3" />
   <!-- Pagination -->
   <ngb-pagination class="d-flex justify-content-center pt-2" [collectionSize]="total" [(page)]="page" [pageSize]="pageSize" aria-label="Custom pagination">
