@@ -74,7 +74,7 @@
                         </p>
 
                         <!-- Buttons for edit and delete -->
-                        <div class="d-flex justify-content-between">
+                        <div *ngIf="isOwner" class="d-flex justify-content-between">
                             <button class="btn btn-primary me-2" (click)="editItem()">Modifier</button>
                             <button class="btn btn-danger" (click)="deleteItem()">Supprimer</button>
                         </div>

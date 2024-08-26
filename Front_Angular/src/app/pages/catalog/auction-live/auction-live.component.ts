@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ItemService } from './auction-live.service';
+import { AuthService } from '../../../auth.service'; // Assurez-vous d'importer votre service d'authentification
 
 @Component({
   selector: 'app-auction-live',
@@ -12,11 +13,13 @@ export class AuctionLiveComponent implements OnInit {
   item: any;
   isLoading = true; // For loading state
   currentSlide = 0; // Index du slide actuel
+  isOwner = false; // Variable pour vérifier si l'utilisateur est le propriétaire de l'objet
 
   constructor(
     private itemService: ItemService,
     private route: ActivatedRoute,
-    private router: Router // Inject the ActivatedRoute to get the route information
+    private router: Router,
+    private authService: AuthService // Injecter le service d'authentification pour obtenir l'utilisateur actuel
   ) { }
 
   ngOnInit(): void {
@@ -33,6 +36,16 @@ export class AuctionLiveComponent implements OnInit {
     this.itemService.getItemById(id).subscribe(
       response => {
         this.item = response;
+
+        // Vérifier si l'utilisateur actuel est le propriétaire de l'objet
+        const currentUser = this.authService.getCurrentUser();
+        console.log(currentUser);
+        console.log(this.item);
+        
+        if (currentUser && currentUser.name === this.item?.objet?.Utilisateur?.username) {
+          this.isOwner = true;
+        }
+ 
         this.isLoading = false; // Stop loading
       },
       error => {
@@ -54,7 +67,6 @@ export class AuctionLiveComponent implements OnInit {
     this.router.navigate(['updateitem/'+this.item?.objet?.item_id]);
   }
 
-  // Method to delete the item
   deleteItem() {
     if (confirm('Êtes-vous sûr de vouloir supprimer cet objet ?')) {
       this.itemService.deleteItem(this.item?.objet?.item_id).subscribe(
