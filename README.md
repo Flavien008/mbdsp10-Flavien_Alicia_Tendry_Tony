@@ -67,14 +67,11 @@ Ce dépôt contient les différents modules et composants du projet TAKALO, chac
 
 ## Liens importants
 
-- **Site Web :** [Lien vers le site TAKALO](#)  
-  *(Remplacez "#" par l'URL réelle du site web une fois disponible)*
+- **Cahier de charge :** [Lien vers le cahier de charge](https://docs.google.com/document/d/1i0tHiX87F3_M33eNh9TL3FAKwX1moRZrHJtpttEzdrY/edit?usp=sharing) Vous pouvez retrouver les détails ainsi que les liens vers les sites frontoffices et backoffices et les liens de téléchargements des applications mobiles et desktops.
 
-- **Application mobile (APK) :** [Lien de téléchargement de l'APK Android](#)  
-  *(Remplacez "#" par le lien de téléchargement de l'APK)*
-
-- **Exécutable client lourd :** [Lien de téléchargement de l'exécutable pour le client lourd](#)  
-  *(Remplacez "#" par le lien de téléchargement du client lourd, assurant que le service web est configuré)*
+- **Document de conception :** [Lien vers le document de conception](https://docs.google.com/document/d/1i5dBKOK99oyogGI0XljmyT8E6AB_DT6Br4q-eUqbZ9o/edit?usp=sharing)
+  
+- **Tableau d'avancement :** [Lien vers le tableau d'avancement](https://docs.google.com/spreadsheets/d/1AY2H3rgnphlBjacK_uL8hgQSAwX_D1IZp4TUT4STfUQ/edit?usp=sharing)  
 
 ## Installation et déploiement
 
