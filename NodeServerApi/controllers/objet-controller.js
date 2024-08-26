@@ -152,15 +152,14 @@ exports.getObjets = async (req, res) => {
     }
 };
 
-exports.getObjetsByUserId = async (req, res) => {
-    const { page = 1, limit = 10, nomUtilisateur, categorie, nomObjet, description } = req.query;
-    const { user_id } = req.params;  // Extracting user_id from params
+exports.getObjetsByUser = async (req, res) => {
+    const { userId } = req.params; // Récupérer l'ID de l'utilisateur depuis les paramètres de la requête
+    const { page = 1, limit = 10, categorie, nomObjet, description } = req.query; // Récupérer les filtres et la pagination des paramètres de la requête
 
-    const filters = {};
+    const filters = {
+        user_id: userId // Filtrer par l'ID de l'utilisateur
+    };
 
-    if (nomUtilisateur) {
-        filters['$Utilisateur.username$'] = { [Op.iLike]: `%${nomUtilisateur}%` };
-    }
     if (categorie) {
         filters.categorie_id = categorie;
     }
@@ -170,9 +169,6 @@ exports.getObjetsByUserId = async (req, res) => {
     if (description) {
         filters.description = { [Op.iLike]: `%${description}%` };
     }
-    
-    // Ensure user_id is included in the filters
-    filters.user_id = user_id;
 
     try {
         const objets = await Objet.findAndCountAll({

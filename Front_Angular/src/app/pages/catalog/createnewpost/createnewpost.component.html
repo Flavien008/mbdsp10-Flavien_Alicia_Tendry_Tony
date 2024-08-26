@@ -1,0 +1,105 @@
+<!-- Header -->
+<app-header></app-header>
+<!-- Page title-->
+<div class="bg-accent mb-4 py-4">
+    <div class="container d-lg-flex justify-content-between py-2 py-lg-3">
+        <div class="order-lg-2 mb-3 mb-lg-0 pt-lg-2">
+            <nav aria-label="breadcrumb">
+                <ol class="breadcrumb breadcrumb-light flex-lg-nowrap justify-content-center justify-content-lg-start">
+                    <li class="breadcrumb-item"><a class="text-nowrap" routerLink="/"><i class="ci-home"></i>Home</a>
+                    </li>
+                    <li class="breadcrumb-item text-nowrap"><a routerLink="/">Takalo</a>
+                    </li>
+                    <li class="breadcrumb-item text-nowrap active" aria-current="page">Creer poste</li>
+                </ol>
+            </nav>
+        </div>
+        <div class="order-lg-1 pe-lg-4 text-center text-lg-start">
+            <h1 class="h3 text-light mb-0">Creer une nouvelle poste</h1>
+        </div>
+    </div>
+</div>
+<!-- Page content-->
+<section class="container mb-5 pt-3 pb-md-5 pb-1">
+    <div class="row gy-5">
+        <form class="needs-validation col-md-8" (ngSubmit)="createPost()" [formGroup]="postForm" novalidate>
+            <!-- Details-->
+            <div class="mb-md-5 mb-4 pb-md-0 pb-2">
+                <h2 class="h5 mb-3">Post Details</h2>
+                <div class="row gy-md-4 gy-3">
+                    <div class="col-12">
+                        <label class="form-label" for="details-title">Titre du poste<span class="ms-1 text-danger">*</span></label>
+                        <input class="form-control" id="details-title" type="text" formControlName="titre" placeholder="Titre du poste" required>
+                        <div class="invalid-feedback">Veuille entrer un titre</div>
+                    </div>
+                    <div class="col-12">
+                        <label class="form-label" for="details-description">Description</label>
+                        <textarea class="form-control" id="details-description" rows="4" placeholder="Enter a short description of your post" formControlName="description"></textarea>
+                    </div>
+                    <div class="col-sm-6">
+                        <label class="form-label" for="details-longitude">Longitude</label>
+                        <input class="form-control" id="details-longitude" type="text" formControlName="longitude" placeholder="Longitude" required>
+                    </div>
+                    <div class="col-sm-6">
+                        <label class="form-label" for="details-latitude">Latitude</label>
+                        <input class="form-control" id="details-latitude" type="text" formControlName="latitude" placeholder="Latitude" required>
+                    </div>
+                    <div class="col-12 mt-3">
+                        <button type="button" class="btn btn-primary" (click)="getCurrentLocation()">Utiliser ma position actuelle</button>
+                    </div>
+                    <div class="col-12 mt-3">
+                        <div id="map" style="height: 400px;"></div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Select Items -->
+            <div class="mb-md-5 mb-4 pb-md-0 pb-2">
+                <h2 class="h5 mb-3">Selectionne des objets</h2>
+                <div *ngIf="isLoadingItems" class="text-center my-4">
+                    <div class="spinner-border" role="status">
+                        <span class="visually-hidden">Loading...</span>
+                    </div>
+                </div>
+                <div *ngIf="!isLoadingItems">
+                    <div class="row gy-md-4 gy-3">
+                        <div class="col-12">
+                            <label class="form-label">Objets disponibles</label>
+                            <div class="row">
+                                <div class="col-12" *ngFor="let item of items">
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="checkbox" [id]="item.item_id" (change)="onSelectItem(item)">
+                                        <label class="form-check-label" [for]="item.item_id">{{ item.name }}</label>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-12">
+                            <label class="form-label">Objets séléctionnés</label>
+                            <div class="row">
+                                <div class="col-12" *ngFor="let item of selectedItems">
+                                    <div class="d-flex align-items-center mb-2">
+                                        <span>{{ item.name }}</span>
+                                        <button type="button" class="btn btn-link ms-2 text-danger" (click)="onRemoveItem(item)">Enlever</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Submit button-->
+            <div>
+                <div class="pt-2">
+                    <button class="btn btn-lg btn-accent d-block w-100" type="submit" [disabled]="isSubmitting">
+                        <span *ngIf="isSubmitting" class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+                        <span *ngIf="!isSubmitting">Creer le poste</span>
+                    </button>
+                </div>
+            </div>
+        </form>
+    </div>
+</section>
+<!-- Footer -->
+<app-footer></app-footer>

@@ -3,7 +3,6 @@ import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { UntypedFormBuilder, Validators, UntypedFormGroup } from '@angular/forms';
 import { AuthService } from '../../auth.service';
 
-// Data Get
 import { MENU } from './menu';
 import { MenuItem } from './menu.model';
 
@@ -12,8 +11,6 @@ import { MenuItem } from './menu.model';
   templateUrl: './header.component.html',
   styleUrls: ['./header.component.scss']
 })
-
-// Header Component
 export class HeaderComponent implements OnInit {
 
   menu: any;
@@ -28,7 +25,9 @@ export class HeaderComponent implements OnInit {
   signupsubmit = false;
 
   isLoggedIn = false;
-  currentUser: any = null; // Stocker les informations de l'utilisateur connecté
+  currentUser: any = null;
+  errorMessage: string | null = null;  // Pour stocker le message d'erreur
+  isLoading = false;  // Pour gérer l'état de chargement
 
   constructor(public formBuilder: UntypedFormBuilder,
     private modalService: NgbModal,
@@ -82,23 +81,36 @@ export class HeaderComponent implements OnInit {
 
   signin() {
     this.submitted = true;
-    const email = this.formData.get('email')!.value;
-    const password = this.formData.get('password')!.value;
-    this.authService.login(email, password).subscribe(
-      response => {
-        console.log('Login successful', response);
-        this.isLoggedIn = true;
-        this.currentUser = this.authService.getCurrentUser();
-        this.modalService.dismissAll();
-      },
-      error => {
-        console.error('Login failed', error);
-      }
-    );
+    this.errorMessage = null;
+    this.isLoading = true;
+
+    if (this.formData.valid) {
+      const email = this.formData.get('email')!.value;
+      const password = this.formData.get('password')!.value;
+      this.authService.login(email, password).subscribe(
+        response => {
+          console.log('Login successful', response);
+          this.isLoggedIn = true;
+          this.currentUser = this.authService.getCurrentUser();
+          this.modalService.dismissAll();
+          window.location.reload();
+        },
+        error => {
+          console.error('Login failed', error);
+          this.errorMessage = error.error?.message || "Échec de la connexion. Veuillez vérifier vos informations d'identification et réessayer.";
+          this.isLoading = false;
+        }
+      );
+    } else {
+      this.isLoading = false;
+    }
   }
 
   signup() {
     this.signupsubmit = true;
+    this.errorMessage = null;
+    this.isLoading = true;
+
     if (this.signupformData.valid) {
       const username = this.signupformData.get('username')!.value;
       const email = this.signupformData.get('email')!.value;
@@ -110,11 +122,16 @@ export class HeaderComponent implements OnInit {
           this.isLoggedIn = true;
           this.currentUser = this.authService.getCurrentUser();
           this.modalService.dismissAll();
+          window.location.reload();
         },
         error => {
           console.error('Signup failed', error);
+          this.errorMessage = error.error?.message || "Échec de l'inscription. Veuillez réessayer.";
+          this.isLoading = false;
         }
       );
+    } else {
+      this.isLoading = false;
     }
   }
 
@@ -152,5 +169,12 @@ export class HeaderComponent implements OnInit {
       parentCollapseDiv.parentElement.children[0].classList.add("active");
     }
     return false;
+  }
+
+  logout() {
+    this.authService.logout();
+    this.isLoggedIn = false;
+    this.currentUser = null;
+    window.location.reload();
   }
 }

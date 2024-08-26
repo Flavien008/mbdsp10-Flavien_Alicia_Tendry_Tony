@@ -6,6 +6,7 @@ const Utilisateur = db.Utilisateur;
 const Objet = db.Objet;
 const Categorie = db.Categorie;
 const Notification = require('../models/notification'); 
+const Image = require('../models/image');
 
 const { Op } = require('sequelize'); // Importer Op de Sequelize
 
@@ -258,22 +259,21 @@ exports.getPostes = async (req, res) => {
             order: order.length ? order : [['created_at', 'DESC']] 
         });
 
-        // Fetch images for each object within the posts
-        const postesWithImages = await Promise.all(rows.map(async (post) => {
+        // Fetch images for each object in the post details
+        const postsWithImages = await Promise.all(rows.map(async (post) => {
             const postDetailsWithImages = await Promise.all(post.Postedetails.map(async (detail) => {
                 const images = await Image.find({ item_id: detail.Objet.item_id });
-                // const images = await Image.findAll({ where: { item_id: detail.Objet.id } });
-                return { 
-                    ...detail.toJSON(), 
-                    Objet: { 
-                        ...detail.Objet.toJSON(), 
-                        images 
-                    } 
+                return {
+                    ...detail.toJSON(),
+                    Objet: {
+                        ...detail.Objet.toJSON(),
+                        images
+                    }
                 };
             }));
-            return { 
-                ...post.toJSON(), 
-                Postedetails: postDetailsWithImages 
+            return {
+                ...post.toJSON(),
+                Postedetails: postDetailsWithImages
             };
         }));
 
@@ -287,7 +287,7 @@ exports.getPostes = async (req, res) => {
             totalPages,
             hasNext,
             hasPrev,
-            data: postesWithImages
+            data: postsWithImages
         });
     } catch (error) {
         console.error('Error fetching posts:', error);

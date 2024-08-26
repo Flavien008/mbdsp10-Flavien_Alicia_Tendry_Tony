@@ -1,74 +1,65 @@
 import { Component, OnInit } from '@angular/core';
-import { NgbNavChangeEvent } from '@ng-bootstrap/ng-bootstrap';
-
-// Data Get
-import { items } from './data';
+import { ItemService } from './my-item.service';
 
 @Component({
   selector: 'app-my-item',
   templateUrl: './my-item.component.html',
   styleUrls: ['./my-item.component.scss']
 })
-
-// MyItem Component
 export class MyItemComponent implements OnInit {
+  myitems: any = [];
+  page: number = 1;
+  limit: number = 10;
+  totalItems: number = 0;
+  totalPages: number = 0;
+  hasNext: boolean = false;
+  hasPrev: boolean = false;
+  isLoading: boolean = false; 
 
-  myitems: any;
-
-  // set the current year
-  year: number = new Date().getFullYear();
-  private _diff?: any;
-  _days?: number;
-  _hours?: number;
-  _minutes?: number;
-  _seconds?: number;
-  livelength: any;
-  liveitem: any = [];
-  solditem: any = [];
-
-  constructor() { }
+  constructor(private itemService: ItemService) { }
 
   ngOnInit(): void {
-
-    // When the user clicks on the button, scroll to the top of the document
-    document.documentElement.scrollTop = 0;
-
-    // Remove header account and wallet button
-    document.querySelector('.account')?.classList.add('d-none')
-    document.querySelector('.wallet')?.classList.add('d-none')
-    document.querySelector('.connectwallet')?.classList.add('d-none')
-
-    //Remove mail subscription footer
-    document.querySelector('.footer .bg-dark')?.classList.remove('mt-n10', 'pt-10')
-    document.querySelector('.footer.bg-secondary')?.classList.add('d-none')
-
-    // Fetch Data
-    this.myitems = items
-    this.myitems.filter((item: any) => {
-      if (item.status == 'sold') {
-        this.solditem.push(item)
-      }
-      if (item.status == 'live') {
-        this.liveitem.push(item)
-      }
-    })
+    this.loadItems();
   }
 
-  /**
-  * Count date set
-  */
-  countdown(time: any) {
-    if(Date.parse(time) > Date.parse(new Date().toString())){
-      this._diff = Date.parse(time) - Date.parse(new Date().toString());
-      this._days = Math.floor(this._diff / (1000 * 60 * 60 * 24));
-      this._hours = Math.floor((this._diff / (1000 * 60 * 60)) % 24);
-      this._minutes = Math.floor((this._diff / 1000 / 60) % 60);
-      this._seconds = Math.floor((this._diff / 1000) % 60);
-      return ((this._hours < 10) ? '0' + this._hours : this._hours) + ':' + ((this._minutes < 10) ? '0' + this._minutes : this._minutes) + ':' + ((this._seconds < 10) ? '0' + this._seconds : this._seconds)
-    }else{
-      return '00:00:00'
+  loadItems() {
+    this.isLoading = true; // Commence le chargement
+    this.itemService.getItems(this.page, this.limit).subscribe(
+      response => {
+        // Ajouter la propriété currentSlide à chaque item
+        this.myitems = response.data.map((item: any) => ({ ...item, currentSlide: 0 }));
+        this.totalItems = response.total;
+        this.totalPages = response.totalPages;
+        this.hasNext = response.hasNext;
+        this.hasPrev = response.hasPrev;
+        this.isLoading = false; // Terminer le chargement
+      },
+      error => {
+        console.error('Failed to load items', error);
+        this.isLoading = false; // Terminer le chargement même en cas d'erreur
+      }
+    );
+  }
+
+  prevSlide(item: any) {
+    item.currentSlide = (item.currentSlide === 0) ? item.images.length - 1 : item.currentSlide - 1;
+  }
+
+  nextSlide(item: any) {
+    item.currentSlide = (item.currentSlide === item.images.length - 1) ? 0 : item.currentSlide + 1;
+  }
+
+  goToNextPage() {
+    if (this.hasNext) {
+      this.page++;
+      this.loadItems();
     }
   }
 
-
+  goToPrevPage() {
+    if (this.hasPrev) {
+      this.page--;
+      this.loadItems();
+    }
+  }
 }
