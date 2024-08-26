@@ -6,7 +6,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.AllArgsConstructor;
 
-@Document(collection = "notification")
+@Document(collection = "notifications")
 @Data
 @NoArgsConstructor
 @AllArgsConstructor

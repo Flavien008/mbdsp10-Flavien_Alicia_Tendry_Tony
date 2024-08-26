@@ -11,10 +11,11 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
-@Table(name = "role")
+@Table(name = "\"Roles\"")
 public class Role {
 
     @Id
+    @Column(name = "\"role_id\"")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
     @Column(nullable = false)

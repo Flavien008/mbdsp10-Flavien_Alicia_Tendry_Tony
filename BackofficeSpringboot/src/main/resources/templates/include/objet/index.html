@@ -1,16 +1,144 @@
 <!DOCTYPE html>
 
-<html lang="en"
-      xmlns:th="http://www.thymeleaf.org"
-      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
       layout:decorate="~{fragments/layout}">
+
 <body>
 <div layout:fragment="content">
     <div class="container-xl">
+        <div class="d-flex flex-row justify-content-between ">
+            <h1 class="app-page-title">Objet</h1>
+        </div>
 
-        <h1 class="app-page-title">Objet</h1>
+        <form id="filterForm" th:action="@{/objet/}" method="get">
+            <input type="hidden" name="page" class="form-control form-control-sm" id="page" th:value="${page}">
+            <input type="hidden" name="size" class="form-control form-control-sm" id="size" th:value="${size}">
+            <div class="d-flex flex-row flex-wrap gap-2">
+                <div class="mb-3 row">
+                    <label for="inputName" class="col-sm-2 col-form-label">Nom</label>
+                    <div class="col-sm-10">
+                        <input type="text" name="nom" class="form-control form-control-sm" id="inputName" th:value="${nom}">
+                    </div>
+                </div>
+                <div class="mb-3 row col-4">
+                    <label for="inputName" class="col-sm-3 col-form-label">Propriétaire</label>
+                    <div class="col-sm-9">
+                        <input type="text" name="proprietaire" class="form-control form-control-sm" id="inputEmail" th:value="${proprietaire}">
+                    </div>
+                </div>
+
+                <div class="mb-3 row ">
+                    <label for="inputDateCreation" class="col-sm-auto col-form-label">Date de création</label>
+                    <div class="col-sm-7 d-flex flex-row">
+                        <input type="date" placeholder="Date début" name="createAtMin" class="form-control form-control-sm" id="inputDateCreation" th:value="${createAtMin}" />
+                        <input type="date" placeholder="Date fin" name="createAtMax" class="form-control form-control-sm" id="inputDateCreationMax" th:value="${createAtMax}" />
+                    </div>
+                </div>
+                <div class="mb-3 row">
+                    <label for="inputCategorie" class="col-sm-3 col-form-label">Catégorie</label>
+                    <div class="col-sm-9">
+                        <select name="categorie" id="inputCategorie" class="form-select" aria-label="Choisir un catégorie" >
+                            <option value="" >Tous</option>
+                            <option th:each="r : ${categories}"
+                                    th:value="${r.id}"
+                                    th:text="${r.nom}"
+                                    th:selected="${r.id} == ${categorie}">
+                            </option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="mb-3 ">
+                    <button type="submit" class="btn btn-outline-primary"><i class="fa fa-search"></i></button>
+                </div>
+
+            </div>
+            <hr/>
+            <div class="d-flex flex-row justify-content-between align-items-baseline">
+                <div class="col-md-3 mb-3 row">
+                    <label for="sortBy" class="col-sm-4 col-form-label">Trié par</label>
+                    <div class="col-sm-8 mt-1">
+                        <select id="sortBy" name="sortBy" class="form-select form-select-sm" aria-label=".form-select-sm example">
+                            <option th:selected="${sortBy == 'id'}" value="id">Id</option>
+                            <option th:selected="${sortBy == 'nom'}" value="nom">Nom</option>
+                            <option th:selected="${sortBy == 'utilisateur.username'}" value="utilisateur.username">Propriétaire</option>
+                            <option th:selected="${sortBy == 'categorie.nom'}" value="categorie.nom">Catégorie</option>
+                            <option th:selected="${sortBy == 'createdAt'}" value="createdAt">Date de création</option>
+                        </select>
+                    </div>
+                </div>
+                <div><p class="text-center" th:text="${totalElements} + ' résultat(s)'" ></p></div>
+                <div>
+                    <nav aria-label="Page navigation example">
+                        <div th:if="${totalPages > 0}">
+                            <ul class="pagination pagination-sm justify-content-end">
+                                <li class="page-item" th:classappend="${page == 0} ? 'disabled'">
+                                    <button class="page-link btn btn-outline-primary" th:onclick="'submitPagination(' + ${page - 1} + ');'">
+                                        <i class="fa fa-arrow-left"></i>
+                                    </button>
+                                </li>
+
+                                <li class="page-item" th:each="i : ${#numbers.sequence(0, totalPages - 1)}" th:classappend="${i == page} ? 'active'">
+                                    <button class="page-link btn btn-outline-primary" th:onclick="'submitPagination(' + ${i} + ');'" th:text="${i + 1}"></button>
+                                </li>
+
+                                <li class="page-item" th:classappend="${page == totalPages - 1} ? 'disabled'">
+                                    <button class="page-link btn btn-outline-primary" th:onclick="'submitPagination(' + ${page + 1} + ');'">
+                                        <i class="fa fa-arrow-right"></i>
+                                    </button>
+                                </li>
+                            </ul>
+
+                        </div>
+
+                        <div th:if="${totalPages == 0}">
+                            <p class="text-center">Aucune donnée disponible.</p>
+                        </div>
+                    </nav>
+                </div>
+            </div>
+        </form>
+
+        <div class="tab-content" id="orders-table-tab-content">
+            <div class="tab-pane fade show active" id="orders-all" role="tabpanel" aria-labelledby="orders-all-tab">
+                <div class="app-card app-card-orders-table shadow-sm mb-5">
+                    <div class="app-card-body">
+                        <div class="table-responsive">
+                            <table class="table app-table-hover mb-0">
+                                <thead>
+                                <tr>
+                                    <th class="cell">Id</th>
+                                    <th class="cell">Nom</th>
+                                    <th class="cell">Propriétaire</th>
+                                    <th class="cell">Catégorie</th>
+                                    <th class="cell">Date de création</th>
+                                    <th class="cell"></th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                <tr th:each="objet : ${objets}">
+                                    <td class="cell" th:text="${objet.id}">Id</td>
+                                    <td class="cell" th:text="${objet.nom}">Nom</td>
+                                    <td class="cell" th:text="${objet.utilisateur.username}">Propriétaire</td>
+                                    <td class="cell" th:text="${objet.categorie.nom}">Catégorie</td>
+                                    <td class="cell" th:text="${objet.createdAt}">Date de création</td>
+                                    <td class="cell">
+                                        <a class="btn btn-outline-primary" th:href="@{/objet/detail/{id}(id=${objet.id})}" ><i class="fa fa-eye"></i></a>
+                                        <a class="btn btn-outline-warning" th:href="@{/objet/edit/{id}(id=${objet.id})}" ><i class="fa fa-edit"></i></a>
+                                        <a class="btn btn-outline-danger" onclick="confirmDelete(this,'/objet/delete/')"
+                                           th:attr="data-id=${objet.id}" ><i class="fa fa-trash"></i></a>
+                                    </td>
+                                </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
-    <div>
+</div>
 
 </body>
+
 </html>
