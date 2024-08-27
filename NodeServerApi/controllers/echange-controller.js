@@ -113,7 +113,16 @@ exports.updateEchange = async (req, res) => {
                 });
             }
 
-            // Changer le propriétaire des objets du post
+                const poste = await Poste.findByPk({ where: { post_id: echange.post_id } });
+
+                // Vérifier si le poste est déjà clôturé
+                if (poste.status === true) {
+                    throw new Error('Le poste est déjà clôturé.');
+                }
+
+                poste.status = true;
+                await poste.save();
+
             const postDetails = await Postedetails.findAll({ where: { post_id: echange.post_id } });
             for (const postDetail of postDetails) {
                 const objet = await Objet.findByPk(postDetail.item_id);
