@@ -110,7 +110,7 @@ https://drive.google.com/file/d/1bXNPervrmbcuFHspFVOknaC5TC__QWbX/view?usp=drive
 
 ### Client lourd
 
-1. Téléchargez l'exécutable depuis le lien fourni ci-dessus, dans le dossier Application lourd.
+1. Téléchargez l'exécutable depuis le lien suivant : [Lien client lourd](https://github.com/Flavien008/mbdsp10-Flavien_Alicia_Tendry_Tony/tree/main/Livrables/Application%20Lourd)
 2. Assurez-vous que le service web est en cours d'exécution et accessible.
 3. Lancez l'application et connectez-vous avec vos identifiants TAKALO.
 
