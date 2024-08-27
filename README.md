@@ -45,7 +45,7 @@ Ce dépôt contient les différents modules et composants du projet TAKALO, chac
    - **Description :** Ce dossier regroupe les fichiers relatifs à l'implémentation du back office de TAKALO, développé en Spring Boot. Ce module gère les aspects administratifs de la plateforme, incluant la gestion des utilisateurs, la modération des échanges, et le suivi des transactions. Identifiant pour se connecter: admin@admin.com/1234
 
 ### 3. **Front_Angular**
-   - **Description :** Ce dossier contient le code source de l'interface utilisateur principale (front office) du site TAKALO, développé en Angular. Il inclut toutes les fonctionnalités accessibles par les utilisateurs finaux, telles que la création de profils, l'ajout d'objets, et la gestion des propositions d'échanges.
+   - **Description :** Ce dossier contient le code source de l'interface utilisateur principale (front office) du site TAKALO, développé en Angular. Il inclut toutes les fonctionnalités accessibles par les utilisateurs finaux, telles que la création de profils, l'ajout d'objets, et la gestion des propositions d'échanges. Identifiant pour se connecter: testuser/1234
 
 ### 4. **MobileIonicAdmin**
    - **Description :** Ce dossier contient l'application mobile administrative développée avec le framework Ionic. Cette application est utilisée par les administrateurs pour gérer les postes et effectuer des actions administratives directement depuis un appareil mobile. Les fonctionnalités incluent la suppression de postes, la gestion des utilisateurs, et la modération des échanges.
