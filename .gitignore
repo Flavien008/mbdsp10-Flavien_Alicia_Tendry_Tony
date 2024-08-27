@@ -60,8 +60,6 @@ packages/
 *.g.i.cs
 *.g.cs
 *.AssemblyAttributes.cs
-*.dll
-*.pdb
 *.cache
 *.ilk
 *.obj
