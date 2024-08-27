@@ -26,5 +26,5 @@ Poste.hasMany(Postedetails,{ foreignKey: 'post_id' });
 Postedetails.belongsTo(Poste, { foreignKey: 'post_id' });
 Postedetails.belongsTo(Objet, { foreignKey: 'item_id' });
 HistoriqueProprietaire.belongsTo(Objet, { foreignKey: 'objet_id' });
-HistoriqueProprietaire.belongsTo(Utilisateur, { foreignKey: 'ancien_proprietaire_id' });
-HistoriqueProprietaire.belongsTo(Utilisateur, { foreignKey: 'nouveau_proprietaire_id' });
+HistoriqueProprietaire.belongsTo(Utilisateur, { as : 'AncienProprietaire',foreignKey: 'ancien_proprietaire_id' });
+HistoriqueProprietaire.belongsTo(Utilisateur, { as : 'NouveauProprietaire',foreignKey: 'nouveau_proprietaire_id' });
