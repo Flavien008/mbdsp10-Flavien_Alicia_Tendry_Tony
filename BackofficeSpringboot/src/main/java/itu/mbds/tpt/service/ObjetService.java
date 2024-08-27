@@ -96,6 +96,13 @@ public class ObjetService {
         try {
             Optional<Objet> findObjet = objetRepository.findById(id);
             Optional<Image> findImage = imageRepository.findByItemId(id);
+            findImage.ifPresent(objetImage -> {
+                String imageBase64 = objetImage.getImg();
+                if (!imageBase64.startsWith("data:image")) {
+                    imageBase64 = "data:image/png;base64," + imageBase64;
+                }
+                findImage.get().setImg(imageBase64);
+            });
             return new ObjetImage<>(findObjet.get(), findImage.get());
         }catch (Exception e){
             e.printStackTrace();

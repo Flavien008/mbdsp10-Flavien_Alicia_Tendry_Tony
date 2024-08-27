@@ -1,0 +1,71 @@
+# Build Folders (can be ignored when checking in source code)
+bin/
+obj/
+
+# User-specific files
+*.rsuser
+*.suo
+*.user
+*.userosscache
+*.sln.docstates
+
+# Mono Auto Generated Files
+mono_crash.*
+
+# Windows image file caches
+Thumbs.db
+ehthumbs.db
+
+# Folder config file
+Desktop.ini
+
+# Recycle Bin used on file shares
+$RECYCLE.BIN/
+
+# VS Code directories
+.vscode/
+.history/
+
+# Logs
+*.log
+
+# Visual Studio profiler
+*.psess
+*.vsp
+*.vspx
+*.sap
+
+# Visual Studio Code workspace files
+*.code-workspace
+
+# Windows shortcut files
+*.lnk
+
+# JetBrains Rider IDE files
+.idea/
+
+# Exclude NuGet Packages folder
+packages/
+
+# Windows Installer files
+*.cab
+*.msi
+*.msm
+*.msp
+
+# Windows shortcuts
+*.lnk
+
+# Exclude auto-generated files
+*.g.i.cs
+*.g.cs
+*.AssemblyAttributes.cs
+*.dll
+*.pdb
+*.cache
+*.ilk
+*.obj
+
+# Visual Studio 2022 .NET 6 project files
+.vs/
+.vscode/

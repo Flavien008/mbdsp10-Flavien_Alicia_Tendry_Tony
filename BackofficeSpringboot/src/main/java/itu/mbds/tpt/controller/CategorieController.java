@@ -29,7 +29,6 @@ public class CategorieController {
             Model model) {
 
         int page = 0;
-        int size = 20;
         String sortBy = "id";
         String nom = "";
         Page<Categorie> categoriePage = categorieService.findAll(page, size, sortBy, nom);
@@ -64,55 +63,6 @@ public class CategorieController {
         model.addAttribute("size", size);
         model.addAttribute("nom", nom);
         model.addAttribute("currentPage", page);
-        model.addAttribute("pageActuel", pageActuel);
-        return "include/" + pageActuel;
-    }
-
-    @GetMapping("/add")
-    public String showAddForm(Model model) {
-        String pageActuel = "categorie/add";
-        model.addAttribute("categorie", new CategorieDto());
-        model.addAttribute("pageActuel", pageActuel);
-        return "include/" + pageActuel;
-    }
-
-    @PostMapping("/add")
-    public String addCategorie(@Valid @ModelAttribute("categorie") CategorieDto categorieDto, BindingResult binding, Model model) {
-        String pageActuel = "categorie/add";
-        if (binding.hasErrors()) {
-
-            model.addAttribute("pageActuel", pageActuel);
-            model.addAttribute("categorie", categorieDto);
-            model.addAttribute("error", binding.getFieldError().getDefaultMessage());
-            return "include/" + pageActuel;
-        }
-        try {
-            categorieService.save(categorieMapper.toCategorie(categorieDto));
-        } catch (Exception e) {
-            e.printStackTrace();
-            model.addAttribute("pageActuel", pageActuel);
-            model.addAttribute("categorie", categorieDto);
-            model.addAttribute("error", e.getMessage());
-            return "include/" + pageActuel;
-        }
-
-        return "redirect:/categorie/";
-    }
-
-
-    @GetMapping("/detail/{id}")
-    public String showAddForm(@PathVariable int id, Model model) {
-        String pageActuel = "categorie/detail";
-        try {
-            Optional<Categorie> categorieOptional = categorieService.findById(id);
-            model.addAttribute("categorie", categorieOptional.get());
-        } catch (Exception e) {
-            e.printStackTrace();
-            model.addAttribute("error", e.getMessage());
-            return "redirect:/categorie/";
-        }
-
-
         model.addAttribute("pageActuel", pageActuel);
         return "include/" + pageActuel;
     }

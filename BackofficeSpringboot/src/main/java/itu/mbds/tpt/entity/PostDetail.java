@@ -11,7 +11,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
-@Table(name = "\"Postdetails\"")
+@Table(name = "\"Postedetails\"")
 public class PostDetail {
 
     @Id
@@ -24,7 +24,7 @@ public class PostDetail {
     private Post post;
 
     @ManyToOne
-    @JoinColumn(name = "\"objet_id\"", referencedColumnName = "\"item_id\"", nullable = false)
+    @JoinColumn(name = "\"item_id\"", nullable = false)
     private Objet objet;
 
 }

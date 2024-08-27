@@ -14,4 +14,6 @@ public class PostDetailDto {
     private int id;
     private int postId;
     private int objetId;
+    private ObjetDto objet;
+    private String image;
 }

@@ -1,0 +1,16 @@
+@startuml
+actor Utilisateur
+actor "Front Office Web" as FrontOffice
+
+Utilisateur -> FrontOffice: Ouvre l'application
+FrontOffice -> Utilisateur: Affiche la page de connexion
+Utilisateur -> FrontOffice: Saisit Email et Mot de passe
+Utilisateur -> FrontOffice: Clique sur "Se connecter"
+alt Déroulement normal
+    FrontOffice -> FrontOffice: Vérifie les informations
+    FrontOffice -> Utilisateur: Redirige vers la page d'accueil (authentifié)
+    note right: Post-condition: L'utilisateur est authentifié.
+else Informations incorrectes
+    FrontOffice -> Utilisateur: Affiche message d'erreur "Informations incorrectes"
+end
+@enduml

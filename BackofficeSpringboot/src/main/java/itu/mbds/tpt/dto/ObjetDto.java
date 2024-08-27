@@ -25,8 +25,12 @@ public class ObjetDto {
     @NotNull(message = "La catégorie est obligatoire")
     private Integer categorieId;
 
+    public CategorieDto categorie;
+
     @NotNull(message = "La propriétaire est obligatoire")
     private Integer utilisateurId;
+
+    public UtilisateurDto utilisateur;
 
     private MultipartFile imageFile;
 }

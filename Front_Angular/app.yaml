@@ -1,0 +1,28 @@
+runtime: nodejs20
+env: standard
+
+# Build the Angular app before serving it
+entrypoint: npm run build && npm run start
+
+# App Engine will automatically install npm dependencies before running the app
+automatic_scaling:
+  target_cpu_utilization: 0.65
+  min_instances: 1
+  max_instances: 5
+
+# Handlers to serve the built Angular application
+handlers:
+  - url: /  # Serve the index.html file for the root URL
+    static_files: dist/nft-marketplace/index.html
+    upload: dist/nft-marketplace/index.html
+
+  - url: /.*  # Serve all other static files
+    static_dir: dist/nft-marketplace
+
+# Optional: Specify environment variables
+env_variables:
+  NODE_ENV: 'production'
+  # Add any other environment variables your app requires here
+
+# Optional: Additional configuration for the app
+instance_class: F1  # Use F1 for the most cost-effective option

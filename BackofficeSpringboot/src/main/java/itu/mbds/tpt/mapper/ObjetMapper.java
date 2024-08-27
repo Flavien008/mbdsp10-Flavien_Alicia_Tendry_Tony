@@ -7,6 +7,7 @@ import itu.mbds.tpt.entity.Objet;
 import itu.mbds.tpt.entity.Utilisateur;
 import itu.mbds.tpt.util.Base64MultipartFile;
 import itu.mbds.tpt.util.ObjetImage;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.io.IOException;
@@ -14,6 +15,12 @@ import java.util.Base64;
 
 @Component
 public class ObjetMapper {
+
+    @Autowired
+    CategorieMapper categorieMapper;
+
+    @Autowired
+    UtilisateurMapper utilisateurMapper;
 
     public ObjetImage<Objet, Image> toObjet(ObjetDto objetDto) {
         Objet objet = Objet.builder()
@@ -47,5 +54,17 @@ public class ObjetMapper {
                 .imageFile(new Base64MultipartFile(image,"objet"+objet.getId(),"objet"+objet.getId()+".png","image/*"))
                 .build();
 
+    }
+
+    public ObjetDto toObjectDtoSimple(Objet objet){
+        return ObjetDto.builder()
+                .id(objet.getId())
+                .nom(objet.getNom())
+                .description(objet.getDescription())
+                .categorieId(objet.getCategorie().getId())
+                .categorie(categorieMapper.toCategorieDto(objet.getCategorie()))
+                .utilisateurId(objet.getUtilisateur().getId())
+                .utilisateur(utilisateurMapper.toUtilisateurDto(objet.getUtilisateur()))
+                .build();
     }
 }

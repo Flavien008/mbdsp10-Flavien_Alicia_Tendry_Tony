@@ -1,10 +1,127 @@
 <!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-</head>
+
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{fragments/layout}">
+
 <body>
+<div layout:fragment="content">
+
+    <div class="container-xl">
+        <div class="d-flex flex-row justify-content-between">
+            <div class="col-auto">
+                <nav style="--bs-breadcrumb-divider: url(&#34;data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12'%3E%3Cpath d='M2.5 0L1 1.5 3.5 4 1 6.5 2.5 8l4-4-4-4z' fill='currentColor'/%3E%3C/svg%3E&#34;);"
+                     aria-label="breadcrumb">
+                    <ol class="breadcrumb">
+                        <li class="breadcrumb-item"><a th:href="@{/post/}"><span class="app-page-title">Post</span></a>
+                        </li>
+                        <li class="breadcrumb-item active" aria-current="page"><span
+                                class="app-page-title">Détail</span></li>
+                    </ol>
+                </nav>
+            </div>
+
+
+        </div>
+
+
+        <div class="row mt-4">
+            <div class="col-md-12">
+                <div class="card">
+                    <div class="card-body">
+                        <h5 class="card-title" th:text="${post.titre}">Card title</h5>
+                        <h6 class="card-subtitle mb-2 text-muted" th:text="${#temporals.format(post.createdAt, 'dd MMMM yyyy')}">Card subtitle</h6>
+                        <p class="card-text" th:text="${post.description}"> Some quick example text to build on the card
+                            title and make up the bulk of the card's content.</p>
+                        <input type="hidden" id="latitude" th:value="${post.latitude}">
+                        <input type="hidden" id="longitude" th:value="${post.longitude}">
+                        <div id="map" style="width: 100%; height: 400px;"></div>
+
+                    </div>
+                </div>
+
+            </div>
+
+
+            <div id="objets" class="row mt-3 g-4 d-flex flex-row flex-wrap">
+                <h6 class="app-page-title"  >Objets proposés</h6>
+                <div th:each="details : ${postDetails}" class="col-6 col-md-4 col-xl-3 col-xxl-2">
+                    <div class="app-card app-card-doc shadow-sm  h-100">
+                        <div class="app-card-thumb-holder p-3">
+                            <div class="app-card-thumb">
+                                <img class="thumb-image" th:src="${details.image}" alt="">
+                            </div>
+
+                        </div>
+                        <div class="app-card-body p-3 has-card-actions">
+
+                            <h4 class="app-doc-title truncate mb-0"><a th:href="@{/objet/detail/{id}(id=${details.objet.id})}" th:text="${details.objet.nom}">Nom</a></h4>
+                            <div class="app-doc-meta">
+                                <ul class="list-unstyled mb-0">
+                                    <li><span class="text-muted">Catégorie:</span> <span th:text="${details.objet.categorie.nom}" ></span></li>
+                                </ul>
+                            </div>
+
+
+
+                        </div>
+
+                    </div>
+                </div>
+
+            </div>
+
+            <div id="echages" class="row mt-3 g-4 d-flex flex-row flex-wrap">
+                <h6 class="app-page-title"  >Propositions d'échanges</h6>
+
+                <div class="row ">
+                    <div class="col-md-4 p-1" th:each="echange : ${echanges}" >
+                        <div class="card" >
+                            <div class="card-body">
+                                <h5 class="card-title" th:text="${echange.responder.username}" >Card title</h5>
+                                <h6 class="card-subtitle mb-2 text-muted" th:text="${#temporals.format(echange.createdAt, 'dd MMMM yyyy')}" >Card subtitle</h6>
+                                <p class="card-text" th:text="${echange.description}" >Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+                                <a th:href="@{/post/echange/detail/{id}(id=${echange.id})}" class="btn btn-primary"><i class="fa fa-eye"></i> Voir détails</a>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        // Coordonnées par défaut sur Antananarivo
+        var defaultLat = -18.8792;
+        var defaultLng = 47.5079;
+
+
+        var map = L.map('map').setView([defaultLat, defaultLng], 13);
+
+        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+            attribution: '&copy; OpenStreetMap contributors'
+        }).addTo(map);
+
+        // Ajouter un marqueur par défaut sur Antananarivo
+        var marker = L.marker([defaultLat, defaultLng], {
+            draggable: false
+        }).addTo(map);
+
+        console.log(document.getElementById("latitude").value);
+        var lat = parseFloat(document.getElementById("latitude").value) || defaultLat;
+        var lng = parseFloat(document.getElementById("longitude").value) || defaultLng;
+
+        map.setView([lat, lng], 13);
+
+        marker.setLatLng([lat, lng]);
+
+    });
+</script>
+</div>
 
 </body>
+
 </html>

@@ -1,11 +1,11 @@
 const db = require('../models');
+const Image = require('../models/image');
 const Poste = db.Poste;
 const Postedetails = db.Postedetails;
 const Utilisateur = db.Utilisateur;
 const Objet = db.Objet;
 const Categorie = db.Categorie;
-const Notification = require('../models/notification'); 
-
+const Notification = require('../models/notification');
 const { Op } = require('sequelize'); // Importer Op de Sequelize
 
 exports.createPoste = async (req, res) => {
@@ -80,7 +80,6 @@ exports.getPostes = async (req, res) => {
         });
     }
 
-
     if (nomObjet || categorieObjet) {
         includeFilters.push({
             model: Postedetails,
@@ -119,10 +118,9 @@ exports.getPostes = async (req, res) => {
         });
     }
 
-
     const order = [];
     if (sortByDate) {
-        order.push(['created_at', sortByDate.toUpperCase()]); 
+        order.push(['created_at', sortByDate.toUpperCase()]);
     }
 
     try {
@@ -134,8 +132,26 @@ exports.getPostes = async (req, res) => {
             include: includeFilters,
             limit: limit,
             offset: (page - 1) * limit,
-            order: order.length ? order : [['created_at', 'DESC']] 
+            order: order.length ? order : [['created_at', 'DESC']]
         });
+
+        // Fetch images for each object within the posts
+        const postesWithImages = await Promise.all(rows.map(async (post) => {
+            const postDetailsWithImages = await Promise.all(post.Postedetails.map(async (detail) => {
+                const images = await Image.find({ item_id: detail.Objet.item_id });
+                return {
+                    ...detail.toJSON(),
+                    Objet: {
+                        ...detail.Objet.toJSON(),
+                        images
+                    }
+                };
+            }));
+            return {
+                ...post.toJSON(),
+                Postedetails: postDetailsWithImages
+            };
+        }));
 
         const totalPages = Math.ceil(count / limit);
         const hasNext = page < totalPages;
@@ -147,9 +163,10 @@ exports.getPostes = async (req, res) => {
             totalPages,
             hasNext,
             hasPrev,
-            data: rows
+            data: postesWithImages
         });
     } catch (error) {
+        console.error('Error fetching posts:', error);
         res.status(500).json({ message: 'Error fetching posts', error });
     }
 };
@@ -170,18 +187,44 @@ exports.getPosteById = async (req, res) => {
                     include: [
                         {
                             model: Objet,
-                            as: 'Objet'
+                            as: 'Objet',
+                            include: [
+                                {
+                                    model: Categorie,
+                                    as: 'Categorie'
+                                }
+                            ]
                         }
                     ]
                 }
             ]
         });
+
         if (!poste) {
             return res.status(404).json({ message: 'Post not found' });
         }
 
-        res.json(poste);
+        // Fetch images for each object within the post
+        const postDetailsWithImages = await Promise.all(poste.Postedetails.map(async (detail) => {
+            const images = await Image.find({ item_id: detail.Objet.item_id });
+            return {
+                ...detail.toJSON(),
+                Objet: {
+                    ...detail.Objet.toJSON(),
+                    images
+                }
+            };
+        }));
+
+        // Attach the images to the post details
+        const posteWithImages = {
+            ...poste.toJSON(),
+            Postedetails: postDetailsWithImages
+        };
+
+        res.json(posteWithImages);
     } catch (error) {
+        console.error('Error fetching post:', error);
         res.status(500).json({ message: 'Error fetching post', error });
     }
 };
@@ -257,14 +300,140 @@ exports.deletePoste = async (req, res) => {
 
         res.json({ message: 'Post deleted successfully' });
     } catch (error) {
-        console.error('Error deleting post:', error.message); // Journaliser le message d'erreur
-        console.error('Stack trace:', error.stack); // Journaliser la trace de la pile
+        console.error('Error deleting post:', error.message);
+        console.error('Stack trace:', error.stack);
 
-        res.status(500).json({ 
-            message: 'Error deleting post', 
-            error: error.message 
+        res.status(500).json({
+            message: 'Error deleting post',
+            error: error.message
         });
     }
 };
 
+exports.getByIdUtilisateur = async (req, res) => {
+    try {
+        const { userId } = req.query;
 
+        if (!userId) {
+            return res.status(400).json({ message: 'User ID is required' });
+        }
+
+        const { dateDebut, dateFin, texte, nomObjet, categorieObjet, status, sortByDate } = req.query;
+
+        const filters = { user_id: userId };
+        const includeFilters = [];
+
+        if (dateDebut && dateFin) {
+            filters.created_at = {
+                [Op.between]: [new Date(dateDebut), new Date(dateFin)]
+            };
+        } else if (dateDebut) {
+            filters.created_at = {
+                [Op.gte]: new Date(dateDebut)
+            };
+        } else if (dateFin) {
+            filters.created_at = {
+                [Op.lte]: new Date(dateFin)
+            };
+        }
+
+        if (texte) {
+            filters[Op.or] = [
+                { titre: { [Op.iLike]: `%${texte}%` } },
+                { description: { [Op.iLike]: `%${texte}%` } }
+            ];
+        }
+
+        if (status && status !== undefined) {
+            filters.status = status;
+        }
+
+        if (nomObjet || categorieObjet) {
+            includeFilters.push({
+                model: Postedetails,
+                include: [
+                    {
+                        model: Objet,
+                        as: 'Objet',
+                        where: {
+                            ...(nomObjet && { name: { [Op.iLike]: `%${nomObjet}%` } }),
+                            ...(categorieObjet && { categorie_id: categorieObjet })
+                        },
+                        include: [
+                            {
+                                model: Categorie,
+                                as: 'Categorie'
+                            }
+                        ]
+                    }
+                ]
+            });
+        } else {
+            includeFilters.push({
+                model: Postedetails,
+                include: [
+                    {
+                        model: Objet,
+                        as: 'Objet',
+                        include: [
+                            {
+                                model: Categorie,
+                                as: 'Categorie'
+                            }
+                        ]
+                    }
+                ]
+            });
+        }
+
+        const order = [];
+        if (sortByDate) {
+            order.push(['created_at', sortByDate.toUpperCase()]);
+        }
+
+        const limit = parseInt(req.query.limit) || 10;
+        const page = parseInt(req.query.page) || 1;
+
+        const { count, rows } = await Poste.findAndCountAll({
+            where: filters,
+            include: includeFilters,
+            limit: limit,
+            offset: (page - 1) * limit,
+            order: order.length ? order : [['created_at', 'DESC']]
+        });
+
+        // Fetch images for each object within the posts
+        const postesWithImages = await Promise.all(rows.map(async (post) => {
+            const postDetailsWithImages = await Promise.all(post.Postedetails.map(async (detail) => {
+                const images = await Image.find({ item_id: detail.Objet.item_id });
+                return {
+                    ...detail.toJSON(),
+                    Objet: {
+                        ...detail.Objet.toJSON(),
+                        images
+                    }
+                };
+            }));
+            return {
+                ...post.toJSON(),
+                Postedetails: postDetailsWithImages
+            };
+        }));
+
+        const totalPages = Math.ceil(count / limit);
+        const hasNext = page < totalPages;
+        const hasPrev = page > 1;
+
+        res.json({
+            total: count,
+            page: page,
+            totalPages,
+            hasNext,
+            hasPrev,
+            data: postesWithImages
+        });
+    } catch (error) {
+        console.error('Error fetching posts by user ID:', error);
+        res.status(500).json({ message: 'Error fetching posts by user ID', error });
+    }
+};

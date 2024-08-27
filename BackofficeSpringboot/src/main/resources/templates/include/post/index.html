@@ -8,7 +8,6 @@
     <div class="container-xl">
         <div class="d-flex flex-row justify-content-between ">
             <h1 class="app-page-title">Post</h1>
-            <div><a th:href="@{/post/add}" class="btn btn-primary"><i class="fa fa-plus"></i> Nouveau</a></div>
         </div>
 
         <form id="filterForm" th:action="@{/post/}" method="get">
@@ -40,8 +39,8 @@
                     <div class="col-sm-9">
                         <select name="status" id="inputStatus" class="form-select" aria-label="Choisir un catégorie" >
                             <option value="" >Tous</option>
-                            <option value="true" >Clôturé</option>
-                            <option value="false" >Non clôturé</option>
+                            <option value="true" th:text="${cloture}" >Clôturé</option>
+                            <option value="false" th:text="${nonCloture}" >Non clôturé</option>
                         </select>
                     </div>
                 </div>
@@ -118,11 +117,11 @@
                                     <td class="cell" th:text="${post.id}">Id</td>
                                     <td class="cell" th:text="${post.titre}">Titre</td>
                                     <td class="cell" th:text="${post.utilisateur.username}">Auteur</td>
-                                    <td class="cell" th:text="${post.status ? 'Accepté': 'Refusé'}">Status</td>
+                                    <td class="cell" th:text="${post.status ? cloture: nonCloture}">Status</td>
                                     <td class="cell" th:text="${post.createdAt}">Date de publication</td>
                                     <td class="cell">
                                         <a class="btn btn-outline-primary" th:href="@{/post/detail/{id}(id=${post.id})}" ><i class="fa fa-eye"></i></a>
-                                        <a class="btn btn-outline-warning" th:href="@{/post/edit/{id}(id=${post.id})}" ><i class="fa fa-edit"></i></a>
+<!--                                        <a class="btn btn-outline-warning" th:href="@{/post/edit/{id}(id=${post.id})}" ><i class="fa fa-edit"></i></a>-->
                                         <a class="btn btn-outline-danger" onclick="confirmDelete(this,'/post/delete/')"
                                            th:attr="data-id=${post.id}" ><i class="fa fa-trash"></i></a>
                                     </td>

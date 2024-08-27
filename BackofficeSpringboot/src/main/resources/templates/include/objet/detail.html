@@ -23,35 +23,76 @@
 
 
         <div class="row mt-4">
-            <div class="col-md-6">
-                <div class="d-flex flex-row justify-content-between" >
-                    <div><strong>Id: </strong></div>
-                    <div><span th:text="${objet.id}" ></span></div>
-                </div>
-                <div class="d-flex flex-row justify-content-between mt-3" >
-                    <div><strong>Nom: </strong></div>
-                    <div><span th:text="${objet.nom}" ></span></div>
-                </div>
-                <div class="d-flex flex-row justify-content-between mt-3" >
-                    <div><strong>Description: </strong></div>
-                    <div><span th:text="${objet.description}" ></span></div>
-                </div>
-                <div class="d-flex flex-row justify-content-between mt-3" >
-                    <div><strong>Image: </strong></div>
-                    <div><img th:src="'data:image/png;base64,' + ${image.img}" alt="Image de l'objet" class="img-fluid"/></div>
-                </div>
-                <div class="d-flex flex-row justify-content-between mt-3" >
-                    <div><strong>Propriétaire: </strong></div>
-                    <div><span th:text="${objet.utilisateur.username}" ></span></div>
-                </div>
-                <div class="d-flex flex-row justify-content-between mt-3" >
-                    <div><strong>Catégorie: </strong></div>
-                    <div><span th:text="${objet.categorie.nom}" ></span></div>
+            <div class="col-md-12" >
+                <div class="card mb-3" >
+                    <div class="row g-0">
+                        <div class="col-md-4">
+                            <img th:src="${image.img}" class="img-fluid rounded-start" alt="Image">
+                        </div>
+                        <div class="col-md-8">
+                            <div class="card-body p-4">
+                                <div class="tags">
+                                    <p>
+                                        <a  title=""  class="color5" th:text="${objet.categorie.nom}" ></a>
+                                    </p>
+                                </div>
+                                <h5 style="font-size: 3.25rem;" class="card-title" th:text="${objet.nom}">Card title</h5>
+                                <p class="card-text" th:text="${objet.description}">This is a wider card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.</p>
+                                <p class="card-text" ><i class="fa fa-user" ></i><span th:text="${objet.utilisateur.username}" ></span></p>
+                                <p class="card-text"><small class="text-muted" th:text="'Dernier modification '+${#temporals.format(objet.updatedAt, 'dd MMMM yyyy')}" ></small></p>
+                                <div id="qrcode"></div>
+                                <input type="hidden" id="objetId" th:value="${objet.id}">
+                            </div>
+                        </div>
+                    </div>
                 </div>
 
             </div>
+
+        </div>
+
+        <div class="d-flex flex-row justify-content-between">
+            <div class="col-auto" >
+                <h4 class="app-page-title" >Historique</h4>
+            </div>
+        </div>
+
+        <div class="tab-content" id="orders-table-tab-content">
+            <div class="tab-pane fade show active" id="orders-all" role="tabpanel" aria-labelledby="orders-all-tab">
+                <div class="app-card app-card-orders-table shadow-sm mb-5">
+                    <div class="app-card-body">
+                        <div class="table-responsive">
+                            <table class="table app-table-hover mb-0">
+                                <thead>
+                                <tr>
+                                    <th class="cell">Ancien</th>
+                                    <th class="cell">Nouveau</th>
+                                    <th class="cell">Date</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                <tr th:each="historique : ${historiques}">
+                                    <td class="cell" th:text="${historique.ancienProprietaire.username}">Ancien</td>
+                                    <td class="cell" th:text="${historique.nouveauProprietaire.username}">Nouveau</td>
+                                    <td class="cell" th:text="${historique.dateChangement}">Date</td>
+
+                                </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
+    <script>
+        var objetId = document.getElementById('objetId').value;
+        var qrcode = new QRCode(document.getElementById("qrcode"), {
+            text: "https://mbdsp10-flavien-alicia-tendry-tony-1.onrender.com/objet/detail/"+objetId,
+            width: 128,
+            height: 128
+        });
+    </script>
 </div>
 
 </body>

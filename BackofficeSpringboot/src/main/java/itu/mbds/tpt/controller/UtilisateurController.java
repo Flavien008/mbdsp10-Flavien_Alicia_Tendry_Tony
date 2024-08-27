@@ -23,13 +23,13 @@ import java.util.Optional;
 @RequestMapping("/utilisateur")
 public class UtilisateurController {
 
+
     @Autowired
     private UtilisateurService utilisateurService;
     @Autowired
     private UtilisateurMapper utilisateurMapper;
     @Autowired
     private RoleService roleService;
-
     @GetMapping("/")
     public String utilisateur(
             Model model,
