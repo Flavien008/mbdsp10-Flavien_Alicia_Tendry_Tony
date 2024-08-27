@@ -116,6 +116,6 @@ https://drive.google.com/file/d/1bXNPervrmbcuFHspFVOknaC5TC__QWbX/view?usp=drive
 
 ## Contact
 
-Pour toute question ou suggestion, merci de contacter l'équipe de développement à [votre-email@example.com](mailto:votre-email@example.com).
+Pour toute question ou suggestion, merci de contacter l'équipe de développement à [contact](mailto:flavienrakotoarison8@gmail.com).
 
 
