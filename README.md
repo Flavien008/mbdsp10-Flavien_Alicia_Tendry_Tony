@@ -73,6 +73,16 @@ Ce dépôt contient les différents modules et composants du projet TAKALO, chac
   
 - **Tableau d'avancement :** [Lien vers le tableau d'avancement](https://docs.google.com/spreadsheets/d/1AY2H3rgnphlBjacK_uL8hgQSAwX_D1IZp4TUT4STfUQ/edit?usp=sharing)  
 
+## Identifiants
+
+### Administrateur :
+   - **Email :** admin@admin.com
+   - **Mot de passe :** 1234
+
+### Utilisateur simple :
+   - **Username :** tendry
+   - **Mot de passe :** 1234
+
 ## Installation et déploiement
 
 ### Site Web
