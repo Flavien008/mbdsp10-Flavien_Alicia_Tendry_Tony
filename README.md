@@ -42,10 +42,10 @@ Ce dépôt contient les différents modules et composants du projet TAKALO, chac
    - **Description :** Ce dossier contient les schémas et scripts relatifs à la base de données utilisée par le projet TAKALO. Les schémas sont principalement destinés à une base Postgres. Vous y trouverez les structures de tables, les relations, et les migrations nécessaires à la configuration initiale de la base de données.
 
 ### 2. **BackofficeSpringboot**
-   - **Description :** Ce dossier regroupe les fichiers relatifs à l'implémentation du back office de TAKALO, développé en Spring Boot. Ce module gère les aspects administratifs de la plateforme, incluant la gestion des utilisateurs, la modération des échanges, et le suivi des transactions. Identifiant pour se connecter: admin@admin.com/1234
+   - **Description :** Ce dossier regroupe les fichiers relatifs à l'implémentation du back office de TAKALO, développé en Spring Boot. Ce module gère les aspects administratifs de la plateforme, incluant la gestion des utilisateurs, la modération des échanges, et le suivi des transactions.
 
 ### 3. **Front_Angular**
-   - **Description :** Ce dossier contient le code source de l'interface utilisateur principale (front office) du site TAKALO, développé en Angular. Il inclut toutes les fonctionnalités accessibles par les utilisateurs finaux, telles que la création de profils, l'ajout d'objets, et la gestion des propositions d'échanges. Identifiant pour se connecter: testuser/1234
+   - **Description :** Ce dossier contient le code source de l'interface utilisateur principale (front office) du site TAKALO, développé en Angular. Il inclut toutes les fonctionnalités accessibles par les utilisateurs finaux, telles que la création de profils, l'ajout d'objets, et la gestion des propositions d'échanges.
 
 ### 4. **MobileIonicAdmin**
    - **Description :** Ce dossier contient l'application mobile administrative développée avec le framework Ionic. Cette application est utilisée par les administrateurs pour gérer les postes et effectuer des actions administratives directement depuis un appareil mobile. Les fonctionnalités incluent la suppression de postes, la gestion des utilisateurs, et la modération des échanges.
@@ -105,8 +105,10 @@ Ce dépôt contient les différents modules et composants du projet TAKALO, chac
 
 ### Application mobile
 
-1. Téléchargez et installez l'APK depuis le lien fourni suivant : [Lien APK](https://drive.google.com/file/d/1bXNPervrmbcuFHspFVOknaC5TC__QWbX/view?usp=drive_link)
-2. Ouvrez l'application et connectez-vous à votre compte TAKALO.
+1. Téléchargez et installez l'APK depuis le lien fourni suivant :
+   -  [Front Mobile](https://github.com/Flavien008/mbdsp10-Flavien_Alicia_Tendry_Tony/tree/main/Livrables/Apllication%20Mobile%20Front)
+   -  [Back Mobile](https://github.com/Flavien008/mbdsp10-Flavien_Alicia_Tendry_Tony/tree/main/Livrables/Application%20Mobile%20Admin)
+3. Ouvrez l'application et connectez-vous à votre compte TAKALO.
 
 ### Client lourd
 
