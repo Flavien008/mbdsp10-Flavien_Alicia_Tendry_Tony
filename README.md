@@ -94,7 +94,7 @@ Ce dépôt contient les différents modules et composants du projet TAKALO, chac
 5. Accédez au site via votre navigateur à l'URL spécifiée.
 
 ### Application mobile
-
+https://drive.google.com/file/d/1bXNPervrmbcuFHspFVOknaC5TC__QWbX/view?usp=drive_link
 1. Téléchargez et installez l'APK depuis le lien fourni ci-dessus.
 2. Ouvrez l'application et connectez-vous à votre compte TAKALO.
 
