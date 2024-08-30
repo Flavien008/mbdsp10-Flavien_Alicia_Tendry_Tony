@@ -42,8 +42,8 @@ export class HeaderComponent implements OnInit {
 
     // Validation
     this.formData = this.formBuilder.group({
-      email: ['', [Validators.required]],
-      password: ['', [Validators.required]]
+      email: ['Tendry Arivony', [Validators.required]],
+      password: ['tendry', [Validators.required]]
     });
 
     this.signupformData = this.formBuilder.group({
